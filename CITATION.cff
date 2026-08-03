@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Please cite the specific MIBO Satellite Charter and version used."
+title: "MIBO Satellite"
+type: dataset
+version: "0.1"
+date-released: 2026-08-03
+authors:
+  - family-names: "Sasano"
+    given-names: "Kento"
+    affiliation: "Okayama University"
+license: "proprietary"

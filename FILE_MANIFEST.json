@@ -1,0 +1,77 @@
+[
+  {
+    "path": "CITATION.cff",
+    "bytes": 297,
+    "sha256": "1c61c4c4f966d8f5194315658dd21b2780dafcdf8b055484b3204c9b0470b279"
+  },
+  {
+    "path": "CODE_OF_CONDUCT.md",
+    "bytes": 437,
+    "sha256": "a750371bf4fbecda84274da6d4781ef5a1baf6ea0eea2f3811b868cf3e74da9a"
+  },
+  {
+    "path": "CONTRIBUTING.md",
+    "bytes": 539,
+    "sha256": "2c897c6de9239852807dd9c263d366b76472785dadd4e8a0d717078a58adba70"
+  },
+  {
+    "path": "LICENSE_NOTICE.md",
+    "bytes": 440,
+    "sha256": "c36265e7ae9b28a3e80afef2648bb0788ec5a861e6ad8db835cf17543a9fade7"
+  },
+  {
+    "path": "README.md",
+    "bytes": 488,
+    "sha256": "a7698da90d002a5f830eba7606e5d26b80166ca584687ccdda376901fb2418e0"
+  },
+  {
+    "path": "SATELLITE_REGISTRY.md",
+    "bytes": 640,
+    "sha256": "aa088d04673f99d95b4e28f00ee604a00881f3ce841581707b8c6c56cd1328b0"
+  },
+  {
+    "path": "SECURITY.md",
+    "bytes": 380,
+    "sha256": "357de3a44c4a971e0fcfe972496caae7e6b669479030f853792606a4581d4e54"
+  },
+  {
+    "path": "satellites/mibo-economy/README.md",
+    "bytes": 102,
+    "sha256": "256bef1353a67db14f11bd8e074404712195db5fea2447633a4b91373ec8bbe5"
+  },
+  {
+    "path": "satellites/mibo-now/README.md",
+    "bytes": 107,
+    "sha256": "57ac7076c73a476cd0ef4f4cfd1b0a9233ef714f373a7d96e66970e5ca70b9b5"
+  },
+  {
+    "path": "satellites/mibo-okayama/README.md",
+    "bytes": 95,
+    "sha256": "3c8f8f427fb48bbeb144569ecf3bc15578923a03a87474b082685e229e4b4e06"
+  },
+  {
+    "path": "satellites/mibo-politics/README.md",
+    "bytes": 105,
+    "sha256": "856f8c75ca9b9f3668aa5c3c67230aad07b859fa940c512f29272763603fb670"
+  },
+  {
+    "path": "satellites/mibo-q/README.md",
+    "bytes": 106,
+    "sha256": "534f452d7141a18a286b1b76aadbd3930cc672fc0838535d62fb3a030347403f"
+  },
+  {
+    "path": "satellites/mibo-singularity/README.md",
+    "bytes": 117,
+    "sha256": "a4b2d7f5322fe593f5a974b27f7eeced9504552c6bea2c0d7b3b2d2b26dc4b80"
+  },
+  {
+    "path": "templates/SATELLITE_CHARTER_TEMPLATE.md",
+    "bytes": 405,
+    "sha256": "e015ba83e390d31177856f671ab71b3ea0162fdd6c9db80282702617cd447e08"
+  },
+  {
+    "path": "templates/SATELLITE_READINESS_CHECKLIST.md",
+    "bytes": 388,
+    "sha256": "92fa430229c356ee04b3a75cd9b5ad231d2217d246e7cb02a63f67abfd2b8360"
+  }
+]
