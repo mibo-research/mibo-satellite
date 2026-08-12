@@ -15,6 +15,8 @@ def test_repository_manifest_hashes_every_declared_file() -> None:
 
     for entry in entries:
         path = repository / entry["path"]
-        data = path.read_bytes()
+        # The manifest covers canonical Git blob bytes. A checkout may convert
+        # LF to CRLF under core.autocrlf without changing repository content.
+        data = path.read_bytes().replace(b"\r\n", b"\n")
         assert len(data) == entry["bytes"], entry["path"]
         assert hashlib.sha256(data).hexdigest() == entry["sha256"], entry["path"]
