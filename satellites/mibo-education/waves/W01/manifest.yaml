@@ -1,0 +1,29 @@
+schema_version: "1.0"
+wave_id: MIBO-EDU-W01
+site_id: MIBO-SITE-JP01
+official_longitudinal_data: true
+protocol_version: "1.0"
+battery: ../../battery/ebb-ja-v1.0.yaml
+model_registry: ../../registry/model-series.yaml
+model_lock: model-lock.json
+schedule: schedule.json
+environment: CLOSED
+replications: 10
+random_seed: "UNSET-BY-WAVE-1-IMPLEMENTATION-PACKAGE"
+field_window:
+  start: "2026-09-01T00:00:00Z"
+  end: "2026-09-03T00:00:00Z"
+sampling: {}
+native_options: {}
+max_technical_attempts: 3
+retry_delays_minutes: [10, 30]
+scientific_artifacts:
+  codebook: ../../protocol/MIBO-Education_Codebook_v1.0.md
+  scoring_manual: ../../protocol/Item-Level_Scoring_Manual_v1.0.md
+  observation_protocol: ../../protocol/MIBO-Education_Observation_Protocol_v1.0.md
+  wave_package: ../../protocol/Wave_1_Implementation_Package_v1.0.md
+approvals:
+  protocol_owner: false
+  terms_review: false
+  ethics_review: false
+  data_custody: false

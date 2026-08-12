@@ -8,3 +8,4 @@
 | MIBO Economy | Economic diagnosis, expectations, and recommendations | Charter development |
 | MIBO Politics | Political subjects, agendas, options, and authority | Charter development |
 | MIBO Singularity | Transfer of functional authority to AI systems | Theoretical development |
+| MIBO-Education | Educational behavior of general-purpose AI systems | Engineering implementation; scientific artifacts pending |

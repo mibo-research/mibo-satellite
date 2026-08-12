@@ -1,0 +1,9 @@
+battery_id: EBB-JA
+version: "1.0"
+language: ja-JP
+status: source-material-missing
+approved: false
+expected_item_count: 70
+hash_rule: SHA-256 of exact UTF-8 prompt bytes with no normalization or added newline
+items: []
+blocker: "Authoritative EBB-JA v1.0 exact text was not supplied. Do not populate by inference."

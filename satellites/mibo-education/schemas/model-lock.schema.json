@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIBO-Education Wave Model Lock",
+  "type": "object",
+  "required": ["wave_id", "registry_sha256", "resolved_at", "models", "model_lock_sha256"],
+  "properties": {
+    "registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "model_lock_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["series_id", "provider", "requested_model", "live_verified", "pinning_verified", "provider_metadata"]
+      }
+    }
+  },
+  "additionalProperties": true
+}

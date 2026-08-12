@@ -1,0 +1,51 @@
+name: MIBO-Education W0 engineering pilot
+on:
+  workflow_dispatch:
+    inputs:
+      series_id:
+        description: Permanent engineering series ID
+        required: true
+        default: MIBO-EDU-SL-001
+      exact_model_id:
+        description: Exact provider-listed model ID; aliases are rejected
+        required: true
+      pinning_evidence:
+        description: Provider pinning/version evidence reference
+        required: true
+permissions:
+  contents: read
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    environment: mibo-education-w0
+    concurrency:
+      group: mibo-education-w0
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: satellites/mibo-education
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+      SERIES_ID: ${{ inputs.series_id }}
+      EXACT_MODEL_ID: ${{ inputs.exact_model_id }}
+      PINNING_EVIDENCE: ${{ inputs.pinning_evidence }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -e .
+      - run: miboe models resolve --manifest waves/W0/manifest.yaml --set "$SERIES_ID=$EXACT_MODEL_ID" --evidence "$SERIES_ID=$PINNING_EVIDENCE"
+      - run: miboe schedule --manifest waves/W0/manifest.yaml
+      - run: miboe preflight --manifest waves/W0/manifest.yaml
+      - run: miboe pilot --manifest waves/W0/manifest.yaml --max-observations 5
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mibo-education-w0-engineering-${{ github.run_id }}
+          path: satellites/mibo-education/waves/W0
+          retention-days: 90
+          include-hidden-files: true

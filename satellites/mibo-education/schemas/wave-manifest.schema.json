@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIBO-Education Wave Manifest",
+  "type": "object",
+  "required": ["wave_id", "site_id", "official_longitudinal_data", "protocol_version", "battery", "model_registry", "model_lock", "schedule", "environment", "replications", "random_seed", "field_window"],
+  "properties": {
+    "wave_id": {"type": "string", "pattern": "^MIBO-EDU-W(0|[0-9]{2})$"},
+    "site_id": {"type": "string", "pattern": "^MIBO-SITE-[A-Z0-9-]+$"},
+    "official_longitudinal_data": {"type": "boolean"},
+    "environment": {"enum": ["CLOSED", "NATIVE"]},
+    "replications": {"type": "integer", "minimum": 1},
+    "field_window": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {"start": {"type": "string", "format": "date-time"}, "end": {"type": "string", "format": "date-time"}}
+    }
+  },
+  "additionalProperties": true
+}
