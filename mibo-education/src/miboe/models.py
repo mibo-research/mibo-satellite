@@ -41,6 +41,10 @@ def resolve_models(
         provider = entry["provider"]
         if not exact.strip() or ALIAS_PATTERN.search(exact):
             raise ModelResolutionError(f"alias or blank model is forbidden: {exact!r}")
+        if exact == series_id:
+            raise ModelResolutionError(
+                f"permanent series ID cannot be used as an exact Wave model ID: {series_id}"
+            )
         if verify_live:
             if provider not in live_cache:
                 listed = adapter_factory(provider).list_models()
@@ -97,4 +101,6 @@ def load_model_lock(path: Path) -> dict[str, Any]:
     ids = [value.get("series_id") for value in rows]
     if len(ids) != len(set(ids)):
         raise ValidationError("model lock contains duplicate series")
+    if any(value.get("series_id") == value.get("requested_model") for value in rows):
+        raise ValidationError("model lock conflates permanent series and exact Wave model IDs")
     return lock

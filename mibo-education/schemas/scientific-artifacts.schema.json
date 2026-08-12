@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIBO-Education Scientific Artifact Freeze Registry",
+  "type": "object",
+  "required": ["schema_version", "registry_id", "status", "artifacts"],
+  "properties": {
+    "status": {"enum": ["BLOCKED", "FROZEN"]},
+    "artifacts": {
+      "type": "object",
+      "minProperties": 5,
+      "maxProperties": 5,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["title", "expected_path", "status", "approved", "sha256"],
+        "properties": {
+          "status": {"enum": ["BLOCKED", "FROZEN"]},
+          "approved": {"type": "boolean"},
+          "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+          "blocker": {"type": "string"}
+        }
+      }
+    }
+  }
+}

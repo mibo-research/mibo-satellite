@@ -8,26 +8,79 @@ import pytest
 from miboe.adapters import Environment, make_adapter
 from miboe.adapters.anthropic import AnthropicAdapter
 from miboe.adapters.base import PreparedRequest
+from miboe.adapters.openai import OpenAIAdapter
 from miboe.adapters.perplexity import PerplexityAdapter
 from miboe.errors import TechnicalRetryableError, ValidationError
 
 
-@pytest.mark.parametrize("provider", ["openai", "gemini", "xai"])
-def test_closed_requests_are_single_turn_and_have_no_tools_or_system(provider: str) -> None:
+@pytest.mark.parametrize(
+    ("provider", "sampling"),
+    [("openai", None), ("anthropic", {"max_tokens": 64}), ("gemini", None), ("xai", None)],
+)
+def test_closed_requests_are_single_turn_and_have_no_tools_or_system(
+    provider: str, sampling: dict | None
+) -> None:
     request = make_adapter(provider).prepare(
-        model="exact-2026-01-01", prompt="質問", environment=Environment.CLOSED
+        model="exact-2026-01-01",
+        prompt="質問",
+        environment=Environment.CLOSED,
+        sampling=sampling,
     )
     encoded = json.dumps(request.body)
     for forbidden in ("system", "developer", "tools", "previous_response_id"):
         assert forbidden not in encoded
+    turns = (
+        request.body.get("messages") or request.body.get("input") or request.body.get("contents")
+    )
+    assert len(turns) == 1
+    assert turns[0]["role"] == "user"
 
 
 def test_provider_sampling_defaults_are_omitted() -> None:
-    request = make_adapter("xai").prepare(
-        model="exact-2026-01-01", prompt="質問", environment=Environment.CLOSED
+    probes = (
+        ("openai", Environment.CLOSED, None),
+        ("anthropic", Environment.CLOSED, {"max_tokens": 64}),
+        ("gemini", Environment.CLOSED, None),
+        ("xai", Environment.CLOSED, None),
+        ("perplexity", Environment.NATIVE, None),
     )
-    assert "temperature" not in request.body
-    assert "top_p" not in request.body
+    for provider, environment, sampling in probes:
+        request = make_adapter(provider).prepare(
+            model="exact-2026-01-01",
+            prompt="質問",
+            environment=environment,
+            sampling=sampling,
+        )
+        encoded = json.dumps(request.body)
+        for parameter in ('"temperature"', '"top_p"', '"top_k"', '"seed"'):
+            assert parameter not in encoded
+
+
+@pytest.mark.parametrize(
+    "forbidden",
+    [
+        "developer",
+        "system",
+        "tools",
+        "web_search",
+        "memory",
+        "rag",
+        "retrieval",
+        "file_search",
+        "files",
+        "history",
+        "conversation",
+    ],
+)
+def test_closed_audit_rejects_forbidden_state_and_capabilities(forbidden: str) -> None:
+    body = {
+        "model": "exact-id",
+        "input": [{"role": "user", "content": "質問"}],
+        "metadata": {forbidden: True},
+    }
+    request = PreparedRequest("POST", "https://example.test", {}, body)
+    with pytest.raises(ValidationError, match="forbidden fields"):
+        OpenAIAdapter()._audit_closed(request, Environment.CLOSED)
 
 
 def test_anthropic_requires_protocol_output_cap() -> None:

@@ -1,4 +1,6 @@
 schema_version: "1.0"
+status: ENGINEERING
+approved: false
 wave_id: MIBO-EDU-W0
 site_id: MIBO-SITE-JP01
 official_longitudinal_data: false

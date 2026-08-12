@@ -57,6 +57,8 @@ def wave_factory(tmp_path: Path):
         )
         manifest_raw = {
             "schema_version": "1",
+            "status": "ENGINEERING",
+            "approved": False,
             "wave_id": "MIBO-EDU-W0",
             "site_id": "MIBO-SITE-TEST",
             "official_longitudinal_data": False,

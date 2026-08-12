@@ -9,12 +9,13 @@
     "approved": {"type": "boolean"},
     "expected_item_count": {"type": "integer", "minimum": 1},
     "items": {
+      "maxItems": 70,
       "type": "array",
       "items": {
         "type": "object",
         "required": ["id", "stratum", "frozen", "prompt_ja", "prompt_sha256"],
         "properties": {
-          "id": {"type": "string", "minLength": 1},
+          "id": {"type": "string", "pattern": "^(E[1-7]-(0[1-9]|10)|[A-Z][A-Z0-9-]*)$"},
           "stratum": {"type": "string", "minLength": 1},
           "frozen": {"const": true},
           "prompt_ja": {"type": "string", "minLength": 1},

@@ -109,14 +109,38 @@ class ProviderAdapter(ABC):
             return
         forbidden = {
             "system",
+            "developer",
             "system_instruction",
             "systemInstruction",
             "instructions",
             "tools",
             "tool_choice",
             "previous_response_id",
+            "web_search",
+            "web_search_options",
+            "browse",
+            "browsing",
+            "memory",
+            "rag",
+            "retrieval",
+            "file_search",
+            "file_ids",
+            "files",
+            "attachments",
+            "history",
+            "conversation",
+            "conversation_id",
+            "input_file",
         }
-        found = forbidden.intersection(request.body)
+
+        def keys(value: Any) -> set[str]:
+            if isinstance(value, dict):
+                return set(value).union(*(keys(item) for item in value.values()))
+            if isinstance(value, list):
+                return set().union(*(keys(item) for item in value))
+            return set()
+
+        found = forbidden.intersection(keys(request.body))
         if found:
             raise ValidationError(f"CLOSED request has forbidden fields: {sorted(found)}")
         messages = request.body.get("messages") or request.body.get("input")

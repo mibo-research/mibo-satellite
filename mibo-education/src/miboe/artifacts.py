@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -8,7 +9,18 @@ from typing import Any
 import yaml
 
 from .errors import ValidationError
-from .util import artifact_hash, sha256_text
+from .util import artifact_hash, sha256_file, sha256_text
+
+EBB_JA_V1_IDS = tuple(f"E{domain}-{item:02d}" for domain in range(1, 8) for item in range(1, 11))
+REQUIRED_SCIENTIFIC_ARTIFACTS = frozenset(
+    {
+        "ebb_ja_v1_0",
+        "codebook_v1_0",
+        "scoring_manual_v1_0",
+        "observation_protocol_v1_0",
+        "w01_wave_manifest",
+    }
+)
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -67,9 +79,21 @@ def load_battery(path: Path, *, require_complete: bool = True) -> Battery:
         if item.get("prompt_sha256") != actual:
             raise ValidationError(f"Frozen prompt hash mismatch: {item_id}")
         items.append(BatteryItem(item_id, str(item.get("stratum", "")), prompt, actual))
+    battery_id = str(raw.get("battery_id", ""))
+    version = str(raw.get("version", ""))
+    if battery_id == "EBB-JA" and version == "1.0" and require_complete:
+        item_ids = tuple(item.item_id for item in items)
+        if expected != 70 or item_ids != EBB_JA_V1_IDS:
+            raise ValidationError(
+                "EBB-JA v1.0 IDs must be exactly E1-01 through E7-10 in canonical order"
+            )
+        domain_counts = Counter(item_id.split("-", 1)[0] for item_id in item_ids)
+        expected_domains = {f"E{domain}": 10 for domain in range(1, 8)}
+        if domain_counts != expected_domains:
+            raise ValidationError("EBB-JA v1.0 must contain exactly 10 items in each domain E1-E7")
     return Battery(
-        battery_id=str(raw.get("battery_id", "")),
-        version=str(raw.get("version", "")),
+        battery_id=battery_id,
+        version=version,
         status=str(raw.get("status", "")),
         approved=raw.get("approved") is True,
         official_eligible=raw.get("official_longitudinal_eligible", True) is True,
@@ -82,6 +106,8 @@ def load_battery(path: Path, *, require_complete: bool = True) -> Battery:
 @dataclass(frozen=True)
 class WaveManifest:
     source: Path
+    status: str
+    approved: bool
     wave_id: str
     site_id: str
     official: bool
@@ -101,6 +127,7 @@ class WaveManifest:
     retry_delays_minutes: tuple[int, ...]
     approvals: dict[str, bool]
     scientific_artifacts: dict[str, Path]
+    scientific_registry_path: Path | None
     content_sha256: str
 
 
@@ -112,6 +139,10 @@ def load_manifest(path: Path) -> WaveManifest:
         end = datetime.fromisoformat(str(raw["field_window"]["end"]).replace("Z", "+00:00"))
         if start.tzinfo is None or end.tzinfo is None or end <= start:
             raise ValueError("field window needs timezone offsets and end > start")
+        wave_id = str(raw["wave_id"])
+        official = raw["official_longitudinal_data"] is True
+        if wave_id == "MIBO-EDU-W0" and official:
+            raise ValueError("W0 can never be official longitudinal data")
         environment = str(raw["environment"]).upper()
         if environment not in {"CLOSED", "NATIVE"}:
             raise ValueError("environment must be CLOSED or NATIVE")
@@ -130,9 +161,11 @@ def load_manifest(path: Path) -> WaveManifest:
         }
         return WaveManifest(
             source=path.resolve(),
-            wave_id=str(raw["wave_id"]),
+            status=str(raw.get("status", "UNSPECIFIED")).upper(),
+            approved=raw.get("approved") is True,
+            wave_id=wave_id,
             site_id=str(raw["site_id"]),
-            official=raw["official_longitudinal_data"] is True,
+            official=official,
             protocol_version=str(raw["protocol_version"]),
             battery_path=(base / raw["battery"]).resolve(),
             registry_path=(base / raw["model_registry"]).resolve(),
@@ -149,6 +182,11 @@ def load_manifest(path: Path) -> WaveManifest:
             retry_delays_minutes=delays,
             approvals={key: value is True for key, value in (raw.get("approvals") or {}).items()},
             scientific_artifacts=science,
+            scientific_registry_path=(
+                (base / raw["scientific_artifact_registry"]).resolve()
+                if raw.get("scientific_artifact_registry")
+                else None
+            ),
             content_sha256=artifact_hash(raw),
         )
     except (KeyError, TypeError, ValueError) as exc:
@@ -166,4 +204,59 @@ def load_registry(path: Path) -> dict[str, Any]:
     raw["registry_sha256"] = artifact_hash(
         {key: value for key, value in raw.items() if key != "registry_sha256"}
     )
+    return raw
+
+
+def load_scientific_artifact_registry(path: Path) -> dict[str, Any]:
+    raw = load_yaml(path)
+    registry_status = str(raw.get("status", "")).upper()
+    if registry_status not in {"BLOCKED", "FROZEN"}:
+        raise ValidationError("scientific artifact registry status must be BLOCKED or FROZEN")
+    raw["status"] = registry_status
+    registry_sha256 = artifact_hash(
+        {key: value for key, value in raw.items() if key != "registry_sha256"}
+    )
+    artifacts = raw.get("artifacts")
+    if not isinstance(artifacts, dict):
+        raise ValidationError("scientific artifact registry must contain an artifacts mapping")
+    if set(artifacts) != REQUIRED_SCIENTIFIC_ARTIFACTS:
+        missing = sorted(REQUIRED_SCIENTIFIC_ARTIFACTS - set(artifacts))
+        extra = sorted(set(artifacts) - REQUIRED_SCIENTIFIC_ARTIFACTS)
+        raise ValidationError(
+            f"scientific artifact registry keys differ; missing={missing}, extra={extra}"
+        )
+    resolved: dict[str, Any] = {}
+    for artifact_id, value in artifacts.items():
+        if not isinstance(value, dict):
+            raise ValidationError(f"scientific artifact entry must be a mapping: {artifact_id}")
+        status = str(value.get("status", "")).upper()
+        approved = value.get("approved") is True
+        relative = value.get("expected_path")
+        if status not in {"BLOCKED", "FROZEN"} or not isinstance(relative, str):
+            raise ValidationError(f"invalid scientific artifact state: {artifact_id}")
+        expected_path = (path.parent / relative).resolve()
+        claimed_hash = value.get("sha256")
+        if status == "BLOCKED":
+            if approved or claimed_hash is not None or not value.get("blocker"):
+                raise ValidationError(
+                    "BLOCKED artifact must be unapproved, unhashed, and explain its "
+                    f"blocker: {artifact_id}"
+                )
+        else:
+            if not approved:
+                raise ValidationError(f"FROZEN artifact is not approved: {artifact_id}")
+            if not isinstance(claimed_hash, str) or len(claimed_hash) != 64:
+                raise ValidationError(f"FROZEN artifact has no valid SHA-256: {artifact_id}")
+            if not expected_path.is_file():
+                raise ValidationError(f"FROZEN artifact file is missing: {artifact_id}")
+            if sha256_file(expected_path) != claimed_hash:
+                raise ValidationError(f"FROZEN artifact hash mismatch: {artifact_id}")
+        resolved[artifact_id] = {
+            **value,
+            "status": status,
+            "approved": approved,
+            "resolved_path": expected_path,
+        }
+    raw["artifacts"] = resolved
+    raw["registry_sha256"] = registry_sha256
     return raw

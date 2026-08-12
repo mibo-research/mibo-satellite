@@ -7,14 +7,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from .adapters import Environment, make_adapter
-from .artifacts import load_battery, load_manifest, load_registry
+from .artifacts import load_battery, load_manifest
 from .blind import export_blind
 from .certificate import create_certificate
 from .errors import MiboeError, ValidationError
 from .models import load_model_lock, resolve_models
 from .preflight import preflight
 from .qc import run_qc
+from .readiness import FLAGS, scientific_readiness
 from .runner import run_wave
 from .scheduling import create_schedule, load_schedule
 
@@ -41,42 +41,17 @@ def _context(path: Path) -> tuple[Any, Any, Any, Any]:
 
 def command_validate(args: argparse.Namespace) -> dict[str, Any]:
     root = Path(args.root).resolve()
-    errors: list[str] = []
-    warnings: list[str] = []
-    try:
-        load_registry(root / "registry" / "model-series.yaml")
-        load_battery(root / "battery" / "w0-engineering-smoke.yaml")
-        probes = (
-            ("openai", {}, Environment.CLOSED),
-            ("anthropic", {"max_tokens": 64}, Environment.CLOSED),
-            ("gemini", {}, Environment.CLOSED),
-            ("xai", {}, Environment.CLOSED),
-            ("perplexity", {}, Environment.NATIVE),
-        )
-        for provider, sampling, environment in probes:
-            make_adapter(provider).prepare(
-                model="engineering-exact-id",
-                prompt="dry run",
-                environment=environment,
-                sampling=sampling,
-            )
-    except Exception as exc:
-        errors.append(str(exc))
-    try:
-        load_battery(root / "battery" / "ebb-ja-v1.0.yaml")
-    except Exception as exc:
-        if args.engineering:
-            warnings.append(f"official source blocker: {exc}")
-        else:
-            errors.append(f"official source blocker: {exc}")
-    result = {
-        "ENGINEERING_READY": not errors if args.engineering else False,
-        "SCIENTIFIC_PROTOCOL_COMPLETE": False,
-        "W0_READY": False,
-        "W01_READY": False,
-        "errors": errors,
-        "warnings": warnings,
-    }
+    result = scientific_readiness(root)
+    false_reasons = [
+        reason for flag in FLAGS if not result[flag] for reason in result["reasons"][flag]
+    ]
+    errors = result["reasons"]["ENGINEERING_READY"] if args.engineering else false_reasons
+    warnings = (
+        [reason for flag in FLAGS[1:] if not result[flag] for reason in result["reasons"][flag]]
+        if args.engineering
+        else []
+    )
+    result = {**result, "errors": errors, "warnings": warnings}
     if errors:
         raise ValidationError(json.dumps(result, ensure_ascii=False))
     return result

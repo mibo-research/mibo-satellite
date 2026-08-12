@@ -11,11 +11,11 @@ MIBO-Education inherits MIBO’s persistent service-series identity, synchronize
 | Gate | Current state | Reason |
 |---|---|---|
 | `ENGINEERING_READY` | True | Automated tests, lint, packaging, CLI, and secret checks pass |
-| `SCIENTIFIC_PROTOCOL_COMPLETE` | False | Authoritative scientific artifacts are not in the repository |
-| `W0_READY` | False | Exact pilot model lock and protocol-owner approval are pending |
-| `W01_READY` | False | The approved 70-item EBB-JA v1.0 and other W01 gates are absent |
+| `SCIENTIFIC_PROTOCOL_COMPLETE` | False | All five authoritative artifacts are explicitly `BLOCKED` |
+| `W0_READY` | False | W0 approvals, exact model lock, and locked schedule are absent |
+| `W01_READY` | False | The W01 manifest is non-executable and the scientific protocol is incomplete |
 
-The software is intentionally fail-closed. It cannot execute `MIBO-EDU-W01` until every scientific and operational preflight gate passes. See [BLOCKERS.md](BLOCKERS.md).
+The software is intentionally fail-closed. It cannot execute `MIBO-EDU-W01` until every scientific and operational preflight gate passes. See [READINESS.md](READINESS.md), [BLOCKERS.md](BLOCKERS.md), and the machine-readable [scientific artifact registry](protocol/scientific-artifacts.yaml).
 
 ## Layer model
 
@@ -55,9 +55,9 @@ miboe qc --manifest waves/W0/manifest.yaml
 
 `pilot` refuses a manifest marked official. It writes `OFFICIAL_LONGITUDINAL_DATA=false` into the Wave seal and every canonical record.
 
-## W01
+## W01 — BLOCKED
 
-The target anchor is `2026-09-01T00:00:00Z` (`2026-09-01 09:00 JST`). This is metadata, not permission to run. Even after artifacts are supplied, use:
+The target anchor is `2026-09-01T00:00:00Z` (`2026-09-01 09:00 JST`). This is metadata, not permission to run. The committed W01 file is deliberately not an executable Wave Manifest because the authoritative Wave 1 package was not supplied. After the authoritative artifacts are deposited, approved, Frozen, and hashed, use:
 
 ```bash
 miboe preflight --manifest waves/W01/manifest.yaml

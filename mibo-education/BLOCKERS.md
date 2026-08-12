@@ -8,9 +8,9 @@ The following authoritative artifacts were described in the implementation adden
 2. MIBO-Education Codebook v1.0.
 3. Item-Level Scoring Manual v1.0.
 4. MIBO-Education Observation Protocol v1.0.
-5. Wave 1 Implementation Package v1.0.
+5. Authoritative W01 Wave Manifest / Wave 1 Implementation Package v1.0.
 
-The files under `battery/` and `protocol/` are validation-failing placeholders, not scientific substitutes. No scoring anchors have been inferred.
+These five entries are recorded as `BLOCKED` in `protocol/scientific-artifacts.yaml`. The file under `battery/` and the W01 manifest skeleton are validation-failing state records, not scientific substitutes. No Frozen prompts, scoring anchors, protocol prose, or Wave decisions have been inferred.
 
 ## Scientific decisions unresolved
 
@@ -30,4 +30,4 @@ The files under `battery/` and `protocol/` are validation-failing placeholders, 
 - No live-verified model-lock file exists.
 - No approved W0 or W01 execution schedule exists.
 
-Consequently: `SCIENTIFIC_PROTOCOL_COMPLETE=false`, `W0_READY=false`, and `W01_READY=false`.
+Consequently: `ENGINEERING_READY=true`, `SCIENTIFIC_PROTOCOL_COMPLETE=false`, `W0_READY=false`, and `W01_READY=false`. See `READINESS.md` for the exact reason attached to each false flag.

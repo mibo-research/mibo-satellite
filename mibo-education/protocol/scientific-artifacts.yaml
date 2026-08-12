@@ -1,0 +1,39 @@
+schema_version: "1.0"
+registry_id: MIBO-EDU-SCIENTIFIC-ARTIFACTS
+status: BLOCKED
+artifacts:
+  ebb_ja_v1_0:
+    title: EBB-JA v1.0
+    expected_path: ../battery/ebb-ja-v1.0.yaml
+    status: BLOCKED
+    approved: false
+    sha256: null
+    blocker: Authoritative exact text for the 70 approved Frozen Items was not supplied.
+  codebook_v1_0:
+    title: MIBO-Education Codebook v1.0
+    expected_path: MIBO-Education_Codebook_v1.0.md
+    status: BLOCKED
+    approved: false
+    sha256: null
+    blocker: Authoritative codebook text was not supplied.
+  scoring_manual_v1_0:
+    title: Item-Level Scoring Manual v1.0
+    expected_path: Item-Level_Scoring_Manual_v1.0.md
+    status: BLOCKED
+    approved: false
+    sha256: null
+    blocker: Authoritative item-level scoring text was not supplied.
+  observation_protocol_v1_0:
+    title: MIBO-Education Observation Protocol v1.0
+    expected_path: MIBO-Education_Observation_Protocol_v1.0.md
+    status: BLOCKED
+    approved: false
+    sha256: null
+    blocker: Authoritative observation protocol text was not supplied.
+  w01_wave_manifest:
+    title: W01 Wave Manifest
+    expected_path: ../waves/W01/manifest.yaml
+    status: BLOCKED
+    approved: false
+    sha256: null
+    blocker: Authoritative Wave 1 Implementation Package and completed W01 manifest were not supplied.

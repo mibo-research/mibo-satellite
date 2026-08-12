@@ -3,7 +3,13 @@ from __future__ import annotations
 from typing import Any
 
 from .adapters import Environment, make_adapter
-from .artifacts import Battery, WaveManifest, load_battery, load_registry
+from .artifacts import (
+    Battery,
+    WaveManifest,
+    load_battery,
+    load_registry,
+    load_scientific_artifact_registry,
+)
 from .models import load_model_lock
 from .scheduling import load_schedule, validate_bindings
 from .util import artifact_hash, canonical_json_bytes, utc_now, write_derived
@@ -44,6 +50,8 @@ def preflight(manifest: WaveManifest, *, write_report: bool = True) -> dict[str,
             errors.append("model lock belongs to a different Wave")
 
     if manifest.official:
+        if manifest.status != "FROZEN" or not manifest.approved:
+            errors.append("official Wave Manifest must be FROZEN and approved")
         if (
             manifest.wave_id == "MIBO-EDU-W01"
             and manifest.start.isoformat() != "2026-09-01T00:00:00+00:00"
@@ -66,6 +74,22 @@ def preflight(manifest: WaveManifest, *, write_report: bool = True) -> dict[str,
         for name, path in manifest.scientific_artifacts.items():
             if not path.is_file():
                 errors.append(f"scientific artifact missing: {name} ({path})")
+        if manifest.scientific_registry_path is None:
+            errors.append("official Wave has no scientific artifact freeze registry")
+        else:
+            try:
+                science_registry = load_scientific_artifact_registry(
+                    manifest.scientific_registry_path
+                )
+                blocked = sorted(
+                    artifact_id
+                    for artifact_id, value in science_registry["artifacts"].items()
+                    if value["status"] != "FROZEN" or not value["approved"]
+                )
+                if blocked:
+                    errors.append(f"scientific artifacts are not Frozen and approved: {blocked}")
+            except Exception as exc:
+                errors.append(str(exc))
         if manifest.random_seed.startswith("UNSET"):
             errors.append("Wave random seed has not been supplied by the implementation package")
         if lock:

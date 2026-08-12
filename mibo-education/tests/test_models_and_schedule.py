@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import json
 from collections import Counter
 
 import pytest
 
-from miboe.errors import ImmutabilityError, ModelResolutionError
-from miboe.models import resolve_models
+from miboe.errors import ImmutabilityError, ModelResolutionError, ValidationError
+from miboe.models import load_model_lock, resolve_models
+from miboe.util import artifact_hash, load_json
 
 
 class ListingAdapter:
@@ -48,6 +50,29 @@ def test_exact_model_must_be_listed_and_lock_is_immutable(wave_factory) -> None:
     assert lock["models"][0]["requested_model"] == "model-2026-01-01"
     with pytest.raises(ImmutabilityError):
         resolve_models(manifest, {"SERIES-1": "model-2026-01-01"}, {})
+
+
+def test_permanent_series_id_cannot_be_used_as_exact_wave_model_id(wave_factory) -> None:
+    manifest, _, _, _ = wave_factory()
+    manifest.model_lock_path.unlink()
+    with pytest.raises(ModelResolutionError, match="permanent series ID"):
+        resolve_models(
+            manifest,
+            {"SERIES-1": "SERIES-1"},
+            {},
+            adapter_factory=lambda provider: ListingAdapter(["SERIES-1"]),
+        )
+
+
+def test_manually_supplied_model_lock_cannot_conflate_series_and_exact_id(wave_factory) -> None:
+    manifest, _, _, _ = wave_factory()
+    lock = load_json(manifest.model_lock_path)
+    lock.pop("model_lock_sha256")
+    lock["models"][0]["requested_model"] = lock["models"][0]["series_id"]
+    lock["model_lock_sha256"] = artifact_hash(lock)
+    manifest.model_lock_path.write_text(json.dumps(lock), encoding="utf-8")
+    with pytest.raises(ValidationError, match="conflates"):
+        load_model_lock(manifest.model_lock_path)
 
 
 def test_schedule_is_balanced_stratified_and_temporally_distributed(wave_factory) -> None:
