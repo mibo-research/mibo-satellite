@@ -26,6 +26,7 @@ class OpenAIAdapter(ProviderAdapter):
             "model": model,
             "input": [{"role": "user", "content": [{"type": "input_text", "text": prompt}]}],
             "store": False,
+            "stream": False,
         }
         body.update(sampling)
         if environment is Environment.NATIVE:

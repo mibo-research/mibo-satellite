@@ -1,0 +1,19 @@
+{
+  "captured_at_utc": "2026-08-12T13:46:41.565Z",
+  "repository": "https://github.com/mibo-research/mibo-core",
+  "ref": "main",
+  "commit_sha": "8b9ab40e35e9b82d3b16cbe83db01d59b09826b0",
+  "sources": [
+    {
+      "path": "docs/MIBO_Service_Registry_v1.0-rc3.md",
+      "git_blob_sha1": "d6e256b77b6041bd14f4c9e568352dd604f1be08",
+      "finding": "MIBO-SL-002 is Claude continuing general-purpose model family; Fable versus Opus is not selected."
+    },
+    {
+      "path": "docs/MIBO_Frozen_Live_Comparability_Registry_v1.0-rc3.md",
+      "git_blob_sha1": "ed32ec5114b70b7d763498949fa562991d6e8289",
+      "finding": "Anthropic is a pinned-snapshot technical candidate; no exact Fable-versus-Opus selection is frozen."
+    }
+  ],
+  "education_decision": "DO_NOT_INDEPENDENTLY_SELECT_FABLE_OR_OPUS"
+}

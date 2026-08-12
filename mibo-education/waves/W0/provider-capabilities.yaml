@@ -1,0 +1,127 @@
+schema_version: "1.0"
+qualification_run_id: MIBO-EDU-W0-OQ-20260812T134641Z
+captured_at_utc: "2026-08-12T13:46:41.565Z"
+official_longitudinal_data: false
+observation_surface:
+  official_surface: FIRST_PARTY_API
+  consumer_ui_equivalence_assumed: false
+  consumer_ui_equivalence_in_w01_scope: false
+  consumer_ui_non_equivalence_is_readiness_blocker: false
+live_api_execution:
+  status: NOT_RUN_CREDENTIALS_ABSENT
+  credentials:
+    OPENAI_API_KEY: absent
+    ANTHROPIC_API_KEY: absent
+    GEMINI_API_KEY: absent
+    XAI_API_KEY: absent
+    PERPLEXITY_API_KEY: absent
+  substitution_attempted: false
+common_request_shape:
+  exactly_one_user_turn: PASS
+  researcher_system_prompt_absent: PASS
+  researcher_developer_prompt_absent: PASS
+  history_absent: PASS
+  tools_absent: PASS
+  file_retrieval_absent: PASS
+  rag_absent: PASS
+  memory_absent: PASS
+  optional_sampling_absent: PASS
+  optional_reasoning_controls_absent: PASS
+  non_streaming: PASS
+  output_cap_target: 8192
+providers:
+  M01:
+    provider: OpenAI
+    requested_model_candidate: gpt-5.6-sol
+    candidate_status: DOCUMENTED_LIVE_UNVERIFIED
+    first_party_endpoint: https://api.openai.com/v1/responses
+    model_metadata_endpoints:
+      - https://api.openai.com/v1/models
+      - https://api.openai.com/v1/models/gpt-5.6-sol
+    environment: CLOSED
+    output_cap_parameter: max_output_tokens
+    output_cap_value: 8192
+    request_shape: PASS
+    request_sha256: 2cec4dc116c7b226d0a62c3a64c3e40e8fdc30fc2c34650cd8c7dc11941acd54
+    closed_eligibility: REQUEST_SHAPE_PASS_LIVE_VERIFICATION_PENDING
+    model_metadata_capture: NOT_RUN_CREDENTIAL_MISSING
+    generation_probe: NOT_RUN_CREDENTIAL_MISSING
+    pinning_evidence: PROVIDER_DOCUMENTS_GPT_5_6_SOL_AS_A_SNAPSHOT
+    immutable_behavior_claim: false
+  M02:
+    provider: Anthropic
+    inherited_core_definition: Claude continuing general-purpose family
+    requested_model_candidate: null
+    conditional_candidate_if_core_selects_opus: claude-opus-5
+    candidate_status: BLOCKED_CORE_FAMILY_SELECTION_NOT_FROZEN
+    first_party_endpoint: https://api.anthropic.com/v1/messages
+    model_metadata_endpoint: https://api.anthropic.com/v1/models
+    environment: CLOSED
+    required_parameter:
+      max_tokens: 8192
+    request_shape: PASS_CONDITIONAL_OPUS_SHAPE_ONLY
+    request_sha256: 6342133197b6ceaf6d24e15882920a7ed0e16bd60e34b351dfff13fc94636bef
+    closed_eligibility: CONDITIONAL_SHAPE_PASS_MODEL_SELECTION_AND_LIVE_VERIFICATION_PENDING
+    model_metadata_capture: NOT_RUN_CREDENTIAL_MISSING
+    generation_probe: NOT_RUN_MODEL_SELECTION_AND_CREDENTIAL_MISSING
+    pinned_snapshot_evidence: PROVIDER_DOCUMENTED
+  M03:
+    provider: Google Gemini
+    requested_model_candidate: gemini-3.6-flash
+    candidate_status: DOCUMENTED_LIVE_UNVERIFIED
+    first_party_endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent
+    model_metadata_endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash
+    environment: CLOSED
+    output_cap_parameter: generationConfig.maxOutputTokens
+    output_cap_value: 8192
+    request_shape: PASS
+    request_sha256: 26e46cf6044492da377dafec36b3d9983512057a5b41c36ca1263e8eadc3eaf4
+    closed_eligibility: REQUEST_SHAPE_PASS_LIVE_VERIFICATION_PENDING
+    model_metadata_capture: NOT_RUN_CREDENTIAL_MISSING
+    generation_probe: NOT_RUN_CREDENTIAL_MISSING
+    stable_id_classification: SPECIFIC_STABLE_ID
+    behavioral_immutability: NOT_CLAIMED
+  M04:
+    provider: xAI
+    requested_model_candidate: grok-4.5
+    forbidden_lock_alias: grok-4.5-latest
+    candidate_status: DOCUMENTED_LIVE_UNVERIFIED
+    first_party_endpoint: https://api.x.ai/v1/chat/completions
+    model_metadata_endpoints:
+      - https://api.x.ai/v1/models
+      - https://api.x.ai/v1/models/grok-4.5
+    environment: CLOSED
+    output_cap_parameter: max_tokens
+    output_cap_value: 8192
+    request_shape: PASS
+    request_sha256: 066e0b650abf924c300e92f6869dd0708f26bf5acef58a217ccfdc1305ecd462
+    closed_eligibility: REQUEST_SHAPE_PASS_LIVE_VERIFICATION_PENDING
+    model_metadata_capture: NOT_RUN_CREDENTIAL_MISSING
+    generation_probe: NOT_RUN_CREDENTIAL_MISSING
+    id_version_fingerprint_alias_capture: PENDING_LIVE_MODELS_API
+    silent_redirect_risk: PROVIDER_DOCUMENTS_REDIRECTS_FOR_RETIRED_MODEL_SLUGS
+  M05:
+    provider: Perplexity
+    requested_model_candidate: sonar
+    candidate_status: DOCUMENTED_LIVE_UNVERIFIED
+    official_w01_environment: NATIVE
+    first_party_endpoint: https://api.perplexity.ai/v1/sonar
+    output_cap_parameter: max_tokens
+    output_cap_value: 8192
+    native_request_shape: PASS
+    native_request_sha256: 5baf126235caa39ed9c637d6735347a61c51cc89cc950663fa22967995f398e5
+    native_generation_probe: NOT_RUN_CREDENTIAL_MISSING
+    closed_diagnostic:
+      classification: NON_OFFICIAL_W0_ONLY
+      disable_search: true
+      request_shape: PASS
+      request_sha256: ae89f6f9907bf95c9b5f2c2ac9fa871abc9958ba40569c961e74e859186f287c
+      generation_probe: NOT_RUN_CREDENTIAL_MISSING
+      result: INCONCLUSIVE_NO_LIVE_API_EXECUTION
+    silent_routing_risk:
+      third_party_endpoint: MITIGATED_BY_EXACT_FIRST_PARTY_HOST_ALLOWLIST
+      provider_internal_routing: UNRESOLVED_UNTIL_RETURNED_IDENTITY_CAPTURED
+governance:
+  protocol_owner: NOT_RECORDED
+  provider_terms_review: NOT_RECORDED
+  institutional_ethics_or_governance_determination: NOT_RECORDED

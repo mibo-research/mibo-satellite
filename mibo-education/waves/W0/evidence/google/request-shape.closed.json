@@ -1,0 +1,16 @@
+{
+  "classification": "W0_ENGINEERING_CLOSED_REQUEST_SHAPE",
+  "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
+  "headers": {"x-goog-api-key": "[REDACTED]", "Content-Type": "application/json"},
+  "serialized_body_utf8": "{\"contents\":[{\"parts\":[{\"text\":\"W0 engineering diagnostic. Reply with exactly: OK\"}],\"role\":\"user\"}],\"generationConfig\":{\"maxOutputTokens\":8192}}",
+  "serialized_body_sha256": "26e46cf6044492da377dafec36b3d9983512057a5b41c36ca1263e8eadc3eaf4",
+  "audit": {
+    "first_party_host": true,
+    "one_user_turn": true,
+    "system_developer_history_tools_search_files_rag_memory_absent": true,
+    "temperature_topP_topK_absent": true,
+    "thinkingConfig_absent": true,
+    "non_streaming_generateContent_method": true,
+    "output_cap": {"parameter": "generationConfig.maxOutputTokens", "value": 8192}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "qualification_run_id": "MIBO-EDU-W0-OQ-20260812T134641Z",
+  "status": "NOT_CAPTURED_CREDENTIAL_MISSING",
+  "api_key_env": "GEMINI_API_KEY",
+  "requested_model": "gemini-3.6-flash",
+  "planned_first_party_request": "GET https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash",
+  "raw_response": null,
+  "required_generation_response_field": "modelVersion",
+  "stable_id_classification": "SPECIFIC_STABLE_ID",
+  "behavioral_immutability": "NOT_CLAIMED",
+  "substitution_attempted": false,
+  "official_sources": [
+    "https://ai.google.dev/gemini-api/docs/models",
+    "https://ai.google.dev/api/models",
+    "https://ai.google.dev/api/generate-content"
+  ]
+}

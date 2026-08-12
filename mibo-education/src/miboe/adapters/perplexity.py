@@ -23,11 +23,32 @@ class PerplexityAdapter(ProviderAdapter):
         sampling: dict[str, Any],
         native_options: dict[str, Any],
     ) -> PreparedRequest:
-        body: dict[str, Any] = {"model": model, "messages": [{"role": "user", "content": prompt}]}
+        body: dict[str, Any] = {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": False,
+        }
         body.update(sampling)
         if environment is Environment.NATIVE:
             body.update(native_options)
-        return PreparedRequest("POST", f"{self.base_url}/chat/completions", self.headers, body)
+        return PreparedRequest("POST", f"{self.base_url}/v1/sonar", self.headers, body)
+
+    def prepare_closed_diagnostic(
+        self, *, model: str, prompt: str, max_tokens: int = 8192
+    ) -> PreparedRequest:
+        """Build the non-official W0-only Sonar no-search diagnostic request."""
+        body: dict[str, Any] = {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": max_tokens,
+            "stream": False,
+            "disable_search": True,
+        }
+        request = PreparedRequest(
+            "POST", f"{self.base_url}/v1/sonar", self.headers, body
+        )
+        self._audit_closed(request, Environment.CLOSED)
+        return request
 
     def normalize(self, body: dict[str, Any]) -> NormalizedResponse:
         choice = (body.get("choices") or [{}])[0]

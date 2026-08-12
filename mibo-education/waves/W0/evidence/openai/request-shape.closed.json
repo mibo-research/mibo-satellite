@@ -1,0 +1,16 @@
+{
+  "classification": "W0_ENGINEERING_CLOSED_REQUEST_SHAPE",
+  "endpoint": "https://api.openai.com/v1/responses",
+  "headers": {"Authorization": "[REDACTED]", "Content-Type": "application/json"},
+  "serialized_body_utf8": "{\"input\":[{\"content\":[{\"text\":\"W0 engineering diagnostic. Reply with exactly: OK\",\"type\":\"input_text\"}],\"role\":\"user\"}],\"max_output_tokens\":8192,\"model\":\"gpt-5.6-sol\",\"store\":false,\"stream\":false}",
+  "serialized_body_sha256": "2cec4dc116c7b226d0a62c3a64c3e40e8fdc30fc2c34650cd8c7dc11941acd54",
+  "audit": {
+    "first_party_host": true,
+    "one_user_turn": true,
+    "system_developer_history_tools_search_files_rag_memory_absent": true,
+    "sampling_controls_absent": true,
+    "reasoning_controls_absent": true,
+    "non_streaming": true,
+    "output_cap": {"parameter": "max_output_tokens", "value": 8192}
+  }
+}

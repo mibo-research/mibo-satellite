@@ -22,7 +22,11 @@ class XAIAdapter(ProviderAdapter):
         sampling: dict[str, Any],
         native_options: dict[str, Any],
     ) -> PreparedRequest:
-        body: dict[str, Any] = {"model": model, "messages": [{"role": "user", "content": prompt}]}
+        body: dict[str, Any] = {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": False,
+        }
         body.update(sampling)
         if environment is Environment.NATIVE:
             body.update(native_options)

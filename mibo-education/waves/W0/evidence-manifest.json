@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "qualification_run_id": "MIBO-EDU-W0-OQ-20260812T134641Z",
+  "official_longitudinal_data": false,
+  "entries": [
+    {
+      "path": "provider-capabilities.yaml",
+      "bytes": 5399,
+      "sha256": "f1ec3585d679db10118b7c3c08c7554d50a455fb6623ceb4f05b101a901a6fa3"
+    },
+    {
+      "path": "model-lock.candidate.yaml",
+      "bytes": 3146,
+      "sha256": "430d52545cbabbdb8d9d3be89d0ecd7675a64c86402840a2a96f28e2f583e075"
+    },
+    {
+      "path": "qualification-report.md",
+      "bytes": 6743,
+      "sha256": "1505bf9c1427ab27bebef4252f8c5920590d86fe019ecbc8c1e2aaf48c2487c3"
+    },
+    {
+      "path": "evidence/anthropic/mibo-core-inheritance.json",
+      "bytes": 805,
+      "sha256": "0b9e3ff1234db7130bb3d1c6771993d9220c078f5a6940e2613d71a5f9e06d54"
+    },
+    {
+      "path": "evidence/anthropic/model-metadata.capture.json",
+      "bytes": 767,
+      "sha256": "dbd33be3502d2d58374e4c80aeb3969042fcc9c5d5ac0cd6090a2c7da6366581"
+    },
+    {
+      "path": "evidence/anthropic/request-shape.conditional-opus.closed.json",
+      "bytes": 961,
+      "sha256": "327f32f97cd7ecfd1732cd40bbc1608c05e55ae153540fb17581cf81b914ef04"
+    },
+    {
+      "path": "evidence/google/model-metadata.capture.json",
+      "bytes": 681,
+      "sha256": "2db1233e293c50b5ca2db259992f605f5906380bf6d15e204c318caca4d5f2a0"
+    },
+    {
+      "path": "evidence/google/request-shape.closed.json",
+      "bytes": 898,
+      "sha256": "8ae54b74cd2ce38e2f18f19da35d53d9ce9b0096dd66ce96abc77982462abb16"
+    },
+    {
+      "path": "evidence/openai/model-metadata.capture.json",
+      "bytes": 542,
+      "sha256": "b7b627f6b8448d870839ec2998b0833fbda1309ccceb8a303864d45c2dcb0441"
+    },
+    {
+      "path": "evidence/openai/request-shape.closed.json",
+      "bytes": 867,
+      "sha256": "afc75d6ee08a8a27b9884487281a45eb9ce6a798dd58309998c0a188af0814a8"
+    },
+    {
+      "path": "evidence/perplexity/model-metadata.capture.json",
+      "bytes": 701,
+      "sha256": "3641f4d3193b4376b375adebe902a2cf675d4004768591a0cd4bda3fc99c34c4"
+    },
+    {
+      "path": "evidence/perplexity/request-shapes.native-and-w0-closed.json",
+      "bytes": 1254,
+      "sha256": "3eae9c79f67aa2af2cdc14a692ee351e7cf059f97e53e6b562c9a4f8a3348617"
+    },
+    {
+      "path": "evidence/xai/model-metadata.capture.json",
+      "bytes": 803,
+      "sha256": "12fd1d42de3cf973ab50cb1464b110f1b92a1ddd229dcce8e3e54842653ebd5b"
+    },
+    {
+      "path": "evidence/xai/request-shape.closed.json",
+      "bytes": 831,
+      "sha256": "cb5e1528db282a75ef4a04f1cdd633a6421b5a4b5af61b5c7f8340222b063647"
+    }
+  ],
+  "evidence_manifest_sha256": "081a21a9192ca9fc672d9d02164158e5aa068db756d142b9e9e5c2d4a72dcf07"
+}

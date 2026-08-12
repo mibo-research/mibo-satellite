@@ -45,6 +45,8 @@ On macOS/Linux, activate with `source .venv/bin/activate`.
 
 W0 uses only the clearly marked non-scientific smoke instrument. It never becomes longitudinal data.
 
+The operational-qualification artifacts are under `waves/W0/`. They bind all provider requests to first-party API hosts. Consumer UI equivalence is not assumed and is outside W01 scope.
+
 ```bash
 miboe models resolve --manifest waves/W0/manifest.yaml --set M01=<verified-exact-model-id>
 miboe schedule --manifest waves/W0/manifest.yaml

@@ -6,7 +6,7 @@
 |---|---:|---|
 | `ENGINEERING_READY` | `true` | — |
 | `SCIENTIFIC_PROTOCOL_COMPLETE` | `true` | — |
-| `W0_READY` | `false` | Protocol-owner, terms-review, and ethics-review approvals are missing; no exact W0 model-lock or locked schedule exists. |
+| `W0_READY` | `false` | Provider credentials and live model evidence are absent; M02 family selection is unresolved; protocol-owner, terms-review, and ethics-review approvals are missing; no qualified exact W0 model-lock or locked schedule exists. |
 | `W01_READY` | `false` | Runtime manifest is not locked; exact model-lock, schedule hash, observer site, provider-required controls, CLOSED eligibility evidence, governance determinations, and Wave lock timestamp are missing; execution is not permitted. |
 
 ## Authoritative artifact freeze state
@@ -20,3 +20,5 @@
 | W01 Scientific Manifest v1.0 | `FROZEN_SCIENTIFIC` | `ecb5b5aa779d0806cb034581d76ab1c128587f1b9590a7b482fc3fa93336a6f1` |
 
 The immutable scientific manifest is not the mutable runtime manifest. Scientific completion does not authorize W01 execution.
+
+The official observation surface is the first-party provider API. Consumer UI equivalence is neither assumed nor a readiness requirement.

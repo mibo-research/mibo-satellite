@@ -11,6 +11,7 @@ from miboe.adapters.base import PreparedRequest
 from miboe.adapters.openai import OpenAIAdapter
 from miboe.adapters.perplexity import PerplexityAdapter
 from miboe.errors import TechnicalRetryableError, ValidationError
+from miboe.qualification import FIRST_PARTY_HOSTS, assert_first_party, build_request_shapes
 
 
 @pytest.mark.parametrize(
@@ -102,6 +103,49 @@ def test_perplexity_refuses_closed_but_supports_native() -> None:
     with pytest.raises(ValidationError, match="cannot guarantee CLOSED"):
         adapter.prepare(model="sonar", prompt="質問", environment=Environment.CLOSED)
     assert adapter.prepare(model="sonar", prompt="質問", environment=Environment.NATIVE).body
+
+
+def test_w0_perplexity_closed_diagnostic_is_explicitly_nonstandard() -> None:
+    request = PerplexityAdapter().prepare_closed_diagnostic(
+        model="sonar", prompt="W0 diagnostic"
+    )
+    assert request.url == "https://api.perplexity.ai/v1/sonar"
+    assert request.body["disable_search"] is True
+    assert request.body["stream"] is False
+    assert request.body["max_tokens"] == 8192
+
+
+def test_w0_qualification_shapes_are_first_party_single_turn_and_default_sampling() -> None:
+    shapes = build_request_shapes()
+    assert set(shapes) == {
+        "M01",
+        "M02_CONDITIONAL_OPUS",
+        "M03",
+        "M04",
+        "M05",
+        "M05_W0_CLOSED_DIAGNOSTIC",
+    }
+    for request, audit in shapes.values():
+        assert audit["first_party_host"] == FIRST_PARTY_HOSTS[audit["provider"]]
+        assert audit["single_user_turn"] is True
+        assert audit["system_or_developer_prompt_absent"] is True
+        assert audit["tools_absent"] is True
+        assert audit["optional_sampling_absent"] is True
+        assert audit["reasoning_controls_absent"] is True
+        assert audit["non_streaming"] is True
+        assert audit["output_cap_value"] == 8192
+        assert request.body.get("stream", False) is False
+
+
+def test_w0_qualification_rejects_third_party_router() -> None:
+    request = PreparedRequest(
+        "POST",
+        "https://router.example/v1/responses",
+        {},
+        {"model": "gpt-5.6-sol"},
+    )
+    with pytest.raises(ValidationError, match="first-party HTTPS endpoint"):
+        assert_first_party(request, "openai")
 
 
 def test_retryable_http_classification_and_redacted_headers() -> None:

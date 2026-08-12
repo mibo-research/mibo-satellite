@@ -81,8 +81,8 @@
   },
   {
     "path": "mibo-education/BLOCKERS.md",
-    "bytes": 2040,
-    "sha256": "8f9df062ff678af4b1f741509867f511fb8c1cd1cc2feadd4cf143890e2ed182"
+    "bytes": 2492,
+    "sha256": "00a82f7531945a2b03b34ab2ba0007041aa1d97b7680e5a0463b4ac3a9465bc7"
   },
   {
     "path": "mibo-education/CHARTER.md",
@@ -91,13 +91,13 @@
   },
   {
     "path": "mibo-education/READINESS.md",
-    "bytes": 1478,
-    "sha256": "a55c964648cf79abda22339110757c191893ef64edc8d366bbffcf93981b446c"
+    "bytes": 1720,
+    "sha256": "9af3d227b7cc381837bd172df28c46fca2d2900c0eeb41ea97b2741229703fcd"
   },
   {
     "path": "mibo-education/README.md",
-    "bytes": 4247,
-    "sha256": "c722c7a052732a3fd440eb912981c1eb01cc88f20dfd27a3a7217f6e0b8c2756"
+    "bytes": 4434,
+    "sha256": "5b4223337bc3ad2c6e325f32a392b63fb2e839a73ed6f8a8e1cfc755dc4246cd"
   },
   {
     "path": "mibo-education/battery/ebb-ja-v1.0.prompt-lock.json",
@@ -201,8 +201,8 @@
   },
   {
     "path": "mibo-education/src/miboe/adapters/anthropic.py",
-    "bytes": 2090,
-    "sha256": "2fcbad09d71432e9be6319233b8d40a9a5d40a863370aaff2d56add6a7bd0191"
+    "bytes": 2154,
+    "sha256": "325e428bea8382fcdeb801f63aa3572ed944bf91c27ca8b455a4a4816c1f1a4c"
   },
   {
     "path": "mibo-education/src/miboe/adapters/base.py",
@@ -211,23 +211,23 @@
   },
   {
     "path": "mibo-education/src/miboe/adapters/gemini.py",
-    "bytes": 2357,
-    "sha256": "e56e779c6a040fa267f7ed4914e4a85e80e8cc06a34717c8aa3b17e36d21109c"
+    "bytes": 2379,
+    "sha256": "15169ad6f0c9f4c89cb6af50fc27970b2eddf4e7438c380b15dda43688bd2716"
   },
   {
     "path": "mibo-education/src/miboe/adapters/openai.py",
-    "bytes": 2167,
-    "sha256": "6ac1b8bb97a146dba867919c675ec54cfdcc869d06510ccd33649c54e35fdd3b"
+    "bytes": 2196,
+    "sha256": "b901f8dda35f5046f28e17a46a7f95e8a774f23a6ebd0239be97479bb12c402b"
   },
   {
     "path": "mibo-education/src/miboe/adapters/perplexity.py",
-    "bytes": 1906,
-    "sha256": "37b6a8cc5d444b82124be8044d8f78d902bf4174f7b01647c1abcda5a568dca1"
+    "bytes": 2599,
+    "sha256": "282965d576b01d31bdcb8d73d16144e596b638aa55cae56e49e2f5a356de3dc2"
   },
   {
     "path": "mibo-education/src/miboe/adapters/xai.py",
-    "bytes": 1698,
-    "sha256": "07d87dc9aeaf59242c4d193a273a4059173dfbf94fbc37774a045b8f1dd36449"
+    "bytes": 1762,
+    "sha256": "77add6dfb021b04d695cc445c67657fe43069d95418a02ed05beebcc5958f331"
   },
   {
     "path": "mibo-education/src/miboe/artifacts.py",
@@ -275,9 +275,14 @@
     "sha256": "8d61a57f7b7293861e64e68089581cf914ae3383700486adcf260a991c23356d"
   },
   {
+    "path": "mibo-education/src/miboe/qualification.py",
+    "bytes": 7027,
+    "sha256": "1246e12952f36102ed91b3553cbc04f325ef6974e6374c2fd8ea2810d9cf8fb4"
+  },
+  {
     "path": "mibo-education/src/miboe/readiness.py",
-    "bytes": 7026,
-    "sha256": "a06a3340f2b211116abfc96c2719eec93504d51b29197d2374253b62c3a39d92"
+    "bytes": 7612,
+    "sha256": "4c33116e1a8a27ae104a8b566da071f38d4b24bb0a54b5b6f6f7ffa2d455ff28"
   },
   {
     "path": "mibo-education/src/miboe/runner.py",
@@ -301,8 +306,8 @@
   },
   {
     "path": "mibo-education/tests/test_adapters.py",
-    "bytes": 4307,
-    "sha256": "d3875dffd5fa238df105d9044329f46357e9d096cb58d436ed5198f0a594a70b"
+    "bytes": 5974,
+    "sha256": "6599928044ff370389539c1db31717bbf68bac93b8f6eef5341497468e954371"
   },
   {
     "path": "mibo-education/tests/test_battery_and_artifacts.py",
@@ -335,19 +340,99 @@
     "sha256": "4767583fb2c93fb4f06284145436370e6de7139ede127febc439639f135150c9"
   },
   {
+    "path": "mibo-education/tests/test_w0_qualification.py",
+    "bytes": 4050,
+    "sha256": "ea6691d7c7b9548ae6e05604d05fbd4b95d3b0bae046804a47ce02d11377638d"
+  },
+  {
     "path": "mibo-education/waves/.gitkeep",
     "bytes": 1,
     "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
   },
   {
+    "path": "mibo-education/waves/W0/evidence-manifest.json",
+    "bytes": 2706,
+    "sha256": "2b4faff8108a21770cb8b35344a60aebab9d523f30a9a1ed03f52eeea60763d6"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/anthropic/mibo-core-inheritance.json",
+    "bytes": 805,
+    "sha256": "0b9e3ff1234db7130bb3d1c6771993d9220c078f5a6940e2613d71a5f9e06d54"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/anthropic/model-metadata.capture.json",
+    "bytes": 767,
+    "sha256": "dbd33be3502d2d58374e4c80aeb3969042fcc9c5d5ac0cd6090a2c7da6366581"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/anthropic/request-shape.conditional-opus.closed.json",
+    "bytes": 961,
+    "sha256": "327f32f97cd7ecfd1732cd40bbc1608c05e55ae153540fb17581cf81b914ef04"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/google/model-metadata.capture.json",
+    "bytes": 681,
+    "sha256": "2db1233e293c50b5ca2db259992f605f5906380bf6d15e204c318caca4d5f2a0"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/google/request-shape.closed.json",
+    "bytes": 898,
+    "sha256": "8ae54b74cd2ce38e2f18f19da35d53d9ce9b0096dd66ce96abc77982462abb16"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/openai/model-metadata.capture.json",
+    "bytes": 542,
+    "sha256": "b7b627f6b8448d870839ec2998b0833fbda1309ccceb8a303864d45c2dcb0441"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/openai/request-shape.closed.json",
+    "bytes": 867,
+    "sha256": "afc75d6ee08a8a27b9884487281a45eb9ce6a798dd58309998c0a188af0814a8"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/perplexity/model-metadata.capture.json",
+    "bytes": 701,
+    "sha256": "3641f4d3193b4376b375adebe902a2cf675d4004768591a0cd4bda3fc99c34c4"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/perplexity/request-shapes.native-and-w0-closed.json",
+    "bytes": 1254,
+    "sha256": "3eae9c79f67aa2af2cdc14a692ee351e7cf059f97e53e6b562c9a4f8a3348617"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/xai/model-metadata.capture.json",
+    "bytes": 803,
+    "sha256": "12fd1d42de3cf973ab50cb1464b110f1b92a1ddd229dcce8e3e54842653ebd5b"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/xai/request-shape.closed.json",
+    "bytes": 831,
+    "sha256": "cb5e1528db282a75ef4a04f1cdd633a6421b5a4b5af61b5c7f8340222b063647"
+  },
+  {
     "path": "mibo-education/waves/W0/manifest.yaml",
-    "bytes": 658,
-    "sha256": "dda46b985fd6a5a1030dfa5ee4e40fa695094326e9ff2adfc24cbff1364f4d33"
+    "bytes": 838,
+    "sha256": "eec32d935506c48f9f374abb4cb9889ad28188620f9bf87b1788327a40ca34c0"
+  },
+  {
+    "path": "mibo-education/waves/W0/model-lock.candidate.yaml",
+    "bytes": 3146,
+    "sha256": "430d52545cbabbdb8d9d3be89d0ecd7675a64c86402840a2a96f28e2f583e075"
+  },
+  {
+    "path": "mibo-education/waves/W0/provider-capabilities.yaml",
+    "bytes": 5399,
+    "sha256": "f1ec3585d679db10118b7c3c08c7554d50a455fb6623ceb4f05b101a901a6fa3"
+  },
+  {
+    "path": "mibo-education/waves/W0/qualification-report.md",
+    "bytes": 6743,
+    "sha256": "1505bf9c1427ab27bebef4252f8c5920590d86fe019ecbc8c1e2aaf48c2487c3"
   },
   {
     "path": "mibo-education/waves/W01/manifest.yaml",
-    "bytes": 820,
-    "sha256": "35744c1dcc8b610ccc1cbc6e44058abc725f578ce3c72f7c5b1257cd467ffad3"
+    "bytes": 936,
+    "sha256": "5e46f7f8469b9d4e23e8167cd47616502aefb2deff06b5f1e6e1e2c10b343b50"
   },
   {
     "path": "mibo-education/waves/W01/runtime-manifest.template.yaml",

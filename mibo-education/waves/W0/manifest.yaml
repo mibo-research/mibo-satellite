@@ -4,10 +4,14 @@ approved: false
 wave_id: MIBO-EDU-W0
 site_id: MIBO-SITE-JP01
 official_longitudinal_data: false
+observation_surface: FIRST_PARTY_API
+consumer_ui_equivalence_assumed: false
 protocol_version: engineering-pilot-0.1
 battery: ../../battery/w0-engineering-smoke.yaml
 model_registry: ../../registry/model-series.yaml
 model_lock: model-lock.json
+model_lock_candidate: model-lock.candidate.yaml
+qualification_evidence_manifest: evidence-manifest.json
 schedule: schedule.json
 environment: CLOSED
 replications: 2

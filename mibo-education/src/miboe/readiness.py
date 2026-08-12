@@ -92,6 +92,18 @@ def scientific_readiness(root: Path) -> dict[str, Any]:
         if missing_approvals:
             reasons["W0_READY"].append(f"missing W0 approvals: {missing_approvals}")
         reasons["W0_READY"].extend(preflight(w0, write_report=False)["errors"])
+        candidate_path = root / "waves" / "W0" / "model-lock.candidate.yaml"
+        if candidate_path.is_file():
+            candidate = load_yaml(candidate_path)
+            if candidate.get("status") != "QUALIFIED":
+                reasons["W0_READY"].append(
+                    "W0 model-lock candidate is incomplete and not executable"
+                )
+                reasons["W0_READY"].extend(
+                    f"W0 qualification: {blocker}"
+                    for blocker in candidate.get("blockers", [])
+                    if isinstance(blocker, str)
+                )
     except Exception as exc:
         reasons["W0_READY"].append(str(exc))
     if reasons["ENGINEERING_READY"]:

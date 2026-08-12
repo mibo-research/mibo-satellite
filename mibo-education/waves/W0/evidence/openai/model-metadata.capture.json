@@ -1,0 +1,16 @@
+{
+  "qualification_run_id": "MIBO-EDU-W0-OQ-20260812T134641Z",
+  "status": "NOT_CAPTURED_CREDENTIAL_MISSING",
+  "api_key_env": "OPENAI_API_KEY",
+  "requested_model": "gpt-5.6-sol",
+  "planned_first_party_requests": [
+    "GET https://api.openai.com/v1/models",
+    "GET https://api.openai.com/v1/models/gpt-5.6-sol"
+  ],
+  "raw_response": null,
+  "substitution_attempted": false,
+  "official_sources": [
+    "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+    "https://developers.openai.com/api/reference/resources/models"
+  ]
+}

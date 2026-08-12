@@ -24,7 +24,9 @@ class GeminiAdapter(ProviderAdapter):
         sampling: dict[str, Any],
         native_options: dict[str, Any],
     ) -> PreparedRequest:
-        body: dict[str, Any] = {"contents": [{"role": "user", "parts": [{"text": prompt}]}]}
+        body: dict[str, Any] = {
+            "contents": [{"role": "user", "parts": [{"text": prompt}]}]
+        }
         if sampling:
             body["generationConfig"] = sampling
         if environment is Environment.NATIVE:

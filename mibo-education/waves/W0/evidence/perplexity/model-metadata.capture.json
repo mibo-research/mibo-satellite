@@ -1,0 +1,18 @@
+{
+  "qualification_run_id": "MIBO-EDU-W0-OQ-20260812T134641Z",
+  "status": "NOT_CAPTURED_CREDENTIAL_MISSING",
+  "api_key_env": "PERPLEXITY_API_KEY",
+  "requested_model": "sonar",
+  "first_party_endpoint": "https://api.perplexity.ai/v1/sonar",
+  "agent_api_used": false,
+  "native_raw_response": null,
+  "closed_diagnostic_raw_response": null,
+  "closed_diagnostic_result": "INCONCLUSIVE_NO_LIVE_API_EXECUTION",
+  "third_party_router_used": false,
+  "provider_internal_routing": "UNRESOLVED_UNTIL_RETURNED_IDENTITY_CAPTURED",
+  "substitution_attempted": false,
+  "official_sources": [
+    "https://docs.perplexity.ai/api-reference/sonar-post",
+    "https://docs.perplexity.ai/docs/sonar/filters"
+  ]
+}

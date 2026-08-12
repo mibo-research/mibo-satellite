@@ -32,7 +32,11 @@ class AnthropicAdapter(ProviderAdapter):
             raise ValidationError(
                 "Anthropic requires max_tokens; the protocol must explicitly provide it"
             )
-        body: dict[str, Any] = {"model": model, "messages": [{"role": "user", "content": prompt}]}
+        body: dict[str, Any] = {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "stream": False,
+        }
         body.update(sampling)
         if environment is Environment.NATIVE:
             body.update(native_options)

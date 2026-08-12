@@ -4,6 +4,9 @@ official_longitudinal_data: true
 scientific_design_artifact: scientific-manifest-v1.0.yaml
 scientific_design_sha256: ecb5b5aa779d0806cb034581d76ab1c128587f1b9590a7b482fc3fa93336a6f1
 scientific_artifact_registry: ../../protocol/scientific-artifacts.yaml
+observation_surface: FIRST_PARTY_API
+consumer_ui_equivalence_assumed: false
+consumer_ui_equivalence_in_scope: false
 runtime_status: BLOCKED_UNTIL_OPERATIONAL_LOCKS
 exact_model_lock_path: null
 schedule_path: null
