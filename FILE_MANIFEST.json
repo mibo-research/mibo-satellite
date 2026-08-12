@@ -56,23 +56,18 @@
   },
   {
     "path": "README.md",
-    "bytes": 621,
-    "sha256": "8263f1b573d53f6fac26e8f6d01ecd018e000723962fa20faa805df85eb1dbe0"
+    "bytes": 439,
+    "sha256": "64e29a73603f01f484acc7824c7a1b527e4055ab4b82f7ce1f08922a63842ffe"
   },
   {
     "path": "SATELLITE_REGISTRY.md",
-    "bytes": 887,
-    "sha256": "74950aaebecb8cfad078f0ed7dfc5ca945a88d321d424f0b3a09615e3a0bfcbe"
+    "bytes": 243,
+    "sha256": "bb3be801b436284993a88ae66fc26369432c6ac5526c153c32c1eaae87c8ff60"
   },
   {
     "path": "SECURITY.md",
     "bytes": 380,
     "sha256": "357de3a44c4a971e0fcfe972496caae7e6b669479030f853792606a4581d4e54"
-  },
-  {
-    "path": "mibo-economy/README.md",
-    "bytes": 102,
-    "sha256": "256bef1353a67db14f11bd8e074404712195db5fea2447633a4b91373ec8bbe5"
   },
   {
     "path": "mibo-education/.env.example",
@@ -303,31 +298,6 @@
     "path": "mibo-education/waves/W01/manifest.yaml",
     "bytes": 924,
     "sha256": "896819f89615db95ee3a0c6251354253c346d40394d22b5bfaf26204e9b30f25"
-  },
-  {
-    "path": "mibo-now/README.md",
-    "bytes": 107,
-    "sha256": "57ac7076c73a476cd0ef4f4cfd1b0a9233ef714f373a7d96e66970e5ca70b9b5"
-  },
-  {
-    "path": "mibo-okayama/README.md",
-    "bytes": 95,
-    "sha256": "3c8f8f427fb48bbeb144569ecf3bc15578923a03a87474b082685e229e4b4e06"
-  },
-  {
-    "path": "mibo-politics/README.md",
-    "bytes": 105,
-    "sha256": "856f8c75ca9b9f3668aa5c3c67230aad07b859fa940c512f29272763603fb670"
-  },
-  {
-    "path": "mibo-q/README.md",
-    "bytes": 106,
-    "sha256": "534f452d7141a18a286b1b76aadbd3930cc672fc0838535d62fb3a030347403f"
-  },
-  {
-    "path": "mibo-singularity/README.md",
-    "bytes": 117,
-    "sha256": "a4b2d7f5322fe593f5a974b27f7eeced9504552c6bea2c0d7b3b2d2b26dc4b80"
   },
   {
     "path": "templates/SATELLITE_CHARTER_TEMPLATE.md",
