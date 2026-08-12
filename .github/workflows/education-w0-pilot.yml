@@ -23,7 +23,7 @@ jobs:
       cancel-in-progress: false
     defaults:
       run:
-        working-directory: satellites/mibo-education
+        working-directory: mibo-education
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -46,6 +46,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mibo-education-w0-engineering-${{ github.run_id }}
-          path: satellites/mibo-education/waves/W0
+          path: mibo-education/waves/W0
           retention-days: 90
           include-hidden-files: true

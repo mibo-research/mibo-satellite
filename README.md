@@ -10,7 +10,7 @@ MIBO Satellite is the umbrella for specialized and applied observation modules t
 - MIBO Economy
 - MIBO Politics
 - MIBO Singularity
-- MIBO-Education
+- [MIBO-Education](mibo-education/)
 
 ## Lifecycle
 

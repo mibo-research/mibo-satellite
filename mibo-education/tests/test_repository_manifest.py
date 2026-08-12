@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 def test_repository_manifest_hashes_every_declared_file() -> None:
-    repository = Path(__file__).resolve().parents[3]
+    repository = Path(__file__).resolve().parents[2]
     manifest_path = repository / "FILE_MANIFEST.json"
     entries = json.loads(manifest_path.read_text(encoding="utf-8"))
 

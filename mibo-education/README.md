@@ -31,7 +31,7 @@ Coding corrections can replace a versioned L2 derivative but can never modify L0
 ## Setup
 
 ```bash
-cd satellites/mibo-education
+cd mibo-education
 python -m venv .venv
 .venv/Scripts/activate
 python -m pip install -e ".[dev]"

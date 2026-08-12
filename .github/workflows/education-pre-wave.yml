@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: satellites/mibo-education
+        working-directory: mibo-education
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
