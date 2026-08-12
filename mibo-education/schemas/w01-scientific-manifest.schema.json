@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIBO-Education W01 Immutable Scientific Manifest v1.0",
+  "type": "object",
+  "required": ["artifact", "version", "status", "execution_state", "wave", "observation", "environments", "series_registry_contract", "expected_observations", "schedule", "observer", "model_lock", "governance_gates"],
+  "properties": {
+    "artifact": {"const": "MIBO-Education W01 Wave Manifest"},
+    "version": {"const": "1.0"},
+    "status": {"const": "FROZEN_SCIENTIFIC"},
+    "execution_state": {"const": "BLOCKED_UNTIL_OPERATIONAL_LOCKS"},
+    "wave": {
+      "type": "object",
+      "required": ["wave_id", "official_longitudinal_data", "target_window_hours", "hard_window_hours"],
+      "properties": {
+        "wave_id": {"const": "W01"},
+        "official_longitudinal_data": {"const": true},
+        "target_window_hours": {"const": 12},
+        "hard_window_hours": {"const": 24}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "required": ["frozen_item_count", "replication_k", "session", "sampling_policy", "technical_retry_max_attempts"],
+      "properties": {
+        "frozen_item_count": {"const": 70},
+        "replication_k": {"const": 10},
+        "session": {"const": "independent_single_turn"},
+        "sampling_policy": {"const": "provider_native_default_unless_required"},
+        "technical_retry_max_attempts": {"const": 5}
+      }
+    }
+  },
+  "additionalProperties": true
+}

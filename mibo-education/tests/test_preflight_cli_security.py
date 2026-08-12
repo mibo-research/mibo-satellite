@@ -16,23 +16,23 @@ def test_w01_is_cryptographically_and_scientifically_blocked() -> None:
     root = Path(__file__).parents[1]
     report = scientific_readiness(root)
     assert report["W01_READY"] is False
-    assert report["SCIENTIFIC_PROTOCOL_COMPLETE"] is False
+    assert report["SCIENTIFIC_PROTOCOL_COMPLETE"] is True
     assert report["reasons"]["W01_READY"]
     assert main(["run-wave", "--manifest", str(root / "waves" / "W01" / "manifest.yaml")]) == 1
 
 
-def test_all_missing_authoritative_artifacts_are_explicitly_blocked() -> None:
+def test_all_authoritative_artifacts_are_frozen_and_verified() -> None:
     root = Path(__file__).parents[1]
     registry = load_scientific_artifact_registry(root / "protocol" / "scientific-artifacts.yaml")
     assert len(registry["artifacts"]) == 5
-    assert {value["status"] for value in registry["artifacts"].values()} == {"BLOCKED"}
-    assert not any(value["approved"] for value in registry["artifacts"].values())
+    assert {value["status"] for value in registry["artifacts"].values()} == {"FROZEN"}
+    assert all(value["approved"] for value in registry["artifacts"].values())
 
 
 def test_readiness_flags_are_independent_and_every_false_flag_has_reasons() -> None:
     report = scientific_readiness(Path(__file__).parents[1])
     assert report["ENGINEERING_READY"] is True
-    assert report["SCIENTIFIC_PROTOCOL_COMPLETE"] is False
+    assert report["SCIENTIFIC_PROTOCOL_COMPLETE"] is True
     assert report["W0_READY"] is False
     assert report["W01_READY"] is False
     for flag in FLAGS:
@@ -73,12 +73,12 @@ def test_cli_exposes_required_commands() -> None:
         assert command in help_text
 
 
-def test_engineering_validation_passes_but_reports_scientific_blocker(capsys) -> None:
+def test_engineering_validation_passes_with_scientific_protocol_complete(capsys) -> None:
     root = Path(__file__).parents[1]
     assert main(["validate", "--engineering", "--root", str(root)]) == 0
     output = capsys.readouterr().out
     assert '"ENGINEERING_READY": true' in output
-    assert '"SCIENTIFIC_PROTOCOL_COMPLETE": false' in output
+    assert '"SCIENTIFIC_PROTOCOL_COMPLETE": true' in output
     assert '"W0_READY": false' in output
     assert '"W01_READY": false' in output
     assert '"reasons"' in output

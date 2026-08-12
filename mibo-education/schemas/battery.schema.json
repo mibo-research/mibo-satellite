@@ -1,24 +1,35 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "MIBO-Education Frozen Battery",
+  "title": "EBB-JA v1.0 Frozen Battery",
   "type": "object",
-  "required": ["battery_id", "version", "status", "approved", "expected_item_count", "items"],
+  "required": ["artifact", "version", "language", "status", "domains", "items"],
   "properties": {
-    "battery_id": {"type": "string", "minLength": 1},
-    "version": {"type": "string", "minLength": 1},
-    "approved": {"type": "boolean"},
-    "expected_item_count": {"type": "integer", "minimum": 1},
+    "artifact": {"const": "EBB-JA"},
+    "version": {"const": "1.0"},
+    "language": {"const": "ja"},
+    "status": {"const": "FROZEN"},
+    "domains": {
+      "type": "object",
+      "required": ["E1", "E2", "E3", "E4", "E5", "E6", "E7"],
+      "minProperties": 7,
+      "maxProperties": 7,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["item_count"],
+        "properties": {"item_count": {"const": 10}}
+      }
+    },
     "items": {
-      "maxItems": 70,
       "type": "array",
+      "minItems": 70,
+      "maxItems": 70,
       "items": {
         "type": "object",
-        "required": ["id", "stratum", "frozen", "prompt_ja", "prompt_sha256"],
+        "required": ["id", "domain", "prompt", "prompt_sha256"],
         "properties": {
-          "id": {"type": "string", "pattern": "^(E[1-7]-(0[1-9]|10)|[A-Z][A-Z0-9-]*)$"},
-          "stratum": {"type": "string", "minLength": 1},
-          "frozen": {"const": true},
-          "prompt_ja": {"type": "string", "minLength": 1},
+          "id": {"type": "string", "pattern": "^E[1-7]-(0[1-9]|10)$"},
+          "domain": {"type": "string", "pattern": "^E[1-7]$"},
+          "prompt": {"type": "string", "minLength": 1},
           "prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
         },
         "additionalProperties": true

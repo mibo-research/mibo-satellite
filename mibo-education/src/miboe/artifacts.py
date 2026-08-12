@@ -9,18 +9,20 @@ from typing import Any
 import yaml
 
 from .errors import ValidationError
-from .util import artifact_hash, sha256_file, sha256_text
+from .util import artifact_hash, load_json, sha256_file, sha256_text
 
 EBB_JA_V1_IDS = tuple(f"E{domain}-{item:02d}" for domain in range(1, 8) for item in range(1, 11))
-REQUIRED_SCIENTIFIC_ARTIFACTS = frozenset(
-    {
-        "ebb_ja_v1_0",
-        "codebook_v1_0",
-        "scoring_manual_v1_0",
-        "observation_protocol_v1_0",
-        "w01_wave_manifest",
-    }
-)
+REQUIRED_SCIENTIFIC_ARTIFACTS = {
+    "EBB-JA-v1.0": "battery/ebb-ja-v1.0.yaml",
+    "MIBO-Education-Codebook-v1.0": "protocol/codebook-v1.0.md",
+    "MIBO-Education-Item-Level-Scoring-Manual-v1.0": (
+        "protocol/item-level-scoring-manual-v1.0.md"
+    ),
+    "MIBO-Education-Observation-Protocol-v1.0": "protocol/observation-protocol-v1.0.md",
+    "MIBO-Education-W01-Scientific-Manifest-v1.0": (
+        "waves/W01/scientific-manifest-v1.0.yaml"
+    ),
+}
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -54,12 +56,33 @@ class Battery:
     content_sha256: str
 
 
+def load_prompt_lock(path: Path) -> dict[str, str]:
+    try:
+        raw = load_json(path)
+    except (OSError, ValueError) as exc:
+        raise ValidationError(f"cannot load Frozen prompt lock {path}: {exc}") from exc
+    values = raw.get("items") if isinstance(raw, dict) else None
+    if not isinstance(values, dict) or tuple(values) != EBB_JA_V1_IDS:
+        raise ValidationError("Frozen prompt lock IDs must be exactly E1-01 through E7-10")
+    if any(
+        not isinstance(value, str)
+        or len(value) != 64
+        or any(character not in "0123456789abcdef" for character in value)
+        for value in values.values()
+    ):
+        raise ValidationError("Frozen prompt lock contains an invalid SHA-256")
+    return values
+
+
 def load_battery(path: Path, *, require_complete: bool = True) -> Battery:
     raw = load_yaml(path)
     values = raw.get("items")
     if not isinstance(values, list):
         raise ValidationError("battery items must be a list")
-    expected = int(raw.get("expected_item_count", 70))
+    battery_id = str(raw.get("battery_id") or raw.get("artifact") or "")
+    version = str(raw.get("version", ""))
+    authoritative_ebb = battery_id == "EBB-JA" and version == "1.0"
+    expected = int(raw.get("expected_item_count", 70 if authoritative_ebb else len(values)))
     if require_complete and len(values) != expected:
         raise ValidationError(f"battery has {len(values)} items; expected {expected}")
     seen: set[str] = set()
@@ -67,21 +90,23 @@ def load_battery(path: Path, *, require_complete: bool = True) -> Battery:
     for number, item in enumerate(values, start=1):
         if not isinstance(item, dict):
             raise ValidationError(f"battery item {number} must be a mapping")
-        item_id, prompt = item.get("id"), item.get("prompt_ja")
+        item_id = item.get("id")
+        prompt = item.get("prompt") if authoritative_ebb else item.get("prompt_ja")
         if not isinstance(item_id, str) or not isinstance(prompt, str) or not prompt:
             raise ValidationError(f"battery item {number} has invalid id or prompt")
         if item_id in seen:
             raise ValidationError(f"duplicate battery item ID: {item_id}")
         seen.add(item_id)
-        if item.get("frozen") is not True:
+        if not authoritative_ebb and item.get("frozen") is not True:
             raise ValidationError(f"item {item_id} is not Frozen")
         actual = sha256_text(prompt)
         if item.get("prompt_sha256") != actual:
             raise ValidationError(f"Frozen prompt hash mismatch: {item_id}")
-        items.append(BatteryItem(item_id, str(item.get("stratum", "")), prompt, actual))
-    battery_id = str(raw.get("battery_id", ""))
-    version = str(raw.get("version", ""))
-    if battery_id == "EBB-JA" and version == "1.0" and require_complete:
+        stratum = item.get("domain") if authoritative_ebb else item.get("stratum", "")
+        items.append(BatteryItem(item_id, str(stratum), prompt, actual))
+    if authoritative_ebb and require_complete:
+        if str(raw.get("status", "")).upper() != "FROZEN":
+            raise ValidationError("EBB-JA v1.0 is not FROZEN")
         item_ids = tuple(item.item_id for item in items)
         if expected != 70 or item_ids != EBB_JA_V1_IDS:
             raise ValidationError(
@@ -91,12 +116,30 @@ def load_battery(path: Path, *, require_complete: bool = True) -> Battery:
         expected_domains = {f"E{domain}": 10 for domain in range(1, 8)}
         if domain_counts != expected_domains:
             raise ValidationError("EBB-JA v1.0 must contain exactly 10 items in each domain E1-E7")
+        domains = raw.get("domains")
+        if not isinstance(domains, dict) or {
+            key: value.get("item_count") if isinstance(value, dict) else None
+            for key, value in domains.items()
+        } != expected_domains:
+            raise ValidationError("EBB-JA v1.0 domain metadata must declare 10 items in E1-E7")
+        external = load_prompt_lock(path.with_suffix(".prompt-lock.json"))
+        for item in items:
+            if external[item.item_id] != item.prompt_sha256:
+                raise ValidationError(f"external Frozen prompt lock mismatch: {item.item_id}")
     return Battery(
         battery_id=battery_id,
         version=version,
         status=str(raw.get("status", "")),
-        approved=raw.get("approved") is True,
-        official_eligible=raw.get("official_longitudinal_eligible", True) is True,
+        approved=(
+            str(raw.get("status", "")).upper() == "FROZEN"
+            if authoritative_ebb
+            else raw.get("approved") is True
+        ),
+        official_eligible=(
+            True
+            if authoritative_ebb
+            else raw.get("official_longitudinal_eligible", True) is True
+        ),
         expected_count=expected,
         items=tuple(items),
         content_sha256=artifact_hash(raw),
@@ -150,8 +193,8 @@ def load_manifest(path: Path) -> WaveManifest:
             raise ValueError("native_options are forbidden in CLOSED")
         replications = int(raw["replications"])
         max_attempts = int(raw.get("max_technical_attempts", 3))
-        if not 1 <= replications <= 100 or not 1 <= max_attempts <= 3:
-            raise ValueError("replications must be 1..100 and attempts 1..3")
+        if not 1 <= replications <= 100 or not 1 <= max_attempts <= 5:
+            raise ValueError("replications must be 1..100 and attempts 1..5")
         delays = tuple(int(value) for value in raw.get("retry_delays_minutes", [10, 30]))
         if len(delays) < max_attempts - 1 or any(value < 0 for value in delays):
             raise ValueError("retry delay list is too short or negative")
@@ -210,53 +253,174 @@ def load_registry(path: Path) -> dict[str, Any]:
 def load_scientific_artifact_registry(path: Path) -> dict[str, Any]:
     raw = load_yaml(path)
     registry_status = str(raw.get("status", "")).upper()
-    if registry_status not in {"BLOCKED", "FROZEN"}:
-        raise ValidationError("scientific artifact registry status must be BLOCKED or FROZEN")
+    if registry_status != "FROZEN":
+        raise ValidationError("authoritative scientific artifact registry must be FROZEN")
     raw["status"] = registry_status
     registry_sha256 = artifact_hash(
         {key: value for key, value in raw.items() if key != "registry_sha256"}
     )
     artifacts = raw.get("artifacts")
-    if not isinstance(artifacts, dict):
-        raise ValidationError("scientific artifact registry must contain an artifacts mapping")
-    if set(artifacts) != REQUIRED_SCIENTIFIC_ARTIFACTS:
-        missing = sorted(REQUIRED_SCIENTIFIC_ARTIFACTS - set(artifacts))
-        extra = sorted(set(artifacts) - REQUIRED_SCIENTIFIC_ARTIFACTS)
+    if not isinstance(artifacts, list):
+        raise ValidationError("scientific artifact registry must contain an artifacts list")
+    entries = {
+        value.get("artifact_id"): value for value in artifacts if isinstance(value, dict)
+    }
+    if len(entries) != len(artifacts):
+        raise ValidationError("scientific artifact registry has invalid or duplicate artifact IDs")
+    if set(entries) != set(REQUIRED_SCIENTIFIC_ARTIFACTS):
+        missing = sorted(set(REQUIRED_SCIENTIFIC_ARTIFACTS) - set(entries))
+        extra = sorted(set(entries) - set(REQUIRED_SCIENTIFIC_ARTIFACTS))
         raise ValidationError(
             f"scientific artifact registry keys differ; missing={missing}, extra={extra}"
         )
+    module_root = path.parent.parent.resolve()
     resolved: dict[str, Any] = {}
-    for artifact_id, value in artifacts.items():
-        if not isinstance(value, dict):
-            raise ValidationError(f"scientific artifact entry must be a mapping: {artifact_id}")
+    for artifact_id, required_path in REQUIRED_SCIENTIFIC_ARTIFACTS.items():
+        value = entries[artifact_id]
         status = str(value.get("status", "")).upper()
-        approved = value.get("approved") is True
-        relative = value.get("expected_path")
-        if status not in {"BLOCKED", "FROZEN"} or not isinstance(relative, str):
-            raise ValidationError(f"invalid scientific artifact state: {artifact_id}")
-        expected_path = (path.parent / relative).resolve()
+        relative = value.get("path")
+        if status != "FROZEN" or relative != required_path:
+            raise ValidationError(f"invalid authoritative artifact state or path: {artifact_id}")
+        if value.get("required_for_scientific_protocol_complete") is not True:
+            raise ValidationError(f"artifact is not required by the readiness gate: {artifact_id}")
+        expected_path = (module_root / required_path).resolve()
         claimed_hash = value.get("sha256")
-        if status == "BLOCKED":
-            if approved or claimed_hash is not None or not value.get("blocker"):
-                raise ValidationError(
-                    "BLOCKED artifact must be unapproved, unhashed, and explain its "
-                    f"blocker: {artifact_id}"
-                )
-        else:
-            if not approved:
-                raise ValidationError(f"FROZEN artifact is not approved: {artifact_id}")
-            if not isinstance(claimed_hash, str) or len(claimed_hash) != 64:
-                raise ValidationError(f"FROZEN artifact has no valid SHA-256: {artifact_id}")
-            if not expected_path.is_file():
-                raise ValidationError(f"FROZEN artifact file is missing: {artifact_id}")
-            if sha256_file(expected_path) != claimed_hash:
-                raise ValidationError(f"FROZEN artifact hash mismatch: {artifact_id}")
+        if (
+            not isinstance(claimed_hash, str)
+            or len(claimed_hash) != 64
+            or any(character not in "0123456789abcdef" for character in claimed_hash)
+        ):
+            raise ValidationError(f"FROZEN artifact has no valid SHA-256: {artifact_id}")
+        if not expected_path.is_file():
+            raise ValidationError(f"FROZEN artifact file is missing: {artifact_id}")
+        if sha256_file(expected_path) != claimed_hash:
+            raise ValidationError(f"FROZEN artifact hash mismatch: {artifact_id}")
         resolved[artifact_id] = {
             **value,
             "status": status,
-            "approved": approved,
+            "approved": True,
             "resolved_path": expected_path,
         }
+    supporting = raw.get("supporting_integrity_files")
+    required_supporting = {
+        "battery/ebb-ja-v1.0.prompt-lock.json",
+        "waves/W01/runtime-manifest.template.yaml",
+    }
+    supporting_paths = {
+        value.get("path") for value in supporting or [] if isinstance(value, dict)
+    }
+    if supporting_paths != required_supporting:
+        raise ValidationError("scientific artifact registry has invalid supporting integrity files")
+    for relative in required_supporting:
+        if not (module_root / relative).is_file():
+            raise ValidationError(f"supporting integrity file is missing: {relative}")
+    validate_scientific_manifest(module_root / REQUIRED_SCIENTIFIC_ARTIFACTS[
+        "MIBO-Education-W01-Scientific-Manifest-v1.0"
+    ])
     raw["artifacts"] = resolved
     raw["registry_sha256"] = registry_sha256
+    return raw
+
+
+def validate_scientific_manifest(path: Path) -> dict[str, Any]:
+    """Validate the immutable W01 scientific design without resolving runtime locks."""
+    raw = load_yaml(path)
+    try:
+        wave = raw["wave"]
+        observation = raw["observation"]
+        environments = raw["environments"]
+        schedule = raw["schedule"]
+        observer = raw["observer"]
+        model_lock = raw["model_lock"]
+        series = raw["series_registry_contract"]
+        expected = raw["expected_observations"]
+        if raw.get("artifact") != "MIBO-Education W01 Wave Manifest":
+            raise ValueError("unexpected artifact identifier")
+        if str(raw.get("version")) != "1.0" or raw.get("status") != "FROZEN_SCIENTIFIC":
+            raise ValueError("scientific manifest is not FROZEN_SCIENTIFIC v1.0")
+        if raw.get("execution_state") != "BLOCKED_UNTIL_OPERATIONAL_LOCKS":
+            raise ValueError("scientific manifest must remain blocked on runtime locks")
+        if wave.get("wave_id") != "W01" or wave.get("official_longitudinal_data") is not True:
+            raise ValueError("invalid W01 identity")
+        if wave.get("target_window_hours") != 12 or wave.get("hard_window_hours") != 24:
+            raise ValueError("invalid W01 observation window")
+        scientific_artifacts = raw["scientific_artifacts"]
+        expected_scientific_artifacts = {
+            "battery": "EBB-JA-v1.0",
+            "codebook": "MIBO-Education-Codebook-v1.0",
+            "item_scoring_manual": "MIBO-Education-Item-Level-Scoring-Manual-v1.0",
+            "observation_protocol": "MIBO-Education-Observation-Protocol-v1.0",
+        }
+        if scientific_artifacts != expected_scientific_artifacts:
+            raise ValueError("invalid scientific artifact bindings")
+        required_observation = {
+            "frozen_item_count": 70,
+            "replication_k": 10,
+            "session": "independent_single_turn",
+            "conversation_history": False,
+            "researcher_added_system_prompt": False,
+            "researcher_added_developer_prompt": False,
+            "personalization": False,
+            "memory": False,
+            "structured_output": False,
+            "streaming": False,
+            "sampling_policy": "provider_native_default_unless_required",
+            "optional_sampling_overrides": False,
+            "optional_reasoning_overrides": False,
+            "technical_retry_max_attempts": 5,
+        }
+        if any(observation.get(key) != value for key, value in required_observation.items()):
+            raise ValueError("scientific observation invariants differ from v1.0")
+        closed = environments["closed_primary"]
+        if closed.get("series") != ["M01", "M02", "M03", "M04"]:
+            raise ValueError("invalid CLOSED series panel")
+        forbidden_closed_features = (
+            "tools",
+            "web",
+            "retrieval",
+            "rag",
+            "files",
+            "memory",
+            "external_functions",
+        )
+        for forbidden in forbidden_closed_features:
+            if closed.get(forbidden) is not False:
+                raise ValueError(f"CLOSED must disable {forbidden}")
+        if environments["native_mirror"].get("series") != ["M05"]:
+            raise ValueError("invalid NATIVE mirror panel")
+        if [value.get("series_id") for value in series] != [f"M0{i}" for i in range(1, 6)]:
+            raise ValueError("invalid model-series contract")
+        if any(value.get("exact_model_id") is not None for value in series):
+            raise ValueError("exact model IDs belong only in the runtime model lock")
+        if expected != {"closed_primary": 2800, "native_mirror": 700, "total": 3500}:
+            raise ValueError("invalid expected observation counts")
+        if (
+            schedule.get("method") != "stratified_block_randomized_interleaved"
+            or schedule.get("temporally_distribute_replications") is not True
+            or schedule.get("seed") is not None
+            or schedule.get("schedule_sha256") is not None
+            or schedule.get("lock_required_before_execution") is not True
+        ):
+            raise ValueError("invalid schedule-lock separation")
+        if (
+            observer.get("site_or_region") is not None
+            or observer.get("lock_required_before_execution") is not True
+        ):
+            raise ValueError("observer site must remain a required runtime lock")
+        if (
+            model_lock.get("required_before_execution") is not True
+            or model_lock.get("exact_model_ids_locked") is not False
+            or model_lock.get("silent_substitution_forbidden") is not True
+        ):
+            raise ValueError("invalid exact model-lock separation")
+        governance = raw["governance_gates"]
+        for gate in (
+            "protocol_owner",
+            "provider_terms_review",
+            "institutional_ethics_or_governance_determination",
+        ):
+            if governance.get(gate) is not None:
+                raise ValueError(f"{gate} belongs only in the runtime manifest")
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValidationError(f"invalid W01 scientific manifest {path}: {exc}") from exc
     return raw

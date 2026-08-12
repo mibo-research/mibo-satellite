@@ -11,9 +11,9 @@ MIBO-Education inherits MIBO’s persistent service-series identity, synchronize
 | Gate | Current state | Reason |
 |---|---|---|
 | `ENGINEERING_READY` | True | Automated tests, lint, packaging, CLI, and secret checks pass |
-| `SCIENTIFIC_PROTOCOL_COMPLETE` | False | All five authoritative artifacts are explicitly `BLOCKED` |
+| `SCIENTIFIC_PROTOCOL_COMPLETE` | True | All five authoritative v1.0 artifacts are Frozen and exact-hash verified |
 | `W0_READY` | False | W0 approvals, exact model lock, and locked schedule are absent |
-| `W01_READY` | False | The W01 manifest is non-executable and the scientific protocol is incomplete |
+| `W01_READY` | False | Required runtime model, schedule, site, provider-control, and governance locks are absent |
 
 The software is intentionally fail-closed. It cannot execute `MIBO-EDU-W01` until every scientific and operational preflight gate passes. See [READINESS.md](READINESS.md), [BLOCKERS.md](BLOCKERS.md), and the machine-readable [scientific artifact registry](protocol/scientific-artifacts.yaml).
 
@@ -43,10 +43,10 @@ On macOS/Linux, activate with `source .venv/bin/activate`.
 
 ## W0 engineering workflow
 
-W0 uses only the clearly marked non-scientific smoke instrument unless the authoritative EBB-JA is supplied. It never becomes longitudinal data.
+W0 uses only the clearly marked non-scientific smoke instrument. It never becomes longitudinal data.
 
 ```bash
-miboe models resolve --manifest waves/W0/manifest.yaml --set MIBO-EDU-SL-001=<verified-exact-model-id>
+miboe models resolve --manifest waves/W0/manifest.yaml --set M01=<verified-exact-model-id>
 miboe schedule --manifest waves/W0/manifest.yaml
 miboe preflight --manifest waves/W0/manifest.yaml
 miboe pilot --manifest waves/W0/manifest.yaml --max-observations 5
@@ -57,7 +57,7 @@ miboe qc --manifest waves/W0/manifest.yaml
 
 ## W01 — BLOCKED
 
-The target anchor is `2026-09-01T00:00:00Z` (`2026-09-01 09:00 JST`). This is metadata, not permission to run. The committed W01 file is deliberately not an executable Wave Manifest because the authoritative Wave 1 package was not supplied. After the authoritative artifacts are deposited, approved, Frozen, and hashed, use:
+The scientific target anchor is `2026-09-01T00:00:00Z` (`2026-09-01 09:00 JST`). This is metadata, not permission to run. The immutable scientific manifest is complete; the separate runtime manifest remains deliberately non-executable until every operational lock is recorded. After those locks are approved, use:
 
 ```bash
 miboe preflight --manifest waves/W01/manifest.yaml
@@ -75,6 +75,6 @@ miboe run-wave --manifest waves/W01/manifest.yaml
 - OpenAI: whether a selected model ID is behaviorally pinned for the complete annual period must be verified; aliases cannot be Frozen IDs.
 - Anthropic: the Messages API requires `max_tokens`; the authoritative Education protocol must freeze this transport-required cap and decide treatment of thinking/effort controls.
 - Gemini: stable IDs are preferable, but provider documentation does not promise behavioral immutability; returned `modelVersion` must be retained.
-- xAI: its permanent Education panel role and version-pinning evidence are not supplied by the scientific registry.
+- xAI: M04 is the Frozen scientific role, but its exact runtime model ID and version-pinning evidence remain unresolved.
 - Perplexity: Sonar is web-grounded, so the adapter refuses CLOSED observations. A provider-approved no-search mode or a protocol decision is required.
 - NATIVE API observations are not automatically equivalent to consumer web products. Any such equivalence requires a registered observation-surface decision.

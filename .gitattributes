@@ -1,0 +1,10 @@
+# Frozen MIBO-Education scientific sources are byte-locked as UTF-8/LF.
+/mibo-education/battery/ebb-ja-v1.0.yaml text eol=lf
+/mibo-education/battery/ebb-ja-v1.0.prompt-lock.json text eol=lf
+/mibo-education/protocol/codebook-v1.0.md text eol=lf whitespace=-trailing-space
+/mibo-education/protocol/item-level-scoring-manual-v1.0.md text eol=lf whitespace=-trailing-space
+/mibo-education/protocol/observation-protocol-v1.0.md text eol=lf whitespace=-trailing-space
+/mibo-education/protocol/scientific-artifacts.yaml text eol=lf
+/mibo-education/protocol/scientific-artifacts.authoritative.yaml text eol=lf
+/mibo-education/waves/W01/scientific-manifest-v1.0.yaml text eol=lf
+/mibo-education/waves/W01/runtime-manifest.template.yaml text eol=lf

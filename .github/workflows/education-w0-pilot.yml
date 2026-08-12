@@ -5,7 +5,7 @@ on:
       series_id:
         description: Permanent engineering series ID
         required: true
-        default: MIBO-EDU-SL-001
+        default: M01
       exact_model_id:
         description: Exact provider-listed model ID; aliases are rejected
         required: true

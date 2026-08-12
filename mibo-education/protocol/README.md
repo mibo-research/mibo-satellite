@@ -1,7 +1,7 @@
 # Scientific protocol freeze
 
-Authoritative MIBO-Education protocol artifacts must be deposited here unchanged, versioned, approved, and hashed. The runtime expects the filenames declared by each Wave Manifest. Placeholder files do not satisfy official preflight.
+The authoritative MIBO-Education v1.0 artifacts in this module are imported unchanged from the scientific source bundle and protected by exact file-byte SHA-256 values in `scientific-artifacts.yaml`.
 
-`scientific-artifacts.yaml` is the machine-readable freeze registry. An artifact is scientifically present only when its status is `FROZEN`, `approved` is true, its expected file exists, and the SHA-256 of the exact file bytes matches the registered hash. A `BLOCKED` entry is not an artifact substitute.
+The external `battery/ebb-ja-v1.0.prompt-lock.json` independently locks each of the 70 exact parsed UTF-8 prompt strings. The immutable `waves/W01/scientific-manifest-v1.0.yaml` contains scientific design decisions only. Exact models, schedule, observer site, provider-required controls, governance determinations, and execution timestamps belong only in the separate mutable runtime manifest.
 
-Required source artifacts are listed in `../BLOCKERS.md`.
+`SCIENTIFIC_PROTOCOL_COMPLETE=true` does not imply `W01_READY=true` or authorize execution.

@@ -22,7 +22,7 @@ The primary planned condition is Frozen Battery × CLOSED environment × permane
 
 ## 6. Instrument or stimulus
 
-EBB-JA v1.0, exactly 70 approved Frozen Items. Its authoritative text was not supplied; the repository contains only a validation-failing placeholder.
+EBB-JA v1.0, exactly 70 approved Frozen Items. Its authoritative text and external per-prompt SHA-256 lock are imported unchanged from the v1.0 scientific source bundle.
 
 ## 7. Outcomes and codebook
 

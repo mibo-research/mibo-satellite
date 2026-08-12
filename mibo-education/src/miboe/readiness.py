@@ -12,6 +12,7 @@ from .artifacts import (
     load_yaml,
 )
 from .preflight import preflight
+from .util import sha256_file
 
 FLAGS = (
     "ENGINEERING_READY",
@@ -82,19 +83,6 @@ def scientific_readiness(root: Path) -> dict[str, Any]:
     except Exception as exc:
         reasons["SCIENTIFIC_PROTOCOL_COMPLETE"].append(f"EBB-JA v1.0: {exc}")
 
-    w01_path = root / "waves" / "W01" / "manifest.yaml"
-    try:
-        w01_raw = load_yaml(w01_path)
-        if (
-            str(w01_raw.get("status", "")).upper() != "FROZEN"
-            or w01_raw.get("approved") is not True
-        ):
-            reasons["SCIENTIFIC_PROTOCOL_COMPLETE"].append(
-                "W01 Wave Manifest is BLOCKED rather than Frozen and approved"
-            )
-    except Exception as exc:
-        reasons["SCIENTIFIC_PROTOCOL_COMPLETE"].append(f"W01 Wave Manifest: {exc}")
-
     w0_path = root / "waves" / "W0" / "manifest.yaml"
     try:
         w0 = load_manifest(w0_path)
@@ -109,11 +97,62 @@ def scientific_readiness(root: Path) -> dict[str, Any]:
     if reasons["ENGINEERING_READY"]:
         reasons["W0_READY"].append("engineering validation is incomplete")
 
+    w01_path = root / "waves" / "W01" / "manifest.yaml"
     try:
-        w01 = load_manifest(w01_path)
-        reasons["W01_READY"].extend(preflight(w01, write_report=False)["errors"])
+        runtime = load_yaml(w01_path)
+        scientific_path = w01_path.parent / str(runtime.get("scientific_design_artifact", ""))
+        claimed_scientific_hash = runtime.get("scientific_design_sha256")
+        if runtime.get("scientific_design_artifact") != "scientific-manifest-v1.0.yaml":
+            reasons["W01_READY"].append(
+                "runtime manifest does not reference scientific-manifest-v1.0.yaml"
+            )
+        elif (
+            not scientific_path.is_file()
+            or sha256_file(scientific_path) != claimed_scientific_hash
+        ):
+            reasons["W01_READY"].append("runtime scientific-manifest hash binding is invalid")
+        if runtime.get("runtime_status") != "LOCKED":
+            reasons["W01_READY"].append("W01 runtime manifest is not LOCKED")
+        if not runtime.get("exact_model_lock_path"):
+            reasons["W01_READY"].append("exact Wave model-lock is missing")
+        if not runtime.get("schedule_path") or not runtime.get("schedule_sha256"):
+            reasons["W01_READY"].append("schedule path and SHA-256 lock are missing")
+        if not runtime.get("observer_site_or_region"):
+            reasons["W01_READY"].append("observer site or region lock is missing")
+        provider_controls = runtime.get("provider_required_controls") or {}
+        unresolved_controls = [
+            series_id for series_id in (f"M0{i}" for i in range(1, 6))
+            if not provider_controls.get(series_id)
+        ]
+        if unresolved_controls:
+            reasons["W01_READY"].append(
+                f"required provider controls are unresolved: {unresolved_controls}"
+            )
+        closed_eligibility = runtime.get("closed_eligibility_verified") or {}
+        unverified_closed = [
+            series_id for series_id in ("M01", "M02", "M03", "M04")
+            if closed_eligibility.get(series_id) is not True
+        ]
+        if unverified_closed:
+            reasons["W01_READY"].append(
+                f"CLOSED eligibility is unverified: {unverified_closed}"
+            )
+        governance = (
+            "protocol_owner",
+            "provider_terms_review",
+            "institutional_ethics_or_governance_determination",
+        )
+        missing_governance = [key for key in governance if not runtime.get(key)]
+        if missing_governance:
+            reasons["W01_READY"].append(
+                f"required governance determinations are missing: {missing_governance}"
+            )
+        if not runtime.get("wave_lock_timestamp_utc"):
+            reasons["W01_READY"].append("Wave lock timestamp is missing")
+        if runtime.get("execution_permitted") is not True:
+            reasons["W01_READY"].append("W01 execution is not permitted")
     except Exception as exc:
-        reasons["W01_READY"].append(f"W01 Wave Manifest is not executable: {exc}")
+        reasons["W01_READY"].append(f"W01 runtime manifest is invalid: {exc}")
     if reasons["SCIENTIFIC_PROTOCOL_COMPLETE"]:
         reasons["W01_READY"].append("scientific protocol artifacts are incomplete")
     if reasons["ENGINEERING_READY"]:

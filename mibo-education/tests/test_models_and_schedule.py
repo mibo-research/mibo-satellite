@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import json
 from collections import Counter
+from pathlib import Path
 
 import pytest
 
+from miboe.artifacts import load_registry
 from miboe.errors import ImmutabilityError, ModelResolutionError, ValidationError
 from miboe.models import load_model_lock, resolve_models
 from miboe.util import artifact_hash, load_json
@@ -16,6 +18,19 @@ class ListingAdapter:
 
     def list_models(self):
         return [{"id": value} for value in self.ids]
+
+
+def test_frozen_series_registry_is_distinct_from_wave_model_resolution() -> None:
+    root = Path(__file__).parents[1]
+    registry = load_registry(root / "registry" / "model-series.yaml")
+    assert [row["series_id"] for row in registry["series"]] == [
+        "M01",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+    ]
+    assert all("exact_model_id" not in row for row in registry["series"])
 
 
 def test_model_aliases_are_rejected_without_substitution(wave_factory) -> None:
