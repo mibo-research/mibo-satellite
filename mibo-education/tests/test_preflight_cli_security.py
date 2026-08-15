@@ -69,8 +69,12 @@ def test_cli_exposes_required_commands() -> None:
         "qc",
         "certificate",
         "export-blind",
+        "qualify",
     ):
         assert command in help_text
+    for stage in ("smoke", "providers", "rehearsal", "report"):
+        args = parser().parse_args(["qualify", stage])
+        assert args.qualification_command == stage
 
 
 def test_engineering_validation_passes_with_scientific_protocol_complete(capsys) -> None:

@@ -1,0 +1,57 @@
+schema_version: "1.0"
+plan_id: MIBO-EDU-W0-LIVE-QUALIFICATION
+official_longitudinal_data: false
+first_party_api_only: true
+output_cap: 8192
+smoke_prompt: "W0 engineering diagnostic. Reply with exactly: OK"
+models:
+  M01:
+    provider: openai
+    requested_model: gpt-5.6-sol
+    environment: CLOSED
+  M02:
+    provider: anthropic
+    requested_model: null
+    environment: CLOSED
+    resolution_authority: MIBO_CORE_PERMANENT_SERIES
+    core_definition_evidence: evidence/anthropic/mibo-core-inheritance.json
+    conditional_model_if_core_selects_opus: claude-opus-5
+    pinned_snapshot_documentation_status: PROVIDER_DOCUMENTED
+  M03:
+    provider: gemini
+    requested_model: gemini-3.6-flash
+    environment: CLOSED
+  M04:
+    provider: xai
+    requested_model: grok-4.5
+    forbidden_model: grok-4.5-latest
+    environment: CLOSED
+  M05:
+    provider: perplexity
+    requested_model: sonar
+    environment: NATIVE
+    closed_diagnostic: NON_OFFICIAL_W0_ONLY
+qualification_item_ids:
+  - E1-01
+  - E2-01
+  - E3-01
+  - E4-01
+  - E5-01
+  - E6-01
+  - E7-01
+core_35_rehearsal:
+  definition: seven_preselected_items_times_five_permanent_series
+  series_ids: [M01, M02, M03, M04, M05]
+  expected_observations: 35
+  closed_panel_observations: 28
+  native_mirror_observations: 7
+  m05_closed_diagnostic_included: false
+stage_gates:
+  Q1: credential_and_live_smoke_per_provider
+  Q2: relevant_provider_Q1_passed
+  Q3: all_required_Q2_provider_gates_passed
+governance:
+  protocol_owner: false
+  provider_terms_review: false
+  ethics_or_governance_determination: false
+  agent_approval_permitted: false

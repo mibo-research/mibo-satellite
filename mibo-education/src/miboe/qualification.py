@@ -52,7 +52,9 @@ TARGETS = (
     ),
     QualificationTarget("M02", "anthropic", None, Environment.CLOSED, "max_tokens"),
     QualificationTarget("M03", "gemini", "gemini-3.6-flash", Environment.CLOSED, "maxOutputTokens"),
-    QualificationTarget("M04", "xai", "grok-4.5", Environment.CLOSED, "max_tokens"),
+    QualificationTarget(
+        "M04", "xai", "grok-4.5", Environment.CLOSED, "max_output_tokens"
+    ),
     QualificationTarget("M05", "perplexity", "sonar", Environment.NATIVE, "max_tokens"),
 )
 
@@ -152,7 +154,7 @@ def build_request_shapes() -> dict[str, tuple[PreparedRequest, dict[str, Any]]]:
     sampling = {
         "openai": {"max_output_tokens": 8192},
         "gemini": {"maxOutputTokens": 8192},
-        "xai": {"max_tokens": 8192},
+        "xai": {"max_output_tokens": 8192},
         "perplexity": {"max_tokens": 8192},
     }
     for target in TARGETS:

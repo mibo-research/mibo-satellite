@@ -5,18 +5,18 @@
   "entries": [
     {
       "path": "provider-capabilities.yaml",
-      "bytes": 5399,
-      "sha256": "f1ec3585d679db10118b7c3c08c7554d50a455fb6623ceb4f05b101a901a6fa3"
+      "bytes": 6058,
+      "sha256": "140f1847f1d3b43181a97b4d5008c6a04c5eac6612da294e315bbd3591042e34"
     },
     {
       "path": "model-lock.candidate.yaml",
-      "bytes": 3146,
-      "sha256": "430d52545cbabbdb8d9d3be89d0ecd7675a64c86402840a2a96f28e2f583e075"
+      "bytes": 3223,
+      "sha256": "fd155ddaba488ca14f6af74cd0548728550ddc8136005ec7fa1249e00cad9667"
     },
     {
       "path": "qualification-report.md",
-      "bytes": 6743,
-      "sha256": "1505bf9c1427ab27bebef4252f8c5920590d86fe019ecbc8c1e2aaf48c2487c3"
+      "bytes": 7477,
+      "sha256": "55ba3ce7447b2162275966460976d815632b93b4ed416236643cc8fe30cb8e65"
     },
     {
       "path": "evidence/anthropic/mibo-core-inheritance.json",
@@ -30,8 +30,8 @@
     },
     {
       "path": "evidence/anthropic/request-shape.conditional-opus.closed.json",
-      "bytes": 961,
-      "sha256": "327f32f97cd7ecfd1732cd40bbc1608c05e55ae153540fb17581cf81b914ef04"
+      "bytes": 934,
+      "sha256": "5806c4288d9457111e8dc4b80dacbf90db5abdda1333f91de1039317d7ba7bf4"
     },
     {
       "path": "evidence/google/model-metadata.capture.json",
@@ -40,8 +40,8 @@
     },
     {
       "path": "evidence/google/request-shape.closed.json",
-      "bytes": 898,
-      "sha256": "8ae54b74cd2ce38e2f18f19da35d53d9ce9b0096dd66ce96abc77982462abb16"
+      "bytes": 866,
+      "sha256": "b51e8adcae3322ae909093effe7baa8f347230a95c9753dd9e498101cf2b4d04"
     },
     {
       "path": "evidence/openai/model-metadata.capture.json",
@@ -50,8 +50,8 @@
     },
     {
       "path": "evidence/openai/request-shape.closed.json",
-      "bytes": 867,
-      "sha256": "afc75d6ee08a8a27b9884487281a45eb9ce6a798dd58309998c0a188af0814a8"
+      "bytes": 836,
+      "sha256": "c78ce4eb7c730f418025df4d398a5c1142fa3c95a2552b81a18d1bbb1fa19138"
     },
     {
       "path": "evidence/perplexity/model-metadata.capture.json",
@@ -70,9 +70,9 @@
     },
     {
       "path": "evidence/xai/request-shape.closed.json",
-      "bytes": 831,
-      "sha256": "cb5e1528db282a75ef4a04f1cdd633a6421b5a4b5af61b5c7f8340222b063647"
+      "bytes": 857,
+      "sha256": "20281d9a058b0af1f22791d8e2aed1a837d0f10e14de975dc989d7373453ceb8"
     }
   ],
-  "evidence_manifest_sha256": "081a21a9192ca9fc672d9d02164158e5aa068db756d142b9e9e5c2d4a72dcf07"
+  "evidence_manifest_sha256": "582377a71ec30bc347504c5bde02b396601122983d1dcfd77f2f4c0b31570eb5"
 }

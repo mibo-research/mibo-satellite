@@ -11,6 +11,13 @@ from .artifacts import load_battery, load_manifest
 from .blind import export_blind
 from .certificate import create_certificate
 from .errors import MiboeError, ValidationError
+from .live_qualification import (
+    SERIES_IDS,
+    qualification_status_report,
+    run_dress_rehearsal,
+    run_provider_qualification_set,
+    run_smoke_qualification,
+)
 from .models import load_model_lock, resolve_models
 from .preflight import preflight
 from .qc import run_qc
@@ -133,6 +140,49 @@ def command_export(args: argparse.Namespace) -> dict[str, Any]:
     return export_blind(manifest.source.parent, salt=salt)
 
 
+def _qualification_paths(args: argparse.Namespace) -> tuple[Path, Path | None]:
+    module_root = Path(args.root).resolve()
+    output_root = Path(args.output_root).resolve() if args.output_root else None
+    return module_root, output_root
+
+
+def command_qualify_smoke(args: argparse.Namespace) -> dict[str, Any]:
+    module_root, output_root = _qualification_paths(args)
+    result = run_smoke_qualification(
+        module_root=module_root,
+        output_root=output_root,
+        series_ids=args.series,
+    )
+    if not result["passed"]:
+        raise ValidationError(json.dumps(result, ensure_ascii=False))
+    return result
+
+
+def command_qualify_providers(args: argparse.Namespace) -> dict[str, Any]:
+    module_root, output_root = _qualification_paths(args)
+    result = run_provider_qualification_set(
+        module_root=module_root,
+        output_root=output_root,
+        series_ids=args.series,
+    )
+    if not result["passed"]:
+        raise ValidationError(json.dumps(result, ensure_ascii=False))
+    return result
+
+
+def command_qualify_rehearsal(args: argparse.Namespace) -> dict[str, Any]:
+    module_root, output_root = _qualification_paths(args)
+    result = run_dress_rehearsal(module_root=module_root, output_root=output_root)
+    if not result["passed"]:
+        raise ValidationError(json.dumps(result, ensure_ascii=False))
+    return result
+
+
+def command_qualify_report(args: argparse.Namespace) -> dict[str, Any]:
+    module_root, output_root = _qualification_paths(args)
+    return qualification_status_report(module_root=module_root, output_root=output_root)
+
+
 def parser() -> argparse.ArgumentParser:
     value = argparse.ArgumentParser(prog="miboe")
     commands = value.add_subparsers(dest="command", required=True)
@@ -149,6 +199,22 @@ def parser() -> argparse.ArgumentParser:
     resolve.add_argument("--evidence", action="append", default=[])
     resolve.add_argument("--no-live-verification", action="store_true")
     resolve.set_defaults(function=command_resolve)
+
+    qualify = commands.add_parser("qualify")
+    qualify_commands = qualify.add_subparsers(dest="qualification_command", required=True)
+    qualification_root = str(Path(__file__).resolve().parents[2])
+    for name, function in (
+        ("smoke", command_qualify_smoke),
+        ("providers", command_qualify_providers),
+        ("rehearsal", command_qualify_rehearsal),
+        ("report", command_qualify_report),
+    ):
+        item = qualify_commands.add_parser(name)
+        item.add_argument("--root", default=qualification_root)
+        item.add_argument("--output-root")
+        if name in {"smoke", "providers"}:
+            item.add_argument("--series", action="append", choices=SERIES_IDS)
+        item.set_defaults(function=function)
 
     schedule = commands.add_parser("schedule")
     schedule.add_argument("--manifest", required=True)

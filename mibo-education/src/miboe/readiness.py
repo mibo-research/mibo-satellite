@@ -11,6 +11,7 @@ from .artifacts import (
     load_scientific_artifact_registry,
     load_yaml,
 )
+from .live_qualification import qualification_status_report
 from .preflight import preflight
 from .util import sha256_file
 
@@ -106,6 +107,26 @@ def scientific_readiness(root: Path) -> dict[str, Any]:
                 )
     except Exception as exc:
         reasons["W0_READY"].append(str(exc))
+    try:
+        live = qualification_status_report(module_root=root)
+        missing_q1 = [
+            series_id for series_id, value in live["gates"].items() if not value["Q1"]
+        ]
+        missing_q2 = [
+            series_id for series_id, value in live["gates"].items() if not value["Q2"]
+        ]
+        if missing_q1:
+            reasons["W0_READY"].append(
+                f"W0-Q1 live smoke qualification is incomplete: {missing_q1}"
+            )
+        if missing_q2:
+            reasons["W0_READY"].append(
+                f"W0-Q2 provider qualification is incomplete: {missing_q2}"
+            )
+        if not live["Q3"]:
+            reasons["W0_READY"].append("W0-Q3 Core-35 dress rehearsal is incomplete")
+    except Exception as exc:
+        reasons["W0_READY"].append(f"W0 live qualification state is invalid: {exc}")
     if reasons["ENGINEERING_READY"]:
         reasons["W0_READY"].append("engineering validation is incomplete")
 

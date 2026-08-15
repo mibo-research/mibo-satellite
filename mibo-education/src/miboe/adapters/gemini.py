@@ -63,5 +63,13 @@ class GeminiAdapter(ProviderAdapter):
             "GET", f"{self.base_url}/v1beta/models?pageSize=1000", self.headers, None
         )
 
+    def model_metadata_requests(self, model: str) -> tuple[PreparedRequest, ...]:
+        model_path = quote(model.removeprefix("models/"), safe="-._")
+        return (
+            PreparedRequest(
+                "GET", f"{self.base_url}/v1beta/models/{model_path}", self.headers, None
+            ),
+        )
+
     def _parse_models(self, body: dict[str, Any]) -> list[dict[str, Any]]:
         return [value for value in body.get("models", []) if isinstance(value, dict)]

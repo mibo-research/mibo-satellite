@@ -5,6 +5,12 @@
 **Classification:** Engineering evidence only; not official longitudinal data
 **Result:** Partial — request-shape qualification passed; live provider qualification blocked by absent credentials
 
+## Live qualification preparation
+
+The staged W0-Q1/Q2/Q3 workflow is encoded in `live-qualification-plan.yaml` and exposed through `miboe qualify smoke`, `providers`, `rehearsal`, and `report`. Live output is append-only and Git-ignored. Q1 is limited to one ordinary request per provider/series; Q2 uses E1-01 through E7-01; Q3 defines Core-35 as those seven items across M01-M05, split into a 28-observation CLOSED panel and a seven-observation M05 NATIVE mirror. The M05 CLOSED diagnostic is not included in Core-35.
+
+No live stage has been executed. Authorization, API-key, cookie, and equivalent credential-header names are excluded from stored request evidence rather than retained as redacted header entries.
+
 ## Observation-surface decision
 
 The official MIBO-Education observation surface is the provider's **first-party API**. Consumer UI equivalence is not assumed, is outside W01 scope, and is not a W0 or W01 readiness blocker. API results must be described as API observations rather than as observations of ChatGPT, Claude.ai, Gemini UI, Grok UI, or Perplexity UI.
@@ -18,7 +24,7 @@ Every prepared request is bound to an exact HTTPS hostname allowlist. No gateway
 | M01 | `gpt-5.6-sol` | OpenAI Responses API | Pass | Shape pass; live pending | Not run — credential absent |
 | M02 | unresolved; `claude-opus-5` only if Core selects Opus | Claude Messages API | Conditional shape pass | Model selection and live verification pending | Not run |
 | M03 | `gemini-3.6-flash` | Gemini `generateContent` | Pass | Shape pass; live pending | Not run — credential absent |
-| M04 | `grok-4.5` | xAI Chat Completions | Pass | Shape pass; live pending | Not run — credential absent |
+| M04 | `grok-4.5` | xAI Responses API | Pass | Shape pass; live pending | Not run — credential absent |
 | M05 | `sonar` | Perplexity Sonar API | Native pass; W0 CLOSED diagnostic pass | Not a W01 CLOSED series | Not run — credential absent |
 
 `grok-4.5-latest` is explicitly forbidden for the candidate lock. No replacement model was attempted for any unavailable target.
@@ -30,7 +36,7 @@ Every prepared request is bound to an exact HTTPS hostname allowlist. No gateway
 | M01 | `model`, one-user `input`, `max_output_tokens=8192`, `store=false`, `stream=false` | `reasoning`, `tools`, `previous_response_id`, sampling controls |
 | M02 | `model` (after Core decision), one-user `messages`, provider-required `max_tokens=8192`, `stream=false` | `system`, `tools`, `thinking`, `output_config.effort`, sampling controls |
 | M03 | one-user `contents`, `generationConfig.maxOutputTokens=8192` | `systemInstruction`, `tools`, `thinkingConfig`, `temperature`, `topP`, `topK` |
-| M04 | `model`, one-user `messages`, `max_tokens=8192`, `stream=false` | `reasoning_effort`, `tools`, sampling controls |
+| M04 | `model`, one-user `input`, `max_output_tokens=8192`, `store=false`, `stream=false` | `reasoning_effort`, `tools`, sampling controls |
 | M05 | `model=sonar`, one-user `messages`, `max_tokens=8192`, `stream=false` | reasoning and sampling controls |
 
 For the M05 W0-only diagnostic, `disable_search=true` is the sole environment-changing field. It is `NON-OFFICIAL`, is not part of W01, and does not change the Frozen W01 scientific manifest.

@@ -1,9 +1,9 @@
 {
   "classification": "W0_ENGINEERING_CLOSED_REQUEST_SHAPE",
-  "endpoint": "https://api.x.ai/v1/chat/completions",
-  "headers": {"Authorization": "[REDACTED]", "Content-Type": "application/json"},
-  "serialized_body_utf8": "{\"max_tokens\":8192,\"messages\":[{\"content\":\"W0 engineering diagnostic. Reply with exactly: OK\",\"role\":\"user\"}],\"model\":\"grok-4.5\",\"stream\":false}",
-  "serialized_body_sha256": "066e0b650abf924c300e92f6869dd0708f26bf5acef58a217ccfdc1305ecd462",
+  "endpoint": "https://api.x.ai/v1/responses",
+  "headers": {"Content-Type": "application/json"},
+  "serialized_body_utf8": "{\"input\":[{\"content\":[{\"text\":\"W0 engineering diagnostic. Reply with exactly: OK\",\"type\":\"input_text\"}],\"role\":\"user\"}],\"max_output_tokens\":8192,\"model\":\"grok-4.5\",\"store\":false,\"stream\":false}",
+  "serialized_body_sha256": "9eb67a1c07d126539845a91e0d12d780ca258487170a29e83b9d7024cb45415b",
   "audit": {
     "first_party_host": true,
     "one_user_turn": true,
@@ -11,7 +11,7 @@
     "sampling_controls_absent": true,
     "reasoning_effort_absent": true,
     "non_streaming": true,
-    "output_cap": {"parameter": "max_tokens", "value": 8192},
+    "output_cap": {"parameter": "max_output_tokens", "value": 8192},
     "latest_alias_used": false
   }
 }

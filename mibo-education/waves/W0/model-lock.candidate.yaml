@@ -48,7 +48,7 @@ models:
     live_verified: false
     provider_returned_model: null
     provider_metadata_sha256: null
-    request_shape_sha256: 066e0b650abf924c300e92f6869dd0708f26bf5acef58a217ccfdc1305ecd462
+    request_shape_sha256: 9eb67a1c07d126539845a91e0d12d780ca258487170a29e83b9d7024cb45415b
     redirect_risk: LIVE_MODELS_API_AND_RETURNED_IDENTITY_NOT_CAPTURED
   - series_id: M05
     provider: perplexity
@@ -63,6 +63,7 @@ models:
     w0_closed_diagnostic_official: false
 execution_permitted: false
 blockers:
+  - W0-Q1, W0-Q2, and W0-Q3 live qualification gates have not been produced.
   - All five provider credentials were absent from the qualification environment.
   - M01 model retrieve/list metadata and generation response were not captured.
   - M02 inherited Core family does not select Fable versus Opus.

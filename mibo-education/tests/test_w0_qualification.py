@@ -94,3 +94,11 @@ def test_w0_qualification_evidence_manifest_hashes_every_evidence_file() -> None
         path = ROOT / "waves" / "W0" / entry["path"]
         assert path.stat().st_size == entry["bytes"]
         assert sha256_file(path) == entry["sha256"]
+
+
+def test_committed_request_shape_evidence_omits_credential_headers() -> None:
+    for path in (ROOT / "waves/W0/evidence").rglob("request-shape*.json"):
+        text = path.read_text(encoding="utf-8").lower()
+        assert '"authorization"' not in text
+        assert '"x-api-key"' not in text
+        assert '"x-goog-api-key"' not in text

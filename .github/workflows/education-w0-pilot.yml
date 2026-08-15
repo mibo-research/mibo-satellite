@@ -1,51 +1,63 @@
-name: MIBO-Education W0 engineering pilot
+name: MIBO-Education W0 live qualification
 on:
   workflow_dispatch:
     inputs:
+      stage:
+        description: Fail-closed W0 qualification stage
+        required: true
+        type: choice
+        options: [report, smoke, providers, rehearsal]
+        default: report
       series_id:
-        description: Permanent engineering series ID
+        description: Series for Q1/Q2; ALL runs each independently
         required: true
-        default: M01
-      exact_model_id:
-        description: Exact provider-listed model ID; aliases are rejected
-        required: true
-      pinning_evidence:
-        description: Provider pinning/version evidence reference
-        required: true
+        type: choice
+        options: [ALL, M01, M02, M03, M04, M05]
+        default: ALL
 permissions:
   contents: read
 jobs:
-  pilot:
-    runs-on: ubuntu-latest
+  qualify:
+    runs-on: [self-hosted, mibo-education-w0]
     environment: mibo-education-w0
     concurrency:
-      group: mibo-education-w0
+      group: mibo-education-w0-live-qualification
       cancel-in-progress: false
     defaults:
       run:
         working-directory: mibo-education
+        shell: bash
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
       PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
-      SERIES_ID: ${{ inputs.series_id }}
-      EXACT_MODEL_ID: ${{ inputs.exact_model_id }}
-      PINNING_EVIDENCE: ${{ inputs.pinning_evidence }}
+      W0_EVIDENCE_ROOT: ${{ vars.MIBOE_W0_EVIDENCE_ROOT }}
+      QUALIFICATION_STAGE: ${{ inputs.stage }}
+      QUALIFICATION_SERIES: ${{ inputs.series_id }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: "3.12"}
-      - run: python -m pip install -e .
-      - run: miboe models resolve --manifest waves/W0/manifest.yaml --set "$SERIES_ID=$EXACT_MODEL_ID" --evidence "$SERIES_ID=$PINNING_EVIDENCE"
-      - run: miboe schedule --manifest waves/W0/manifest.yaml
-      - run: miboe preflight --manifest waves/W0/manifest.yaml
-      - run: miboe pilot --manifest waves/W0/manifest.yaml --max-observations 5
-      - if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: mibo-education-w0-engineering-${{ github.run_id }}
-          path: mibo-education/waves/W0
-          retention-days: 90
-          include-hidden-files: true
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: mibo-education/pyproject.toml
+      - run: python -m pip install -e .
+      - name: Require controlled persistent evidence storage
+        run: |
+          if [ -z "$W0_EVIDENCE_ROOT" ]; then
+            echo "MIBOE_W0_EVIDENCE_ROOT repository variable is required" >&2
+            exit 1
+          fi
+      - name: Execute selected fail-closed stage
+        run: |
+          args=(--root . --output-root "$W0_EVIDENCE_ROOT")
+          if [ "$QUALIFICATION_SERIES" != "ALL" ] && \
+             { [ "$QUALIFICATION_STAGE" = "smoke" ] || [ "$QUALIFICATION_STAGE" = "providers" ]; }; then
+            args+=(--series "$QUALIFICATION_SERIES")
+          fi
+          miboe qualify "$QUALIFICATION_STAGE" "${args[@]}"
+
+# Raw qualification evidence is intentionally not uploaded as a GitHub Actions artifact.
+# The protected self-hosted runner must retain W0_EVIDENCE_ROOT in controlled storage.

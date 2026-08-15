@@ -16,6 +16,25 @@ live_api_execution:
     XAI_API_KEY: absent
     PERPLEXITY_API_KEY: absent
   substitution_attempted: false
+live_qualification_workflow:
+  status: PREPARED_NOT_EXECUTED
+  evidence_root: waves/W0/live-qualification
+  evidence_committed_to_git: false
+  authorization_headers_stored: false
+  Q1:
+    name: LIVE_SMOKE_QUALIFICATION
+    ordinary_request_max_per_provider_series: 1
+    gate: credential_model_metadata_and_returned_identity
+  Q2:
+    name: PROVIDER_QUALIFICATION_SET
+    prerequisite: relevant_provider_Q1_passed
+    item_ids: [E1-01, E2-01, E3-01, E4-01, E5-01, E6-01, E7-01]
+  Q3:
+    name: CORE_35_DRESS_REHEARSAL
+    prerequisite: all_required_Q2_gates_passed
+    closed_observations: 28
+    native_observations: 7
+    official_longitudinal_data: false
 common_request_shape:
   exactly_one_user_turn: PASS
   researcher_system_prompt_absent: PASS
@@ -86,15 +105,15 @@ providers:
     requested_model_candidate: grok-4.5
     forbidden_lock_alias: grok-4.5-latest
     candidate_status: DOCUMENTED_LIVE_UNVERIFIED
-    first_party_endpoint: https://api.x.ai/v1/chat/completions
+    first_party_endpoint: https://api.x.ai/v1/responses
     model_metadata_endpoints:
       - https://api.x.ai/v1/models
       - https://api.x.ai/v1/models/grok-4.5
     environment: CLOSED
-    output_cap_parameter: max_tokens
+    output_cap_parameter: max_output_tokens
     output_cap_value: 8192
     request_shape: PASS
-    request_sha256: 066e0b650abf924c300e92f6869dd0708f26bf5acef58a217ccfdc1305ecd462
+    request_sha256: 9eb67a1c07d126539845a91e0d12d780ca258487170a29e83b9d7024cb45415b
     closed_eligibility: REQUEST_SHAPE_PASS_LIVE_VERIFICATION_PENDING
     model_metadata_capture: NOT_RUN_CREDENTIAL_MISSING
     generation_probe: NOT_RUN_CREDENTIAL_MISSING

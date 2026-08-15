@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any
+from urllib.parse import quote
 
 from .base import Environment, NormalizedResponse, PreparedRequest, ProviderAdapter
 
@@ -24,28 +25,47 @@ class XAIAdapter(ProviderAdapter):
     ) -> PreparedRequest:
         body: dict[str, Any] = {
             "model": model,
-            "messages": [{"role": "user", "content": prompt}],
+            "input": [
+                {"role": "user", "content": [{"type": "input_text", "text": prompt}]}
+            ],
+            "store": False,
             "stream": False,
         }
         body.update(sampling)
         if environment is Environment.NATIVE:
             body.update(native_options)
-        return PreparedRequest("POST", f"{self.base_url}/v1/chat/completions", self.headers, body)
+        return PreparedRequest("POST", f"{self.base_url}/v1/responses", self.headers, body)
 
     def normalize(self, body: dict[str, Any]) -> NormalizedResponse:
-        choice = (body.get("choices") or [{}])[0]
-        text = str((choice.get("message") or {}).get("content") or "")
+        text: list[str] = []
+        safety: dict[str, Any] = {"system_fingerprint": body.get("system_fingerprint")}
+        for item in body.get("output", []):
+            for content in item.get("content", []) if isinstance(item, dict) else []:
+                if content.get("type") == "output_text":
+                    text.append(str(content.get("text", "")))
+                elif content.get("type") == "refusal":
+                    text.append(str(content.get("refusal", "")))
+                    safety["refusal"] = True
         return NormalizedResponse(
-            text,
-            choice.get("finish_reason"),
+            "\n".join(text),
+            body.get("status"),
             body.get("id"),
             body.get("model"),
             body.get("usage") or {},
-            {},
+            safety,
         )
 
     def _models_request(self) -> PreparedRequest:
         return PreparedRequest("GET", f"{self.base_url}/v1/models", self.headers, None)
+
+    def model_metadata_requests(self, model: str) -> tuple[PreparedRequest, ...]:
+        model_path = quote(model, safe="-._")
+        return (
+            self._models_request(),
+            PreparedRequest(
+                "GET", f"{self.base_url}/v1/models/{model_path}", self.headers, None
+            ),
+        )
 
     def _parse_models(self, body: dict[str, Any]) -> list[dict[str, Any]]:
         return [value for value in body.get("data", []) if isinstance(value, dict)]

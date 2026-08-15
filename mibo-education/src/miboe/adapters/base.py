@@ -29,10 +29,15 @@ class PreparedRequest:
         return b"" if self.body is None else canonical_json_bytes(self.body)
 
     def preserved(self) -> dict[str, Any]:
+        credential_headers = {"authorization", "x-api-key", "x-goog-api-key", "cookie"}
         return {
             "method": self.method,
             "url": self.url,
-            "headers": sanitized_headers(self.headers),
+            "headers": {
+                key: value
+                for key, value in sanitized_headers(self.headers).items()
+                if key.lower() not in credential_headers
+            },
             "body": self.body,
         }
 
@@ -194,6 +199,23 @@ class ProviderAdapter(ABC):
         self.require_key()
         response = self.send(self._models_request())
         return self._parse_models(response.body or {})
+
+    def model_metadata_requests(self, model: str) -> tuple[PreparedRequest, ...]:
+        """Return first-party metadata requests needed to qualify an exact model ID."""
+        return (self._models_request(),)
+
+    def metadata_identifies_model(
+        self, model: str, bodies: tuple[dict[str, Any], ...]
+    ) -> bool:
+        """Confirm that captured provider metadata names the requested exact model."""
+        expected = model.removeprefix("models/")
+        for body in bodies:
+            candidates = [body, *self._parse_models(body)]
+            for candidate in candidates:
+                value = candidate.get("id") or candidate.get("name")
+                if isinstance(value, str) and value.removeprefix("models/") == expected:
+                    return True
+        return False
 
     @abstractmethod
     def _prepare(

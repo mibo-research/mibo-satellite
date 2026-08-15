@@ -41,21 +41,22 @@ pytest
 
 On macOS/Linux, activate with `source .venv/bin/activate`.
 
-## W0 engineering workflow
+## W0 live qualification workflow
 
 W0 uses only the clearly marked non-scientific smoke instrument. It never becomes longitudinal data.
 
-The operational-qualification artifacts are under `waves/W0/`. They bind all provider requests to first-party API hosts. Consumer UI equivalence is not assumed and is outside W01 scope.
+The versioned qualification plan is `waves/W0/live-qualification-plan.yaml`. Live outputs are append-only under the Git-ignored `waves/W0/live-qualification/` directory. Requests are bound to first-party API hosts; credential headers are never stored. Consumer UI equivalence is not assumed and is outside W01 scope.
 
 ```bash
-miboe models resolve --manifest waves/W0/manifest.yaml --set M01=<verified-exact-model-id>
-miboe schedule --manifest waves/W0/manifest.yaml
-miboe preflight --manifest waves/W0/manifest.yaml
-miboe pilot --manifest waves/W0/manifest.yaml --max-observations 5
-miboe qc --manifest waves/W0/manifest.yaml
+miboe qualify report
+miboe qualify smoke
+miboe qualify providers
+miboe qualify rehearsal
 ```
 
-`pilot` refuses a manifest marked official. It writes `OFFICIAL_LONGITUDINAL_DATA=false` into the Wave seal and every canonical record.
+Q1 makes at most one ordinary request per selected series after credential and model-metadata checks. Q2 is gated independently per provider by Q1 and runs the seven preselected E1-E7 items; M05 additionally runs the non-official `disable_search=true` diagnostic. Q3 requires all Q2 gates and runs Core-35 through the production scheduler, runner, technical-retry classifier, raw archive, QC, and certificate flow. Every stage remains `OFFICIAL_LONGITUDINAL_DATA=false`.
+
+Missing credentials, an unresolved M02 Core definition, model-identity mismatch, missing metadata, or a prior-stage failure refuses the affected stage. No provider failure can cause model substitution. `miboe qualify report` never calls a provider and reports credential presence only as booleans.
 
 ## W01 — BLOCKED
 
@@ -70,13 +71,13 @@ miboe run-wave --manifest waves/W01/manifest.yaml
 
 ## Commands
 
-`miboe validate`, `miboe models resolve`, `miboe schedule`, `miboe pilot`, `miboe preflight`, `miboe run-wave`, `miboe qc`, `miboe certificate`, and `miboe export-blind`.
+`miboe validate`, `miboe models resolve`, `miboe schedule`, `miboe pilot`, `miboe preflight`, `miboe run-wave`, `miboe qc`, `miboe certificate`, `miboe export-blind`, and `miboe qualify {smoke,providers,rehearsal,report}`.
 
 ## Provider-specific ambiguities
 
 - OpenAI: whether a selected model ID is behaviorally pinned for the complete annual period must be verified; aliases cannot be Frozen IDs.
 - Anthropic: the Messages API requires `max_tokens`; the authoritative Education protocol must freeze this transport-required cap and decide treatment of thinking/effort controls.
 - Gemini: stable IDs are preferable, but provider documentation does not promise behavioral immutability; returned `modelVersion` must be retained.
-- xAI: M04 is the Frozen scientific role, but its exact runtime model ID and version-pinning evidence remain unresolved.
-- Perplexity: Sonar is web-grounded, so the adapter refuses CLOSED observations. A provider-approved no-search mode or a protocol decision is required.
+- xAI: the W0 candidate is `grok-4.5` on `/v1/responses` with `max_output_tokens=8192`; Models API version/fingerprint evidence and returned identity remain live-unverified. `grok-4.5-latest` is forbidden.
+- Perplexity: W01 remains NATIVE on the first-party Sonar API. The `disable_search=true` path is a separate, non-official W0 diagnostic and cannot qualify as a W01 observation.
 - NATIVE API observations are not automatically equivalent to consumer web products. Any such equivalence requires a registered observation-surface decision.

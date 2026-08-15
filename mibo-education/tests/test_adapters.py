@@ -136,6 +136,22 @@ def test_w0_qualification_shapes_are_first_party_single_turn_and_default_samplin
         assert audit["output_cap_value"] == 8192
         assert request.body.get("stream", False) is False
 
+    xai_request, _ = shapes["M04"]
+    assert xai_request.url == "https://api.x.ai/v1/responses"
+    assert xai_request.body["max_output_tokens"] == 8192
+    assert "max_tokens" not in xai_request.body
+    assert "messages" not in xai_request.body
+
+
+def test_preserved_request_omits_credential_header_names() -> None:
+    request = make_adapter("openai", api_key="unit-test-secret").prepare(
+        model="gpt-5.6-sol",
+        prompt="W0",
+        environment=Environment.CLOSED,
+        sampling={"max_output_tokens": 8192},
+    )
+    assert request.preserved()["headers"] == {"Content-Type": "application/json"}
+
 
 def test_w0_qualification_rejects_third_party_router() -> None:
     request = PreparedRequest(

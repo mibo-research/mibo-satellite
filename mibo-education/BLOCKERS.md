@@ -11,6 +11,9 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 - No locked W0 execution schedule exists.
 - All five provider credentials were absent during the first operational-qualification run, so model-list/get and generation evidence could not be captured.
 - MIBO Core has not fixed the M02 Fable-versus-Opus family mapping; Education therefore leaves M02 unresolved.
+- W0-Q1 live smoke gates are absent for M01-M05.
+- W0-Q2 seven-item provider qualification gates are absent for M01-M05.
+- The W0-Q3 Core-35 production-flow dress rehearsal has not passed.
 
 ## W01 operational blockers
 
@@ -25,7 +28,7 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 ## Provider-specific ambiguities
 
 - M01–M05: any provider-required generation or reasoning-control field must be mapped and frozen without adding optional sampling overrides.
-- M01–M05: the effective visible-output cap must target 8192 tokens; any provider hard-limit exception must be recorded before W01.
+- M01–M05: the effective visible-output cap must target 8192 tokens; M04 uses Responses API `max_output_tokens`, while M02 and M05 use `max_tokens`. Any provider hard-limit exception must be recorded before W01.
 - M01–M04: absence of tools, web, retrieval, RAG, files, memory, and external functions must be verified for the selected exact API surface.
 - M01–M05: exact requested model IDs, provider-returned identity fields, and evidence of meaningful snapshot/pinning behavior remain unresolved.
 - M05 is scientifically assigned to the separate NATIVE mirror and must not be pooled with CLOSED; the exact NATIVE API surface still requires a runtime lock.

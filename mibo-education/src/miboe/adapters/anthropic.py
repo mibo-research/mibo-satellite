@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any
+from urllib.parse import quote
 
 from miboe.errors import ValidationError
 
@@ -59,6 +60,15 @@ class AnthropicAdapter(ProviderAdapter):
 
     def _models_request(self) -> PreparedRequest:
         return PreparedRequest("GET", f"{self.base_url}/v1/models", self.headers, None)
+
+    def model_metadata_requests(self, model: str) -> tuple[PreparedRequest, ...]:
+        model_path = quote(model, safe="-._")
+        return (
+            self._models_request(),
+            PreparedRequest(
+                "GET", f"{self.base_url}/v1/models/{model_path}", self.headers, None
+            ),
+        )
 
     def _parse_models(self, body: dict[str, Any]) -> list[dict[str, Any]]:
         return [value for value in body.get("data", []) if isinstance(value, dict)]

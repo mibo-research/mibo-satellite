@@ -12,6 +12,8 @@ model_registry: ../../registry/model-series.yaml
 model_lock: model-lock.json
 model_lock_candidate: model-lock.candidate.yaml
 qualification_evidence_manifest: evidence-manifest.json
+live_qualification_plan: live-qualification-plan.yaml
+live_qualification_output: live-qualification/
 schedule: schedule.json
 environment: CLOSED
 replications: 2
@@ -26,4 +28,4 @@ retry_delays_minutes: [10, 30]
 approvals:
   protocol_owner: false
   terms_review: false
-  ethics_review: false
+  ethics_or_governance_determination: false
