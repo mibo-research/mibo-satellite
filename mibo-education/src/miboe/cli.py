@@ -19,6 +19,7 @@ from .live_qualification import (
     run_smoke_qualification,
 )
 from .models import load_model_lock, resolve_models
+from .operational import w0_pre_live_report
 from .preflight import preflight
 from .qc import run_qc
 from .readiness import FLAGS, scientific_readiness
@@ -92,6 +93,13 @@ def command_pilot(args: argparse.Namespace) -> dict[str, Any]:
     manifest, battery, lock, schedule = _context(Path(args.manifest))
     if manifest.official:
         raise ValidationError("pilot command refuses official Wave manifests")
+    if manifest.wave_id == "MIBO-EDU-W0":
+        gate = w0_pre_live_report(module_root=manifest.source.parents[2])
+        if not gate["W0_Q1_EXECUTABLE"]:
+            raise ValidationError(
+                "W0 pilot refused: pre-live operational gates are incomplete: "
+                f"{gate['W0_Q1_EXECUTABLE_reasons']}"
+            )
     return run_wave(
         manifest=manifest,
         battery=battery,
@@ -180,7 +188,16 @@ def command_qualify_rehearsal(args: argparse.Namespace) -> dict[str, Any]:
 
 def command_qualify_report(args: argparse.Namespace) -> dict[str, Any]:
     module_root, output_root = _qualification_paths(args)
-    return qualification_status_report(module_root=module_root, output_root=output_root)
+    return qualification_status_report(
+        module_root=module_root, output_root=output_root, series_ids=args.series
+    )
+
+
+def command_qualify_preflight(args: argparse.Namespace) -> dict[str, Any]:
+    result = command_qualify_report(args)
+    if not result["W0_Q1_EXECUTABLE"]:
+        raise ValidationError(json.dumps(result, ensure_ascii=False))
+    return result
 
 
 def parser() -> argparse.ArgumentParser:
@@ -207,12 +224,13 @@ def parser() -> argparse.ArgumentParser:
         ("smoke", command_qualify_smoke),
         ("providers", command_qualify_providers),
         ("rehearsal", command_qualify_rehearsal),
+        ("preflight", command_qualify_preflight),
         ("report", command_qualify_report),
     ):
         item = qualify_commands.add_parser(name)
         item.add_argument("--root", default=qualification_root)
         item.add_argument("--output-root")
-        if name in {"smoke", "providers"}:
+        if name in {"smoke", "providers", "preflight", "report"}:
             item.add_argument("--series", action="append", choices=SERIES_IDS)
         item.set_defaults(function=function)
 

@@ -18,13 +18,17 @@ live_api_execution:
   substitution_attempted: false
 live_qualification_workflow:
   status: PREPARED_NOT_EXECUTED
-  evidence_root: waves/W0/live-qualification
+  persistent_evidence_root_env: MIBOE_W0_EVIDENCE_ROOT
+  evidence_root_value_stored: false
   evidence_committed_to_git: false
   authorization_headers_stored: false
+  human_governance_gate: REQUIRED_BEFORE_ANY_LIVE_REQUEST
+  credential_environment_gate: PRESENCE_ONLY_PROVIDER_SCOPED
+  credential_or_environment_values_stored: false
   Q1:
     name: LIVE_SMOKE_QUALIFICATION
     ordinary_request_max_per_provider_series: 1
-    gate: credential_model_metadata_and_returned_identity
+    gate: human_governance_selected_provider_credential_environment_model_metadata_and_returned_identity
   Q2:
     name: PROVIDER_QUALIFICATION_SET
     prerequisite: relevant_provider_Q1_passed
@@ -150,5 +154,7 @@ providers:
       provider_internal_routing: UNRESOLVED_UNTIL_RETURNED_IDENTITY_CAPTURED
 governance:
   protocol_owner: NOT_RECORDED
-  provider_terms_review: NOT_RECORDED
+  terms_review: NOT_RECORDED
   institutional_ethics_or_governance_determination: NOT_RECORDED
+  human_record_templates_present: true
+  agent_approval_permitted: false

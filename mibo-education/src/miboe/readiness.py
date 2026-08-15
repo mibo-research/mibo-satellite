@@ -18,6 +18,9 @@ from .util import sha256_file
 FLAGS = (
     "ENGINEERING_READY",
     "SCIENTIFIC_PROTOCOL_COMPLETE",
+    "HUMAN_GOVERNANCE_READY",
+    "CREDENTIAL_ENVIRONMENT_READY",
+    "W0_Q1_EXECUTABLE",
     "W0_READY",
     "W01_READY",
 )
@@ -109,6 +112,21 @@ def scientific_readiness(root: Path) -> dict[str, Any]:
         reasons["W0_READY"].append(str(exc))
     try:
         live = qualification_status_report(module_root=root)
+        for flag in (
+            "HUMAN_GOVERNANCE_READY",
+            "CREDENTIAL_ENVIRONMENT_READY",
+            "W0_Q1_EXECUTABLE",
+        ):
+            if not live[flag]:
+                reasons[flag].extend(live[f"{flag}_reasons"])
+        if not live["HUMAN_GOVERNANCE_READY"]:
+            reasons["W0_READY"].append("W0 human-governance records are incomplete")
+        if not live["CREDENTIAL_ENVIRONMENT_READY"]:
+            reasons["W0_READY"].append(
+                "W0 credential/environment presence preflight is incomplete"
+            )
+        if not live["W0_Q1_EXECUTABLE"]:
+            reasons["W0_READY"].append("W0-Q1 is not executable")
         missing_q1 = [
             series_id for series_id, value in live["gates"].items() if not value["Q1"]
         ]
@@ -126,7 +144,11 @@ def scientific_readiness(root: Path) -> dict[str, Any]:
         if not live["Q3"]:
             reasons["W0_READY"].append("W0-Q3 Core-35 dress rehearsal is incomplete")
     except Exception as exc:
-        reasons["W0_READY"].append(f"W0 live qualification state is invalid: {exc}")
+        message = f"W0 live qualification state is invalid: {exc}"
+        reasons["W0_READY"].append(message)
+        reasons["HUMAN_GOVERNANCE_READY"].append(message)
+        reasons["CREDENTIAL_ENVIRONMENT_READY"].append(message)
+        reasons["W0_Q1_EXECUTABLE"].append(message)
     if reasons["ENGINEERING_READY"]:
         reasons["W0_READY"].append("engineering validation is incomplete")
 

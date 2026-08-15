@@ -72,9 +72,25 @@ def test_cli_exposes_required_commands() -> None:
         "qualify",
     ):
         assert command in help_text
-    for stage in ("smoke", "providers", "rehearsal", "report"):
+    for stage in ("smoke", "providers", "rehearsal", "preflight", "report"):
         args = parser().parse_args(["qualify", stage])
         assert args.qualification_command == stage
+    provider_preflight = parser().parse_args(
+        ["qualify", "preflight", "--series", "M02"]
+    )
+    assert provider_preflight.series == ["M02"]
+
+
+def test_w0_workflow_declares_protected_presence_only_preflight_markers() -> None:
+    workflow = (
+        Path(__file__).parents[2] / ".github/workflows/education-w0-pilot.yml"
+    ).read_text(encoding="utf-8")
+    assert "runs-on: [self-hosted, mibo-education-w0]" in workflow
+    assert "environment: mibo-education-w0" in workflow
+    assert "MIBOE_W0_EVIDENCE_ROOT: ${{ vars.MIBOE_W0_EVIDENCE_ROOT }}" in workflow
+    assert "MIBOE_W0_PROTECTED_ENVIRONMENT: configured" in workflow
+    assert "MIBOE_W0_RUNNER_REQUIREMENTS: configured" in workflow
+    assert 'miboe qualify preflight "${args[@]}"' in workflow
 
 
 def test_engineering_validation_passes_with_scientific_protocol_complete(capsys) -> None:

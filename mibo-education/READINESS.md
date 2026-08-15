@@ -6,6 +6,9 @@
 |---|---:|---|
 | `ENGINEERING_READY` | `true` | — |
 | `SCIENTIFIC_PROTOCOL_COMPLETE` | `true` | — |
+| `HUMAN_GOVERNANCE_READY` | `false` | Final human-attributed records are absent for protocol owner, terms review, and ethics/governance determination. Templates are present but cannot constitute approval. |
+| `CREDENTIAL_ENVIRONMENT_READY` | `false` | The five credentials and persistent `MIBOE_W0_EVIDENCE_ROOT` are absent. Protected environment/runner presence markers are additionally required in GitHub Actions. |
+| `W0_Q1_EXECUTABLE` | `false` | Exact W0 candidates are resolved, but human-governance and credential/environment gates are incomplete. Provider-specific Q1 requires only the selected provider credential plus the common governance and evidence-root gates. |
 | `W0_READY` | `false` | Q1, Q2, and Q3 live qualification gates are incomplete; provider credentials and live model evidence are absent; protocol-owner, terms-review, and explicit ethics-or-governance determination are missing; no qualified exact W0 model-lock or locked schedule exists. M02 model selection is no longer a blocker. |
 | `W01_READY` | `false` | Runtime manifest is not locked; exact model-lock, schedule hash, observer site, provider-required controls, CLOSED eligibility evidence, governance determinations, and Wave lock timestamp are missing; execution is not permitted. |
 

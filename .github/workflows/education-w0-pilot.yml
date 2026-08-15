@@ -6,7 +6,7 @@ on:
         description: Fail-closed W0 qualification stage
         required: true
         type: choice
-        options: [report, smoke, providers, rehearsal]
+        options: [report, preflight, smoke, providers, rehearsal]
         default: report
       series_id:
         description: Series for Q1/Q2; ALL runs each independently
@@ -33,7 +33,9 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
       PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
-      W0_EVIDENCE_ROOT: ${{ vars.MIBOE_W0_EVIDENCE_ROOT }}
+      MIBOE_W0_EVIDENCE_ROOT: ${{ vars.MIBOE_W0_EVIDENCE_ROOT }}
+      MIBOE_W0_PROTECTED_ENVIRONMENT: configured
+      MIBOE_W0_RUNNER_REQUIREMENTS: configured
       QUALIFICATION_STAGE: ${{ inputs.stage }}
       QUALIFICATION_SERIES: ${{ inputs.series_id }}
     steps:
@@ -46,18 +48,25 @@ jobs:
       - run: python -m pip install -e .
       - name: Require controlled persistent evidence storage
         run: |
-          if [ -z "$W0_EVIDENCE_ROOT" ]; then
+          if [ -z "$MIBOE_W0_EVIDENCE_ROOT" ]; then
             echo "MIBOE_W0_EVIDENCE_ROOT repository variable is required" >&2
             exit 1
           fi
       - name: Execute selected fail-closed stage
         run: |
-          args=(--root . --output-root "$W0_EVIDENCE_ROOT")
+          args=(--root . --output-root "$MIBOE_W0_EVIDENCE_ROOT")
           if [ "$QUALIFICATION_SERIES" != "ALL" ] && \
-             { [ "$QUALIFICATION_STAGE" = "smoke" ] || [ "$QUALIFICATION_STAGE" = "providers" ]; }; then
+             { [ "$QUALIFICATION_STAGE" = "smoke" ] || \
+               [ "$QUALIFICATION_STAGE" = "providers" ] || \
+               [ "$QUALIFICATION_STAGE" = "preflight" ] || \
+               [ "$QUALIFICATION_STAGE" = "report" ]; }; then
             args+=(--series "$QUALIFICATION_SERIES")
+          fi
+          if [ "$QUALIFICATION_STAGE" != "report" ] && \
+             [ "$QUALIFICATION_STAGE" != "preflight" ]; then
+            miboe qualify preflight "${args[@]}"
           fi
           miboe qualify "$QUALIFICATION_STAGE" "${args[@]}"
 
 # Raw qualification evidence is intentionally not uploaded as a GitHub Actions artifact.
-# The protected self-hosted runner must retain W0_EVIDENCE_ROOT in controlled storage.
+# The protected self-hosted runner must retain MIBOE_W0_EVIDENCE_ROOT in controlled storage.

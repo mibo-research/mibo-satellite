@@ -38,6 +38,18 @@ PROVIDERS = {
 }
 
 
+@pytest.fixture
+def ready_pre_live(monkeypatch: pytest.MonkeyPatch) -> None:
+    def report(**kwargs: Any) -> dict[str, Any]:
+        return {
+            "W0_Q1_EXECUTABLE": True,
+            "W0_Q1_EXECUTABLE_reasons": [],
+            "report_sha256": "pre-live-ready-test-hash",
+        }
+
+    monkeypatch.setattr("miboe.live_qualification.w0_pre_live_report", report)
+
+
 def test_live_plan_freezes_nonofficial_seven_item_and_core_35_shapes() -> None:
     plan = yaml.safe_load(
         (ROOT / "waves/W0/live-qualification-plan.yaml").read_text(encoding="utf-8")
@@ -50,7 +62,13 @@ def test_live_plan_freezes_nonofficial_seven_item_and_core_35_shapes() -> None:
     assert plan["models"]["M02"]["permanent_mibo_lineage_id"] == "MIBO-SL-002"
     assert plan["models"]["M02"]["permanent_lineage_label"] == "Claude"
     assert plan["models"]["M02"]["requested_model"] == "claude-opus-5"
-    assert plan["governance"]["ethics_or_governance_determination"] is False
+    assert plan["governance"]["records"] == {
+        "protocol_owner": "governance/records/protocol-owner.yaml",
+        "terms_review": "governance/records/terms-review.yaml",
+        "ethics_or_governance_determination": (
+            "governance/records/ethics-or-governance-determination.yaml"
+        ),
+    }
     assert plan["governance"]["agent_approval_permitted"] is False
 
 
@@ -67,10 +85,19 @@ def test_q1_executable_report_has_all_candidates_and_fail_closed_credentials(
         monkeypatch.delenv(name, raising=False)
     report = qualification_status_report(module_root=ROOT, output_root=tmp_path)
     assert all(report["exact_w0_candidates_resolved"].values())
+    assert report["HUMAN_GOVERNANCE_READY"] is False
+    assert report["CREDENTIAL_ENVIRONMENT_READY"] is False
     assert report["W0_Q1_EXECUTABLE"] is False
-    assert report["W0_Q1_EXECUTABLE_reasons"] == [
-        "provider credentials are missing: ['M01', 'M02', 'M03', 'M04', 'M05']"
-    ]
+    assert any(
+        "human governance record is missing" in reason
+        for reason in report["W0_Q1_EXECUTABLE_reasons"]
+    )
+    assert any(
+        "credential is missing for M02: ANTHROPIC_API_KEY" in reason
+        for reason in report["W0_Q1_EXECUTABLE_reasons"]
+    )
+    assert report["credential_values_exposed"] is False
+    assert report["credential_values_hashed"] is False
 
 
 def _response_body(
@@ -205,7 +232,9 @@ def _seed_gate(output_root: Path, stage: str, series_id: str) -> None:
     write_immutable(path, canonical_json_bytes(gate) + b"\n")
 
 
-def test_q1_xai_uses_responses_cap_and_one_ordinary_request(tmp_path: Path) -> None:
+def test_q1_xai_uses_responses_cap_and_one_ordinary_request(
+    tmp_path: Path, ready_pre_live: None
+) -> None:
     calls: Counter[str] = Counter()
     report = run_smoke_qualification(
         module_root=ROOT,
@@ -241,11 +270,16 @@ def test_q1_does_not_call_provider_without_credential(tmp_path: Path) -> None:
         run_id="Q1-NO-CREDENTIAL",
     )
     assert report["passed"] is False
-    assert report["results"]["M01"]["status"] == "BLOCKED_CREDENTIAL_MISSING"
+    assert report["results"]["M01"]["status"] == (
+        "BLOCKED_PRE_LIVE_OPERATIONAL_GATES"
+    )
+    assert report["results"]["M01"]["ordinary_requests_attempted"] == 0
     assert not calls
 
 
-def test_q1_m02_uses_resolved_lineage_candidate_and_native_defaults(tmp_path: Path) -> None:
+def test_q1_m02_uses_resolved_lineage_candidate_and_native_defaults(
+    tmp_path: Path, ready_pre_live: None
+) -> None:
     calls: Counter[str] = Counter()
     report = run_smoke_qualification(
         module_root=ROOT,
@@ -272,7 +306,7 @@ def test_q1_m02_uses_resolved_lineage_candidate_and_native_defaults(tmp_path: Pa
 
 
 def test_q1_provider_failure_does_not_substitute_or_block_other_series(
-    tmp_path: Path,
+    tmp_path: Path, ready_pre_live: None,
 ) -> None:
     calls: Counter[str] = Counter()
     report = run_smoke_qualification(
@@ -293,7 +327,9 @@ def test_q1_provider_failure_does_not_substitute_or_block_other_series(
     ] == 1
 
 
-def test_q2_refuses_provider_without_q1_gate(tmp_path: Path) -> None:
+def test_q2_refuses_provider_without_q1_gate(
+    tmp_path: Path, ready_pre_live: None
+) -> None:
     def forbidden_factory(provider: str):
         raise AssertionError(f"Q2 must not contact {provider} before Q1")
 
@@ -308,7 +344,9 @@ def test_q2_refuses_provider_without_q1_gate(tmp_path: Path) -> None:
     assert report["results"]["M03"]["status"] == "BLOCKED_Q1_NOT_PASSED"
 
 
-def test_q2_m05_runs_native_and_nonofficial_closed_sets(tmp_path: Path) -> None:
+def test_q2_m05_runs_native_and_nonofficial_closed_sets(
+    tmp_path: Path, ready_pre_live: None
+) -> None:
     calls: Counter[str] = Counter()
     factory = _mock_factory(calls)
     q1 = run_smoke_qualification(
@@ -339,7 +377,7 @@ def test_q2_m05_runs_native_and_nonofficial_closed_sets(tmp_path: Path) -> None:
 
 
 def test_q2_claude_opus_records_output_cap_evidence_without_speculation(
-    tmp_path: Path,
+    tmp_path: Path, ready_pre_live: None,
 ) -> None:
     _seed_gate(tmp_path, "Q1", "M02")
     calls: Counter[str] = Counter()
@@ -363,7 +401,7 @@ def test_q2_claude_opus_records_output_cap_evidence_without_speculation(
 
 
 def test_q2_claude_max_tokens_is_empirical_data_not_retry_or_protocol_change(
-    tmp_path: Path,
+    tmp_path: Path, ready_pre_live: None,
 ) -> None:
     _seed_gate(tmp_path, "Q1", "M02")
     calls: Counter[str] = Counter()
@@ -385,13 +423,17 @@ def test_q2_claude_max_tokens_is_empirical_data_not_retry_or_protocol_change(
     assert calls["anthropic:POST:/v1/messages"] == 7
 
 
-def test_q3_refuses_when_any_q2_gate_is_missing(tmp_path: Path) -> None:
+def test_q3_refuses_when_any_q2_gate_is_missing(
+    tmp_path: Path, ready_pre_live: None
+) -> None:
     with pytest.raises(ValidationError, match="required Q2 gates are missing"):
         run_dress_rehearsal(module_root=ROOT, output_root=tmp_path)
     assert not (tmp_path / "Q3").exists()
 
 
-def test_q3_core_35_uses_production_flow_and_remains_nonofficial(tmp_path: Path) -> None:
+def test_q3_core_35_uses_production_flow_and_remains_nonofficial(
+    tmp_path: Path, ready_pre_live: None
+) -> None:
     for series_id in SERIES_IDS:
         _seed_gate(tmp_path, "Q2", series_id)
     calls: Counter[str] = Counter()

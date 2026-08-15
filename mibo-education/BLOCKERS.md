@@ -7,6 +7,8 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 ## W0 operational blockers
 
 - Protocol-owner, provider-terms, and ethics/governance approvals are not recorded.
+- The three human-governance templates exist, but no `FINAL` human-attributed records have been placed in `waves/W0/governance/records/`.
+- Credential/environment presence preflight is incomplete, including persistent `MIBOE_W0_EVIDENCE_ROOT`; GitHub execution also requires the protected W0 environment and runner markers.
 - No live-verified exact W0 model-lock exists.
 - No locked W0 execution schedule exists.
 - All five provider credentials were absent during the first operational-qualification run, so model-list/get and generation evidence could not be captured.

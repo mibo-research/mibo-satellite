@@ -12,6 +12,9 @@ MIBO-Education inherits MIBO’s persistent service-series identity, synchronize
 |---|---|---|
 | `ENGINEERING_READY` | True | Automated tests, lint, packaging, CLI, and secret checks pass |
 | `SCIENTIFIC_PROTOCOL_COMPLETE` | True | All five authoritative v1.0 artifacts are Frozen and exact-hash verified |
+| `HUMAN_GOVERNANCE_READY` | False | Three explicitly attributed final human records are absent |
+| `CREDENTIAL_ENVIRONMENT_READY` | False | Credential and persistent evidence-root presence checks are incomplete |
+| `W0_Q1_EXECUTABLE` | False | Human-governance and credential/environment gates are incomplete |
 | `W0_READY` | False | W0 approvals, exact model lock, and locked schedule are absent |
 | `W01_READY` | False | Required runtime model, schedule, site, provider-control, and governance locks are absent |
 
@@ -49,14 +52,17 @@ The versioned qualification plan is `waves/W0/live-qualification-plan.yaml`. Liv
 
 ```bash
 miboe qualify report
+miboe qualify preflight
 miboe qualify smoke
 miboe qualify providers
 miboe qualify rehearsal
 ```
 
-Q1 makes at most one ordinary request per selected series after credential and model-metadata checks. Q2 is gated independently per provider by Q1 and runs the seven preselected E1-E7 items; M05 additionally runs the non-official `disable_search=true` diagnostic. Q3 requires all Q2 gates and runs Core-35 through the production scheduler, runner, technical-retry classifier, raw archive, QC, and certificate flow. Every stage remains `OFFICIAL_LONGITUDINAL_DATA=false`.
+Q1 makes at most one ordinary request per selected series after human-governance, credential/environment, and model-metadata checks. A provider-specific Q1 checks only that series' credential; it never requires an unrelated provider's credential. Q2 is gated independently per provider by current pre-live checks and that provider's Q1, and runs the seven preselected E1-E7 items; M05 additionally runs the non-official `disable_search=true` diagnostic. Q3 requires current full-panel pre-live readiness plus all Q2 gates and runs Core-35 through the production scheduler, runner, technical-retry classifier, raw archive, QC, and certificate flow. Every stage remains `OFFICIAL_LONGITUDINAL_DATA=false`.
 
-Missing credentials, model-identity mismatch, missing metadata, or a prior-stage failure refuses the affected stage. M02 maps permanent lineage `MIBO-SL-002 — Claude` to W0 exact candidate `claude-opus-5`; this does not rename the lineage or set the W01 exact model. No provider failure can cause model substitution. `miboe qualify report` never calls a provider and reports credential presence only as booleans.
+The human templates are under `waves/W0/governance/templates/`; signed records belong under `waves/W0/governance/records/`. Agents cannot approve them. `NOT_APPLICABLE` and `NOT_HUMAN_SUBJECTS` still require a named human, role, timezone-aware decision time, rationale, and explicit attestation.
+
+Missing governance, credentials, persistent evidence-root presence, model-identity mismatch, missing metadata, or a prior-stage failure refuses the affected stage before any provider request. In GitHub Actions, the protected environment and self-hosted runner markers are also required. M02 maps permanent lineage `MIBO-SL-002 — Claude` to W0 exact candidate `claude-opus-5`; this does not rename the lineage or set the W01 exact model. No provider failure can cause model substitution. `miboe qualify report` and `miboe qualify preflight` never call a provider and report only presence booleans, never credential or environment values.
 
 ## W01 — BLOCKED
 
@@ -71,7 +77,7 @@ miboe run-wave --manifest waves/W01/manifest.yaml
 
 ## Commands
 
-`miboe validate`, `miboe models resolve`, `miboe schedule`, `miboe pilot`, `miboe preflight`, `miboe run-wave`, `miboe qc`, `miboe certificate`, `miboe export-blind`, and `miboe qualify {smoke,providers,rehearsal,report}`.
+`miboe validate`, `miboe models resolve`, `miboe schedule`, `miboe pilot`, `miboe preflight`, `miboe run-wave`, `miboe qc`, `miboe certificate`, `miboe export-blind`, and `miboe qualify {preflight,smoke,providers,rehearsal,report}`.
 
 ## Provider-specific ambiguities
 

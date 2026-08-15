@@ -13,6 +13,7 @@ from .artifacts import load_battery, load_manifest, load_registry, load_yaml
 from .certificate import create_certificate
 from .errors import ProviderError, TechnicalRetryableError, ValidationError
 from .models import load_model_lock
+from .operational import w0_pre_live_report
 from .qc import run_qc
 from .qualification import (
     FIRST_PARTY_HOSTS,
@@ -324,6 +325,31 @@ def run_smoke_qualification(
     selected = _selected_series(plan, series_ids)
     identifier = run_id or _run_id("Q1")
     run_dir = output_root / "Q1" / identifier
+    pre_live = w0_pre_live_report(module_root=module_root, series_ids=selected)
+    if not pre_live["W0_Q1_EXECUTABLE"]:
+        results = {
+            series_id: {
+                "status": "BLOCKED_PRE_LIVE_OPERATIONAL_GATES",
+                "passed": False,
+                "requested_model": plan["models"][series_id].get("requested_model"),
+                "ordinary_requests_attempted": 0,
+                "substitution_attempted": False,
+                "pre_live_report_sha256": pre_live["report_sha256"],
+            }
+            for series_id in selected
+        }
+        core = {
+            "schema_version": "1.0",
+            "stage": "W0-Q1",
+            "run_id": identifier,
+            "official_longitudinal_data": False,
+            "passed": False,
+            "pre_live": pre_live,
+            "results": results,
+        }
+        report = {**core, "report_sha256": artifact_hash(core)}
+        _write_json(run_dir / "report.json", report)
+        return report
     results: dict[str, Any] = {}
     for series_id in selected:
         existing = _read_gate(output_root, "Q1", series_id)
@@ -342,6 +368,7 @@ def run_smoke_qualification(
             "official_longitudinal_data": False,
             "ordinary_requests_attempted": 0,
             "substitution_attempted": False,
+            "pre_live_report_sha256": pre_live["report_sha256"],
         }
         if not isinstance(model, str) or not model:
             result.update(status="BLOCKED_EXACT_MODEL_UNRESOLVED", passed=False)
@@ -454,6 +481,7 @@ def run_smoke_qualification(
             value.get("passed") or value.get("status") == "ALREADY_PASSED"
             for value in results.values()
         ),
+        "pre_live_report_sha256": pre_live["report_sha256"],
         "results": results,
     }
     report = {**core, "report_sha256": artifact_hash(core)}
@@ -528,6 +556,30 @@ def run_provider_qualification_set(
     qualification_items = [items[item_id] for item_id in plan["qualification_item_ids"]]
     identifier = run_id or _run_id("Q2")
     run_dir = output_root / "Q2" / identifier
+    pre_live = w0_pre_live_report(module_root=module_root, series_ids=selected)
+    if not pre_live["W0_Q1_EXECUTABLE"]:
+        results = {
+            series_id: {
+                "status": "BLOCKED_PRE_LIVE_OPERATIONAL_GATES",
+                "passed": False,
+                "requested_model": plan["models"][series_id].get("requested_model"),
+                "pre_live_report_sha256": pre_live["report_sha256"],
+            }
+            for series_id in selected
+        }
+        core = {
+            "schema_version": "1.0",
+            "stage": "W0-Q2",
+            "run_id": identifier,
+            "official_longitudinal_data": False,
+            "item_ids": plan["qualification_item_ids"],
+            "passed": False,
+            "pre_live": pre_live,
+            "results": results,
+        }
+        report = {**core, "report_sha256": artifact_hash(core)}
+        _write_json(run_dir / "report.json", report)
+        return report
     results: dict[str, Any] = {}
     for series_id in selected:
         existing = _read_gate(output_root, "Q2", series_id)
@@ -556,6 +608,7 @@ def run_provider_qualification_set(
             "item_results": [],
             "closed_diagnostic_results": [],
             "substitution_attempted": False,
+            "pre_live_report_sha256": pre_live["report_sha256"],
         }
         try:
             adapter = adapter_factory(provider)
@@ -717,6 +770,7 @@ def run_provider_qualification_set(
             value.get("passed") or value.get("status") == "ALREADY_PASSED"
             for value in results.values()
         ),
+        "pre_live_report_sha256": pre_live["report_sha256"],
         "results": results,
     }
     report = {**core, "report_sha256": artifact_hash(core)}
@@ -846,6 +900,12 @@ def run_dress_rehearsal(
     module_root = (module_root or default_module_root()).resolve()
     output_root = (output_root or default_output_root(module_root)).resolve()
     plan, battery = _load_plan(module_root)
+    pre_live = w0_pre_live_report(module_root=module_root, series_ids=SERIES_IDS)
+    if not pre_live["W0_Q1_EXECUTABLE"]:
+        raise ValidationError(
+            "W0-Q3 refused: pre-live operational gates are incomplete: "
+            f"{pre_live['W0_Q1_EXECUTABLE_reasons']}"
+        )
     q2_gates = {series_id: _read_gate(output_root, "Q2", series_id) for series_id in SERIES_IDS}
     missing = [series_id for series_id, gate in q2_gates.items() if gate is None]
     if missing:
@@ -968,47 +1028,57 @@ def run_dress_rehearsal(
 
 
 def qualification_status_report(
-    *, module_root: Path | None = None, output_root: Path | None = None
+    *,
+    module_root: Path | None = None,
+    output_root: Path | None = None,
+    series_ids: Iterable[str] | None = None,
 ) -> dict[str, Any]:
     module_root = (module_root or default_module_root()).resolve()
     output_root = (output_root or default_output_root(module_root)).resolve()
     plan, _ = _load_plan(module_root)
+    selected = _selected_series(plan, series_ids)
+    pre_live = w0_pre_live_report(module_root=module_root, series_ids=selected)
     gates: dict[str, Any] = {}
-    credentials: dict[str, bool] = {}
     resolved_candidates: dict[str, bool] = {}
-    for series_id in SERIES_IDS:
-        provider = str(plan["models"][series_id]["provider"])
-        adapter = _first_party_factory(provider)
-        credentials[series_id] = bool(adapter.api_key)
+    for series_id in selected:
         model = plan["models"][series_id].get("requested_model")
         resolved_candidates[series_id] = isinstance(model, str) and bool(model)
         gates[series_id] = {
             "Q1": _read_gate(output_root, "Q1", series_id) is not None,
             "Q2": _read_gate(output_root, "Q2", series_id) is not None,
         }
-    q1_executable_reasons = []
-    missing_credentials = [
-        series_id for series_id, present in credentials.items() if not present
-    ]
+    q1_executable_reasons = list(pre_live["W0_Q1_EXECUTABLE_reasons"])
     unresolved = [
         series_id for series_id, resolved in resolved_candidates.items() if not resolved
     ]
-    if missing_credentials:
-        q1_executable_reasons.append(
-            f"provider credentials are missing: {missing_credentials}"
-        )
     if unresolved:
         q1_executable_reasons.append(f"exact W0 candidates are unresolved: {unresolved}")
     return {
         "schema_version": "1.0",
         "official_longitudinal_data": False,
-        "credentials_present": credentials,
+        "selected_series": selected,
+        "HUMAN_GOVERNANCE_READY": pre_live["HUMAN_GOVERNANCE_READY"],
+        "HUMAN_GOVERNANCE_READY_reasons": pre_live[
+            "HUMAN_GOVERNANCE_READY_reasons"
+        ],
+        "CREDENTIAL_ENVIRONMENT_READY": pre_live["CREDENTIAL_ENVIRONMENT_READY"],
+        "CREDENTIAL_ENVIRONMENT_READY_reasons": pre_live[
+            "CREDENTIAL_ENVIRONMENT_READY_reasons"
+        ],
+        "credentials_present": pre_live["credential_environment"][
+            "credentials_present"
+        ],
         "credential_values_exposed": False,
+        "credential_values_hashed": False,
+        "environment_values_exposed": False,
+        "environment_values_hashed": False,
         "exact_w0_candidates_resolved": resolved_candidates,
         "W0_Q1_EXECUTABLE": not q1_executable_reasons,
         "W0_Q1_EXECUTABLE_reasons": q1_executable_reasons,
         "gates": gates,
         "Q3": _rehearsal_gate_passed(output_root),
-        "governance": plan["governance"],
-        "output_root": str(output_root),
+        "governance_records": pre_live["governance_records"],
+        "output_root_configured": pre_live["credential_environment"][
+            "persistent_evidence_root_present"
+        ],
     }

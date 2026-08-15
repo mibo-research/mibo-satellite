@@ -5,18 +5,18 @@
   "entries": [
     {
       "path": "provider-capabilities.yaml",
-      "bytes": 6349,
-      "sha256": "7947b78dfe94860c2a5d4ec8685e502638ad043e323404fb11315f785499eb21"
+      "bytes": 6674,
+      "sha256": "493d8a534008afd16d756470b70fc2d7ca9e438773d6e7501e0b1f1e6039bcea"
     },
     {
       "path": "model-lock.candidate.yaml",
-      "bytes": 3187,
-      "sha256": "333f331432fdf1fcaa2325c307b265824185ff2c284ad219f77b8e68d7f9608a"
+      "bytes": 3294,
+      "sha256": "97deada2f3682e555726f379c306695567e8b0cfb5663c334f8f16a831284940"
     },
     {
       "path": "qualification-report.md",
-      "bytes": 9769,
-      "sha256": "16c3f7ca472ca2e114d7f9f63935a4cd8e60df5cb00ff0536b94acf0d1a053c7"
+      "bytes": 10664,
+      "sha256": "2171c501a74d5a61ab8e782b8e38baae14444f92110b1684759cc63a520b6dc6"
     },
     {
       "path": "evidence/anthropic/mibo-core-inheritance.json",
@@ -79,5 +79,5 @@
       "sha256": "20281d9a058b0af1f22791d8e2aed1a837d0f10e14de975dc989d7373453ceb8"
     }
   ],
-  "evidence_manifest_sha256": "d57e20c36757bca0467212f63e0732f7d4e89a6af9d382326930640d80c558d4"
+  "evidence_manifest_sha256": "9e9f60be6b538fe4eee0db37205e3068e26084ec755a49134861809676654887"
 }

@@ -57,7 +57,13 @@ stage_gates:
   Q2: relevant_provider_Q1_passed
   Q3: all_required_Q2_provider_gates_passed
 governance:
-  protocol_owner: false
-  provider_terms_review: false
-  ethics_or_governance_determination: false
+  record_schema: ../../schemas/human-governance-record.schema.json
+  templates:
+    protocol_owner: governance/templates/protocol-owner.template.yaml
+    terms_review: governance/templates/terms-review.template.yaml
+    ethics_or_governance_determination: governance/templates/ethics-or-governance-determination.template.yaml
+  records:
+    protocol_owner: governance/records/protocol-owner.yaml
+    terms_review: governance/records/terms-review.yaml
+    ethics_or_governance_determination: governance/records/ethics-or-governance-determination.yaml
   agent_approval_permitted: false

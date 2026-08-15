@@ -67,9 +67,10 @@ execution_permitted: false
 blockers:
   - W0-Q1, W0-Q2, and W0-Q3 live qualification gates have not been produced.
   - All five provider credentials were absent from the qualification environment.
+  - Persistent MIBOE_W0_EVIDENCE_ROOT presence has not been recorded.
   - M01 model retrieve/list metadata and generation response were not captured.
   - M02 model list/get and generation responses were not captured.
   - M03 models.get metadata and response.modelVersion were not captured.
   - M04 Models API metadata, aliases, fingerprint/version fields, and returned response identity were not captured.
   - M05 NATIVE response and NON-OFFICIAL disable_search diagnostic response were not captured.
-  - Human governance and terms determinations remain unrecorded.
+  - Final human-attributed protocol-owner, terms-review, and ethics/governance records remain absent.

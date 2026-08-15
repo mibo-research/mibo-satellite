@@ -7,7 +7,7 @@
 
 ## Live qualification preparation
 
-The staged W0-Q1/Q2/Q3 workflow is encoded in `live-qualification-plan.yaml` and exposed through `miboe qualify smoke`, `providers`, `rehearsal`, and `report`. Live output is append-only and Git-ignored. Q1 is limited to one ordinary request per provider/series; Q2 uses E1-01 through E7-01; Q3 defines Core-35 as those seven items across M01-M05, split into a 28-observation CLOSED panel and a seven-observation M05 NATIVE mirror. The M05 CLOSED diagnostic is not included in Core-35.
+The staged W0-Q1/Q2/Q3 workflow is encoded in `live-qualification-plan.yaml` and exposed through `miboe qualify preflight`, `smoke`, `providers`, `rehearsal`, and `report`. Live output is append-only and Git-ignored. Q1 is limited to one ordinary request per provider/series; Q2 uses E1-01 through E7-01; Q3 defines Core-35 as those seven items across M01-M05, split into a 28-observation CLOSED panel and a seven-observation M05 NATIVE mirror. The M05 CLOSED diagnostic is not included in Core-35.
 
 No live stage has been executed. Authorization, API-key, cookie, and equivalent credential-header names are excluded from stored request evidence rather than retained as redacted header entries.
 
@@ -69,17 +69,21 @@ The first-party Sonar endpoint and `disable_search` control are documented. The 
 
 ## Remaining W0 blockers
 
-1. Configure provider credentials outside Git and rerun model-list/get plus generation probes.
-2. Capture and hash every redacted raw provider metadata response and returned model identity.
-3. Confirm M01–M04 CLOSED behavior in live responses, including absence of tool/search activity.
-4. Empirically assess whether M02 `max_tokens=8192` yields `stop_reason=max_tokens` or materially constrains visible output; do not change the frozen protocol during W0.
-5. Complete the M05 NATIVE and non-official `disable_search=true` response comparison.
-6. Record protocol-owner, provider-terms, and institutional ethics/governance determinations.
+1. Have named human decision-makers finalize the protocol-owner, terms-review, and ethics/governance records from the supplied templates. Agents cannot approve them.
+2. Configure provider credentials and persistent `MIBOE_W0_EVIDENCE_ROOT` outside Git, then rerun presence-only preflight. GitHub execution additionally requires the protected W0 environment and runner markers.
+3. Capture and hash every redacted raw provider metadata response and returned model identity.
+4. Confirm M01–M04 CLOSED behavior in live responses, including absence of tool/search activity.
+5. Empirically assess whether M02 `max_tokens=8192` yields `stop_reason=max_tokens` or materially constrains visible output; do not change the frozen protocol during W0.
+6. Complete the M05 NATIVE and non-official `disable_search=true` response comparison.
 7. Produce the final immutable W0 `model-lock.json` and execution schedule only after the above checks pass.
 
 ## Exact readiness prerequisites after M02 resolution
 
-`W0-Q1` has no remaining model-selection prerequisite: M01–M05 now each have an exact W0 candidate. A full-panel Q1 invocation remains non-executable until all five credential environment variables are present. The protected GitHub workflow additionally requires the `mibo-education-w0` environment, a matching self-hosted runner, and a persistent `MIBOE_W0_EVIDENCE_ROOT`; these are execution safeguards, not model-selection requirements.
+`HUMAN_GOVERNANCE_READY=false` until all three records exist with `status: FINAL`, a non-empty determination, named human and role, timezone-aware `decided_at`, rationale, evidence-reference list, and explicit human attestation. `NOT_APPLICABLE` and `NOT_HUMAN_SUBJECTS` receive no exception.
+
+`CREDENTIAL_ENVIRONMENT_READY=false` until presence-only checks pass. A provider-specific check requires only that provider's credential and the common persistent evidence-root marker. A full-panel check requires all five credentials. GitHub Actions additionally requires presence markers for the protected `mibo-education-w0` environment and matching self-hosted runner. No credential or environment value is printed, hashed, serialized, or persisted.
+
+`W0_Q1_EXECUTABLE=false` until both preceding flags are true. It has no remaining model-selection prerequisite: M01–M05 each have an exact W0 candidate. Selecting `--series M02`, for example, requires `ANTHROPIC_API_KEY` but not the other four provider credentials.
 
 `W0_READY` additionally requires successful Q1 and Q2 gates for M01–M05, a successful Q3 Core-35 gate, a qualified immutable exact W0 model lock, a locked W0 schedule and hash, and explicit human protocol-owner, provider-terms, and institutional ethics/governance determinations.
 
@@ -103,4 +107,4 @@ The first-party Sonar endpoint and `disable_search` control are documented. The 
 
 ## Governance
 
-No approval has been inferred. Protocol owner, terms review, and institutional ethics/governance determination remain fail-closed and must be explicitly recorded by humans.
+No approval has been inferred. Pending templates are not approvals. Protocol owner, terms review, and institutional ethics/governance determination remain fail-closed and must be explicitly finalized by attributed humans. Automated agents must not populate, attest, or finalize those records.
