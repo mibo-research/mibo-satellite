@@ -10,7 +10,7 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 - No live-verified exact W0 model-lock exists.
 - No locked W0 execution schedule exists.
 - All five provider credentials were absent during the first operational-qualification run, so model-list/get and generation evidence could not be captured.
-- MIBO Core has not fixed the M02 Fable-versus-Opus family mapping; Education therefore leaves M02 unresolved.
+- M02 is resolved for W0 as permanent lineage `MIBO-SL-002 — Claude` with exact candidate `claude-opus-5`; its Models API metadata, returned identity, stop reason, and thinking/output-cap evidence remain uncaptured.
 - W0-Q1 live smoke gates are absent for M01-M05.
 - W0-Q2 seven-item provider qualification gates are absent for M01-M05.
 - The W0-Q3 Core-35 production-flow dress rehearsal has not passed.
@@ -30,7 +30,7 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 - M01–M05: any provider-required generation or reasoning-control field must be mapped and frozen without adding optional sampling overrides.
 - M01–M05: the effective visible-output cap must target 8192 tokens; M04 uses Responses API `max_output_tokens`, while M02 and M05 use `max_tokens`. Any provider hard-limit exception must be recorded before W01.
 - M01–M04: absence of tools, web, retrieval, RAG, files, memory, and external functions must be verified for the selected exact API surface.
-- M01–M05: exact requested model IDs, provider-returned identity fields, and evidence of meaningful snapshot/pinning behavior remain unresolved.
+- M01–M05: exact requested model IDs must still be live-verified against provider-returned identity fields; M02's canonical ID is provider-documented as pinned, but serving-infrastructure behavioral variation remains possible.
 - M05 is scientifically assigned to the separate NATIVE mirror and must not be pooled with CLOSED; the exact NATIVE API surface still requires a runtime lock.
 - Any unavoidable provider-controlled system layer, forced streaming, or internal regional routing limitation must be documented explicitly rather than represented as absent.
 

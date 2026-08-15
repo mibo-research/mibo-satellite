@@ -15,5 +15,11 @@
       "finding": "Anthropic is a pinned-snapshot technical candidate; no exact Fable-versus-Opus selection is frozen."
     }
   ],
-  "education_decision": "DO_NOT_INDEPENDENTLY_SELECT_FABLE_OR_OPUS"
+  "capture_scope": "HISTORICAL_CORE_REGISTRY_STATE",
+  "education_decision_at_capture": "DO_NOT_INDEPENDENTLY_SELECT_FABLE_OR_OPUS",
+  "w0_exact_model_resolution": {
+    "status": "SUPERSEDED_BY_EXPLICIT_PROTOCOL_DIRECTION",
+    "evidence": "m02-w0-resolution.json",
+    "requested_model": "claude-opus-5"
+  }
 }

@@ -18,17 +18,19 @@ models:
     request_shape_sha256: 2cec4dc116c7b226d0a62c3a64c3e40e8fdc30fc2c34650cd8c7dc11941acd54
     pinning_classification: PROVIDER_DOCUMENTED_SNAPSHOT_BEHAVIORAL_IMMUTABILITY_NOT_CLAIMED
   - series_id: M02
+    permanent_mibo_lineage_id: MIBO-SL-002
+    permanent_lineage_label: Claude
     provider: anthropic
-    requested_model: null
-    conditional_requested_model_if_core_selects_opus: claude-opus-5
+    requested_model: claude-opus-5
     environment: CLOSED
     first_party_api: true
     live_verified: false
     provider_returned_model: null
     provider_metadata_sha256: null
     request_shape_sha256: 6342133197b6ceaf6d24e15882920a7ed0e16bd60e34b351dfff13fc94636bef
-    blocker: MIBO Core does not yet freeze Fable versus Opus for this Education mapping.
-    pinning_classification: PROVIDER_DOCUMENTED_PINNED_MODEL_ID
+    pinning_classification: PROVIDER_DOCUMENTED_PINNED_CANONICAL_MODEL_ID
+    behavioral_immutability_claimed: false
+    serving_infrastructure_variation_possible: true
   - series_id: M03
     provider: gemini
     requested_model: gemini-3.6-flash
@@ -66,8 +68,7 @@ blockers:
   - W0-Q1, W0-Q2, and W0-Q3 live qualification gates have not been produced.
   - All five provider credentials were absent from the qualification environment.
   - M01 model retrieve/list metadata and generation response were not captured.
-  - M02 inherited Core family does not select Fable versus Opus.
-  - M02 model list and conditional generation response were not captured.
+  - M02 model list/get and generation responses were not captured.
   - M03 models.get metadata and response.modelVersion were not captured.
   - M04 Models API metadata, aliases, fingerprint/version fields, and returned response identity were not captured.
   - M05 NATIVE response and NON-OFFICIAL disable_search diagnostic response were not captured.

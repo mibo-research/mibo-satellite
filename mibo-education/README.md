@@ -56,7 +56,7 @@ miboe qualify rehearsal
 
 Q1 makes at most one ordinary request per selected series after credential and model-metadata checks. Q2 is gated independently per provider by Q1 and runs the seven preselected E1-E7 items; M05 additionally runs the non-official `disable_search=true` diagnostic. Q3 requires all Q2 gates and runs Core-35 through the production scheduler, runner, technical-retry classifier, raw archive, QC, and certificate flow. Every stage remains `OFFICIAL_LONGITUDINAL_DATA=false`.
 
-Missing credentials, an unresolved M02 Core definition, model-identity mismatch, missing metadata, or a prior-stage failure refuses the affected stage. No provider failure can cause model substitution. `miboe qualify report` never calls a provider and reports credential presence only as booleans.
+Missing credentials, model-identity mismatch, missing metadata, or a prior-stage failure refuses the affected stage. M02 maps permanent lineage `MIBO-SL-002 — Claude` to W0 exact candidate `claude-opus-5`; this does not rename the lineage or set the W01 exact model. No provider failure can cause model substitution. `miboe qualify report` never calls a provider and reports credential presence only as booleans.
 
 ## W01 — BLOCKED
 
@@ -76,7 +76,7 @@ miboe run-wave --manifest waves/W01/manifest.yaml
 ## Provider-specific ambiguities
 
 - OpenAI: whether a selected model ID is behaviorally pinned for the complete annual period must be verified; aliases cannot be Frozen IDs.
-- Anthropic: the Messages API requires `max_tokens`; the authoritative Education protocol must freeze this transport-required cap and decide treatment of thinking/effort controls.
+- Anthropic: W0 uses canonical pinned ID `claude-opus-5`, omits effort and thinking overrides, and retains protocol-required `max_tokens=8192`. Live evidence must determine whether default thinking causes `stop_reason=max_tokens` or materially constrains visible output; serving-infrastructure variation remains possible despite the pinned model ID.
 - Gemini: stable IDs are preferable, but provider documentation does not promise behavioral immutability; returned `modelVersion` must be retained.
 - xAI: the W0 candidate is `grok-4.5` on `/v1/responses` with `max_output_tokens=8192`; Models API version/fingerprint evidence and returned identity remain live-unverified. `grok-4.5-latest` is forbidden.
 - Perplexity: W01 remains NATIVE on the first-party Sonar API. The `disable_search=true` path is a separate, non-official W0 diagnostic and cannot qualify as a W01 observation.

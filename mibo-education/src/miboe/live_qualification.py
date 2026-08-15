@@ -99,6 +99,25 @@ def _load_plan(module_root: Path) -> tuple[dict[str, Any], Any]:
         raise ValidationError("W0 live qualification must remain non-official")
     if not isinstance(models, dict) or tuple(models) != SERIES_IDS:
         raise ValidationError("live qualification plan must define M01-M05 in order")
+    m02 = models.get("M02") or {}
+    if (
+        m02.get("permanent_mibo_lineage_id") != "MIBO-SL-002"
+        or m02.get("permanent_lineage_label") != "Claude"
+        or m02.get("requested_model") != "claude-opus-5"
+    ):
+        raise ValidationError(
+            "W0 M02 must map MIBO-SL-002 Claude to exact candidate claude-opus-5"
+        )
+    registry = load_registry(module_root / "registry" / "model-series.yaml")
+    registry_m02 = next(
+        (row for row in registry["series"] if row.get("series_id") == "M02"), None
+    )
+    if not registry_m02 or (
+        registry_m02.get("permanent_mibo_lineage_id") != "MIBO-SL-002"
+        or registry_m02.get("permanent_mibo_lineage_label") != "Claude"
+        or "Opus Series" in str(registry_m02.get("label"))
+    ):
+        raise ValidationError("permanent M02 registry lineage must remain MIBO-SL-002 Claude")
     if not isinstance(item_ids, list) or len(item_ids) != 7:
         raise ValidationError("W0-Q2 must contain exactly seven preselected items")
     if [value.split("-", 1)[0] for value in item_ids] != [f"E{i}" for i in range(1, 8)]:
@@ -325,7 +344,7 @@ def run_smoke_qualification(
             "substitution_attempted": False,
         }
         if not isinstance(model, str) or not model:
-            result.update(status="BLOCKED_CORE_SERIES_UNRESOLVED", passed=False)
+            result.update(status="BLOCKED_EXACT_MODEL_UNRESOLVED", passed=False)
         else:
             try:
                 adapter = adapter_factory(provider)
@@ -381,6 +400,7 @@ def run_smoke_qualification(
                             raise ProviderError(error or "ordinary response was not JSON")
                         normalized = adapter.normalize(response.body)
                         identity_match = _identity_match(model, normalized.returned_model)
+                        response_flags = _response_flags(normalized)
                         result.update(
                             status="PASSED" if identity_match else "FAILED_RETURNED_IDENTITY",
                             passed=identity_match,
@@ -390,6 +410,9 @@ def run_smoke_qualification(
                             finish_reason=normalized.finish_reason,
                             usage=normalized.usage,
                             safety=normalized.safety,
+                            stop_reason_is_max_tokens=response_flags[
+                                "stop_reason_is_max_tokens"
+                            ],
                             request_shape=audit,
                             metadata_complete=True,
                             metadata_records=metadata_records,
@@ -397,6 +420,14 @@ def run_smoke_qualification(
                             raw_preservation=True,
                             secret_redaction_validated=True,
                         )
+                        if series_id == "M02":
+                            result["anthropic_observation_metadata"] = {
+                                "stop_reason": normalized.finish_reason,
+                                "stop_reason_is_max_tokens": response_flags[
+                                    "stop_reason_is_max_tokens"
+                                ],
+                                "thinking": _anthropic_thinking_metadata(response.body),
+                            }
                     except Exception as exc:
                         result.update(
                             status="FAILED_CLOSED",
@@ -442,11 +473,42 @@ def _response_flags(normalized: Any) -> dict[str, Any]:
     }
     return {
         "finish_reason": normalized.finish_reason,
+        "stop_reason_is_max_tokens": finish == "max_tokens",
         "refusal_observed": refusal,
         "provider_block_observed": provider_block,
         "truncation_or_output_cap_stop_observed": truncation,
         "visible_output_characters": len(normalized.text),
         "usage": normalized.usage,
+    }
+
+
+def _anthropic_thinking_metadata(body: dict[str, Any]) -> dict[str, Any]:
+    content = body.get("content")
+    blocks = content if isinstance(content, list) else []
+    typed_blocks = [block for block in blocks if isinstance(block, dict)]
+    thinking_blocks = [block for block in typed_blocks if block.get("type") == "thinking"]
+    redacted_blocks = [
+        block for block in typed_blocks if block.get("type") == "redacted_thinking"
+    ]
+    usage = body.get("usage") if isinstance(body.get("usage"), dict) else {}
+    details = (
+        usage.get("output_tokens_details")
+        if isinstance(usage.get("output_tokens_details"), dict)
+        else {}
+    )
+    thinking_tokens = details.get("thinking_tokens")
+    return {
+        "content_block_types": [
+            str(block.get("type")) for block in typed_blocks if block.get("type")
+        ],
+        "thinking_block_count": len(thinking_blocks),
+        "thinking_content_characters": sum(
+            len(str(block.get("thinking", ""))) for block in thinking_blocks
+        ),
+        "redacted_thinking_block_count": len(redacted_blocks),
+        "thinking_tokens": thinking_tokens,
+        "thinking_token_metadata_exposed": thinking_tokens is not None,
+        "thinking_content_metadata_exposed": bool(thinking_blocks or redacted_blocks),
     }
 
 
@@ -536,6 +598,11 @@ def run_provider_qualification_set(
                         "returned_identity_matches_requested": identity_match,
                         **_response_flags(normalized),
                     }
+                    if series_id == "M02":
+                        item_result["stop_reason"] = normalized.finish_reason
+                        item_result["anthropic_thinking_metadata"] = (
+                            _anthropic_thinking_metadata(response.body)
+                        )
                     result["item_results"].append(item_result)
                     if not identity_match:
                         failures.append(f"{item.item_id}: returned identity mismatch")
@@ -602,9 +669,14 @@ def run_provider_qualification_set(
             )
             if series_id == "M02":
                 result["opus_5_output_cap_evidence"] = {
+                    "permanent_mibo_lineage_id": "MIBO-SL-002",
+                    "permanent_lineage_label": "Claude",
                     "canonical_model_id_provider_documented_pinned_snapshot": (
                         model == "claude-opus-5"
                     ),
+                    "serving_infrastructure_behavioral_variation_possible": True,
+                    "effort_omitted": True,
+                    "thinking_override_omitted": True,
                     "max_tokens": 8192,
                     "stop_reason_max_tokens_count": sum(
                         value["finish_reason"] == "max_tokens"
@@ -614,6 +686,14 @@ def run_provider_qualification_set(
                         value["visible_output_characters"]
                         for value in result["item_results"]
                     ],
+                    "thinking_metadata_by_item": [
+                        {
+                            "item_id": value["item_id"],
+                            **value["anthropic_thinking_metadata"],
+                        }
+                        for value in result["item_results"]
+                    ],
+                    "frozen_protocol_modified": False,
                     "material_constraint_interpretation": "HUMAN_REVIEW_REQUIRED",
                 }
         result_path = run_dir / series_id / "result.json"
@@ -895,19 +975,38 @@ def qualification_status_report(
     plan, _ = _load_plan(module_root)
     gates: dict[str, Any] = {}
     credentials: dict[str, bool] = {}
+    resolved_candidates: dict[str, bool] = {}
     for series_id in SERIES_IDS:
         provider = str(plan["models"][series_id]["provider"])
         adapter = _first_party_factory(provider)
         credentials[series_id] = bool(adapter.api_key)
+        model = plan["models"][series_id].get("requested_model")
+        resolved_candidates[series_id] = isinstance(model, str) and bool(model)
         gates[series_id] = {
             "Q1": _read_gate(output_root, "Q1", series_id) is not None,
             "Q2": _read_gate(output_root, "Q2", series_id) is not None,
         }
+    q1_executable_reasons = []
+    missing_credentials = [
+        series_id for series_id, present in credentials.items() if not present
+    ]
+    unresolved = [
+        series_id for series_id, resolved in resolved_candidates.items() if not resolved
+    ]
+    if missing_credentials:
+        q1_executable_reasons.append(
+            f"provider credentials are missing: {missing_credentials}"
+        )
+    if unresolved:
+        q1_executable_reasons.append(f"exact W0 candidates are unresolved: {unresolved}")
     return {
         "schema_version": "1.0",
         "official_longitudinal_data": False,
         "credentials_present": credentials,
         "credential_values_exposed": False,
+        "exact_w0_candidates_resolved": resolved_candidates,
+        "W0_Q1_EXECUTABLE": not q1_executable_reasons,
+        "W0_Q1_EXECUTABLE_reasons": q1_executable_reasons,
         "gates": gates,
         "Q3": _rehearsal_gate_passed(output_root),
         "governance": plan["governance"],

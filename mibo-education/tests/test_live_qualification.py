@@ -14,6 +14,7 @@ from miboe.errors import ValidationError
 from miboe.live_qualification import (
     FIRST_PARTY_HOSTS,
     SERIES_IDS,
+    qualification_status_report,
     run_dress_rehearsal,
     run_provider_qualification_set,
     run_smoke_qualification,
@@ -46,11 +47,35 @@ def test_live_plan_freezes_nonofficial_seven_item_and_core_35_shapes() -> None:
     assert plan["core_35_rehearsal"]["expected_observations"] == 35
     assert plan["core_35_rehearsal"]["closed_panel_observations"] == 28
     assert plan["core_35_rehearsal"]["native_mirror_observations"] == 7
+    assert plan["models"]["M02"]["permanent_mibo_lineage_id"] == "MIBO-SL-002"
+    assert plan["models"]["M02"]["permanent_lineage_label"] == "Claude"
+    assert plan["models"]["M02"]["requested_model"] == "claude-opus-5"
     assert plan["governance"]["ethics_or_governance_determination"] is False
     assert plan["governance"]["agent_approval_permitted"] is False
 
 
-def _response_body(provider: str, model: str) -> dict[str, Any]:
+def test_q1_executable_report_has_all_candidates_and_fail_closed_credentials(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    for name in (
+        "OPENAI_API_KEY",
+        "ANTHROPIC_API_KEY",
+        "GEMINI_API_KEY",
+        "XAI_API_KEY",
+        "PERPLEXITY_API_KEY",
+    ):
+        monkeypatch.delenv(name, raising=False)
+    report = qualification_status_report(module_root=ROOT, output_root=tmp_path)
+    assert all(report["exact_w0_candidates_resolved"].values())
+    assert report["W0_Q1_EXECUTABLE"] is False
+    assert report["W0_Q1_EXECUTABLE_reasons"] == [
+        "provider credentials are missing: ['M01', 'M02', 'M03', 'M04', 'M05']"
+    ]
+
+
+def _response_body(
+    provider: str, model: str, *, anthropic_stop_reason: str = "end_turn"
+) -> dict[str, Any]:
     if provider in {"openai", "xai"}:
         return {
             "id": f"resp-{provider}",
@@ -69,9 +94,16 @@ def _response_body(provider: str, model: str) -> dict[str, Any]:
         return {
             "id": "msg-anthropic",
             "model": model,
-            "content": [{"type": "text", "text": "OK"}],
-            "stop_reason": "end_turn",
-            "usage": {"input_tokens": 1, "output_tokens": 1},
+            "content": [
+                {"type": "thinking", "thinking": "brief internal work"},
+                {"type": "text", "text": "OK"},
+            ],
+            "stop_reason": anthropic_stop_reason,
+            "usage": {
+                "input_tokens": 1,
+                "output_tokens": 3,
+                "output_tokens_details": {"thinking_tokens": 2},
+            },
         }
     if provider == "gemini":
         return {
@@ -99,7 +131,11 @@ def _response_body(provider: str, model: str) -> dict[str, Any]:
 
 
 def _mock_factory(
-    calls: Counter[str], *, credentials: bool = True, fail_provider: str | None = None
+    calls: Counter[str],
+    *,
+    credentials: bool = True,
+    fail_provider: str | None = None,
+    anthropic_stop_reason: str = "end_turn",
 ):
     adapters: dict[str, Any] = {}
 
@@ -121,7 +157,14 @@ def _mock_factory(
                 return httpx.Response(200, json={"data": [{"id": model}]})
             body = json.loads(request.content)
             requested = body.get("model", model)
-            return httpx.Response(200, json=_response_body(provider, requested))
+            return httpx.Response(
+                200,
+                json=_response_body(
+                    provider,
+                    requested,
+                    anthropic_stop_reason=anthropic_stop_reason,
+                ),
+            )
 
         adapters[provider] = make_adapter(
             provider,
@@ -202,19 +245,30 @@ def test_q1_does_not_call_provider_without_credential(tmp_path: Path) -> None:
     assert not calls
 
 
-def test_q1_m02_refuses_unresolved_core_family_without_call(tmp_path: Path) -> None:
-    def forbidden_factory(provider: str):
-        raise AssertionError(f"adapter must not be created for unresolved {provider}")
-
+def test_q1_m02_uses_resolved_lineage_candidate_and_native_defaults(tmp_path: Path) -> None:
+    calls: Counter[str] = Counter()
     report = run_smoke_qualification(
         module_root=ROOT,
         output_root=tmp_path,
         series_ids=["M02"],
-        adapter_factory=forbidden_factory,
-        run_id="Q1-M02-BLOCKED",
+        adapter_factory=_mock_factory(calls),
+        run_id="Q1-M02",
     )
-    assert report["passed"] is False
-    assert report["results"]["M02"]["status"] == "BLOCKED_CORE_SERIES_UNRESOLVED"
+    assert report["passed"] is True
+    result = report["results"]["M02"]
+    assert result["requested_model"] == "claude-opus-5"
+    assert result["returned_model"] == "claude-opus-5"
+    assert result["anthropic_observation_metadata"]["stop_reason"] == "end_turn"
+    thinking = result["anthropic_observation_metadata"]["thinking"]
+    assert thinking["thinking_tokens"] == 2
+    assert thinking["thinking_block_count"] == 1
+    request = json.loads(
+        (tmp_path / "Q1/Q1-M02/M02/ordinary-smoke.request.body").read_text()
+    )
+    assert request["max_tokens"] == 8192
+    assert "thinking" not in request
+    assert "output_config" not in request
+    assert calls["anthropic:POST:/v1/messages"] == 1
 
 
 def test_q1_provider_failure_does_not_substitute_or_block_other_series(
@@ -300,6 +354,33 @@ def test_q2_claude_opus_records_output_cap_evidence_without_speculation(
     evidence = report["results"]["M02"]["opus_5_output_cap_evidence"]
     assert evidence["max_tokens"] == 8192
     assert evidence["stop_reason_max_tokens_count"] == 0
+    assert evidence["effort_omitted"] is True
+    assert evidence["thinking_override_omitted"] is True
+    assert evidence["thinking_metadata_by_item"][0]["thinking_tokens"] == 2
+    assert evidence["frozen_protocol_modified"] is False
+    assert evidence["material_constraint_interpretation"] == "HUMAN_REVIEW_REQUIRED"
+    assert calls["anthropic:POST:/v1/messages"] == 7
+
+
+def test_q2_claude_max_tokens_is_empirical_data_not_retry_or_protocol_change(
+    tmp_path: Path,
+) -> None:
+    _seed_gate(tmp_path, "Q1", "M02")
+    calls: Counter[str] = Counter()
+    report = run_provider_qualification_set(
+        module_root=ROOT,
+        output_root=tmp_path,
+        series_ids=["M02"],
+        adapter_factory=_mock_factory(calls, anthropic_stop_reason="max_tokens"),
+        run_id="Q2-OPUS-MAX-TOKENS",
+    )
+    assert report["passed"] is True
+    result = report["results"]["M02"]
+    assert result["truncation_or_output_cap_stops_observed"] == 7
+    assert all(value["stop_reason_is_max_tokens"] for value in result["item_results"])
+    evidence = result["opus_5_output_cap_evidence"]
+    assert evidence["stop_reason_max_tokens_count"] == 7
+    assert evidence["frozen_protocol_modified"] is False
     assert evidence["material_constraint_interpretation"] == "HUMAN_REVIEW_REQUIRED"
     assert calls["anthropic:POST:/v1/messages"] == 7
 

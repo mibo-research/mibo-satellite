@@ -81,8 +81,8 @@
   },
   {
     "path": "mibo-education/BLOCKERS.md",
-    "bytes": 2761,
-    "sha256": "a2c801a19392fb28a6647eea4a2cee4a27fe63c7b8bf00902cc2d0a8096dd5ec"
+    "bytes": 2950,
+    "sha256": "8d68f0bcac375fd8fcaf25911d674aa3d29f3e3f30b066bde18b6c945911bc4f"
   },
   {
     "path": "mibo-education/CHARTER.md",
@@ -91,13 +91,13 @@
   },
   {
     "path": "mibo-education/READINESS.md",
-    "bytes": 1796,
-    "sha256": "856e413d163f560dfc8bdff20169dca7d3deb2f0bdbb65b4fab03060c7fa0fce"
+    "bytes": 1804,
+    "sha256": "b56efdd6dc14b9d1a693a02fda82a4c62cfcbe9cb90a60b17014875e54c4e4ca"
   },
   {
     "path": "mibo-education/README.md",
-    "bytes": 5157,
-    "sha256": "5760171baec6822e455f551482b34ae0491535e609d7cffd818d94f8439926fa"
+    "bytes": 5444,
+    "sha256": "584d37d4d2506b36fb7b3d180cb36dc3db185ee850199397ca87a1fd6ea7ff47"
   },
   {
     "path": "mibo-education/battery/ebb-ja-v1.0.prompt-lock.json",
@@ -151,8 +151,8 @@
   },
   {
     "path": "mibo-education/registry/model-series.yaml",
-    "bytes": 1113,
-    "sha256": "0f141eee0c56c231235b301897e567ae772343b3054d77ee30fca2ead6842db7"
+    "bytes": 1197,
+    "sha256": "dab1e5e653119db566fbbe4f58ff066f3ffa2bab0d828c155ab0ca9038c94144"
   },
   {
     "path": "mibo-education/schemas/battery.schema.json",
@@ -261,8 +261,8 @@
   },
   {
     "path": "mibo-education/src/miboe/live_qualification.py",
-    "bytes": 36852,
-    "sha256": "9e12b8e41a4bdbadd6a2cf4d08bc489a74486516dddde5453427619d27a9cd03"
+    "bytes": 41662,
+    "sha256": "c97c6ccfd1781a6dd1f68f78f6adc52991b2143e33e53a9dcf306786d0448684"
   },
   {
     "path": "mibo-education/src/miboe/models.py",
@@ -281,8 +281,8 @@
   },
   {
     "path": "mibo-education/src/miboe/qualification.py",
-    "bytes": 7055,
-    "sha256": "b1836ae88c81ca3101695f8b299776d2d47a371b3bffb636bc392fbb39f8e490"
+    "bytes": 6625,
+    "sha256": "582443301b389d9a1c8081a60caf1541627aff111face5163162920874671cf8"
   },
   {
     "path": "mibo-education/src/miboe/readiness.py",
@@ -311,8 +311,8 @@
   },
   {
     "path": "mibo-education/tests/test_adapters.py",
-    "bytes": 6591,
-    "sha256": "495afc1f9a9d8afb79ea287494661352875a38fbfbf081a6b68f1c5388fefafa"
+    "bytes": 6983,
+    "sha256": "094712d13213e337f403882b2fb9177979d5712190297ffd1cfa0188c98756f1"
   },
   {
     "path": "mibo-education/tests/test_battery_and_artifacts.py",
@@ -321,13 +321,13 @@
   },
   {
     "path": "mibo-education/tests/test_live_qualification.py",
-    "bytes": 12083,
-    "sha256": "d8106c0c6e536b542ef6fd762a03d98d6dece6f9b4b63c26c04a747601ce4e16"
+    "bytes": 15228,
+    "sha256": "5b44262115560e223fca96ea5c76d9a295a55ac82427f0ba01fa702929aad411"
   },
   {
     "path": "mibo-education/tests/test_models_and_schedule.py",
-    "bytes": 3911,
-    "sha256": "78309087875e6837848ff341498bac2373f85dd6ba418f908e3604aa4f823a25"
+    "bytes": 4148,
+    "sha256": "bff09155fe9719de72258bbb129fe62bd03f56e98238be6c68a4c6a9dca931aa"
   },
   {
     "path": "mibo-education/tests/test_preflight_cli_security.py",
@@ -351,8 +351,8 @@
   },
   {
     "path": "mibo-education/tests/test_w0_qualification.py",
-    "bytes": 4393,
-    "sha256": "a1f41991878a24a1c076340152198463774bc44eab7e147584dd972be12da1a0"
+    "bytes": 4376,
+    "sha256": "fdde2a9d0a181e54ed37c48f511e64897a35c0a4a7faea567937bbd092195fbc"
   },
   {
     "path": "mibo-education/waves/.gitkeep",
@@ -361,23 +361,28 @@
   },
   {
     "path": "mibo-education/waves/W0/evidence-manifest.json",
-    "bytes": 2706,
-    "sha256": "35d968f43e87b07951f94bde451eff37163c44a4d5792d1457e3a7b15f319c16"
+    "bytes": 2867,
+    "sha256": "eb91c4c72b09eee8c2d0686c25202642b0284b8b6406aa7e4cfa43cada8a902c"
+  },
+  {
+    "path": "mibo-education/waves/W0/evidence/anthropic/m02-w0-resolution.json",
+    "bytes": 1153,
+    "sha256": "797f52408776aa41a18f3e2f96a27e2d017f3515b206957a5c494e0f81919832"
   },
   {
     "path": "mibo-education/waves/W0/evidence/anthropic/mibo-core-inheritance.json",
-    "bytes": 805,
-    "sha256": "0b9e3ff1234db7130bb3d1c6771993d9220c078f5a6940e2613d71a5f9e06d54"
+    "bytes": 1047,
+    "sha256": "3c867d81b5e462783c2d99ceebda10ecf1915cfa5a526e747aa038f52821045a"
   },
   {
     "path": "mibo-education/waves/W0/evidence/anthropic/model-metadata.capture.json",
-    "bytes": 767,
-    "sha256": "dbd33be3502d2d58374e4c80aeb3969042fcc9c5d5ac0cd6090a2c7da6366581"
+    "bytes": 984,
+    "sha256": "988d10dfcade566ef447172f3cc9116c1cdf948479a479d8965ca4442c3c7ebf"
   },
   {
-    "path": "mibo-education/waves/W0/evidence/anthropic/request-shape.conditional-opus.closed.json",
-    "bytes": 934,
-    "sha256": "5806c4288d9457111e8dc4b80dacbf90db5abdda1333f91de1039317d7ba7bf4"
+    "path": "mibo-education/waves/W0/evidence/anthropic/request-shape.closed.json",
+    "bytes": 1086,
+    "sha256": "eb4c64d70863feb7e8d2661b59c595b6677afa631b6207eefe6ae55578c20165"
   },
   {
     "path": "mibo-education/waves/W0/evidence/google/model-metadata.capture.json",
@@ -421,8 +426,8 @@
   },
   {
     "path": "mibo-education/waves/W0/live-qualification-plan.yaml",
-    "bytes": 1594,
-    "sha256": "313e725e8fdd1617b1a051e794d2d32117034db5f060393ee6c581e61147bd52"
+    "bytes": 1823,
+    "sha256": "2284d233e8646fe2a2fbc79cd5fbc7e32607310be0049ab8d6ea95038f8079c6"
   },
   {
     "path": "mibo-education/waves/W0/manifest.yaml",
@@ -431,18 +436,18 @@
   },
   {
     "path": "mibo-education/waves/W0/model-lock.candidate.yaml",
-    "bytes": 3223,
-    "sha256": "fd155ddaba488ca14f6af74cd0548728550ddc8136005ec7fa1249e00cad9667"
+    "bytes": 3187,
+    "sha256": "333f331432fdf1fcaa2325c307b265824185ff2c284ad219f77b8e68d7f9608a"
   },
   {
     "path": "mibo-education/waves/W0/provider-capabilities.yaml",
-    "bytes": 6058,
-    "sha256": "140f1847f1d3b43181a97b4d5008c6a04c5eac6612da294e315bbd3591042e34"
+    "bytes": 6349,
+    "sha256": "7947b78dfe94860c2a5d4ec8685e502638ad043e323404fb11315f785499eb21"
   },
   {
     "path": "mibo-education/waves/W0/qualification-report.md",
-    "bytes": 7477,
-    "sha256": "55ba3ce7447b2162275966460976d815632b93b4ed416236643cc8fe30cb8e65"
+    "bytes": 9769,
+    "sha256": "16c3f7ca472ca2e114d7f9f63935a4cd8e60df5cb00ff0536b94acf0d1a053c7"
   },
   {
     "path": "mibo-education/waves/W01/manifest.yaml",

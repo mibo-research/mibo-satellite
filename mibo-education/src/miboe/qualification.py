@@ -50,7 +50,9 @@ TARGETS = (
     QualificationTarget(
         "M01", "openai", "gpt-5.6-sol", Environment.CLOSED, "max_output_tokens"
     ),
-    QualificationTarget("M02", "anthropic", None, Environment.CLOSED, "max_tokens"),
+    QualificationTarget(
+        "M02", "anthropic", "claude-opus-5", Environment.CLOSED, "max_tokens"
+    ),
     QualificationTarget("M03", "gemini", "gemini-3.6-flash", Environment.CLOSED, "maxOutputTokens"),
     QualificationTarget(
         "M04", "xai", "grok-4.5", Environment.CLOSED, "max_output_tokens"
@@ -153,6 +155,7 @@ def build_request_shapes() -> dict[str, tuple[PreparedRequest, dict[str, Any]]]:
     shapes: dict[str, tuple[PreparedRequest, dict[str, Any]]] = {}
     sampling = {
         "openai": {"max_output_tokens": 8192},
+        "anthropic": {"max_tokens": 8192},
         "gemini": {"maxOutputTokens": 8192},
         "xai": {"max_output_tokens": 8192},
         "perplexity": {"max_tokens": 8192},
@@ -173,21 +176,6 @@ def build_request_shapes() -> dict[str, tuple[PreparedRequest, dict[str, Any]]]:
             output_cap_parameter=target.output_cap_parameter,
         )
         shapes[target.series_id] = (request, audit)
-    conditional_anthropic = make_adapter("anthropic").prepare(
-        model="claude-opus-5",
-        prompt=QUALIFICATION_PROMPT,
-        environment=Environment.CLOSED,
-        sampling={"max_tokens": 8192},
-    )
-    shapes["M02_CONDITIONAL_OPUS"] = (
-        conditional_anthropic,
-        audit_qualification_shape(
-            conditional_anthropic,
-            provider="anthropic",
-            environment=Environment.CLOSED,
-            output_cap_parameter="max_tokens",
-        ),
-    )
     diagnostic = PerplexityAdapter().prepare_closed_diagnostic(
         model="sonar", prompt=QUALIFICATION_PROMPT
     )

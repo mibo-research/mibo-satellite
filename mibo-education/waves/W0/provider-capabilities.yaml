@@ -69,21 +69,29 @@ providers:
     immutable_behavior_claim: false
   M02:
     provider: Anthropic
-    inherited_core_definition: Claude continuing general-purpose family
-    requested_model_candidate: null
-    conditional_candidate_if_core_selects_opus: claude-opus-5
-    candidate_status: BLOCKED_CORE_FAMILY_SELECTION_NOT_FROZEN
+    permanent_mibo_lineage_id: MIBO-SL-002
+    permanent_lineage_label: Claude
+    requested_model_candidate: claude-opus-5
+    selection_basis: W0_TIER_CONTINUITY_WITH_PRECEDING_MIBO_PILOT
+    candidate_status: RESOLVED_LIVE_UNVERIFIED
     first_party_endpoint: https://api.anthropic.com/v1/messages
     model_metadata_endpoint: https://api.anthropic.com/v1/models
     environment: CLOSED
     required_parameter:
       max_tokens: 8192
-    request_shape: PASS_CONDITIONAL_OPUS_SHAPE_ONLY
+    request_shape: PASS
     request_sha256: 6342133197b6ceaf6d24e15882920a7ed0e16bd60e34b351dfff13fc94636bef
-    closed_eligibility: CONDITIONAL_SHAPE_PASS_MODEL_SELECTION_AND_LIVE_VERIFICATION_PENDING
+    closed_eligibility: REQUEST_SHAPE_PASS_LIVE_VERIFICATION_PENDING
     model_metadata_capture: NOT_RUN_CREDENTIAL_MISSING
-    generation_probe: NOT_RUN_MODEL_SELECTION_AND_CREDENTIAL_MISSING
-    pinned_snapshot_evidence: PROVIDER_DOCUMENTED
+    generation_probe: NOT_RUN_CREDENTIAL_MISSING
+    canonical_model_id_classification: PROVIDER_DOCUMENTED_PINNED_SNAPSHOT
+    model_weights_and_configuration_fixed_for_id: PROVIDER_DOCUMENTED
+    serving_infrastructure_behavioral_variation_possible: true
+    effort_override: OMITTED
+    thinking_override: OMITTED
+    stop_reason_capture: PLANNED
+    stop_reason_max_tokens_detection: PLANNED
+    thinking_token_and_content_metadata_capture: WHEN_EXPOSED
   M03:
     provider: Google Gemini
     requested_model_candidate: gemini-3.6-flash

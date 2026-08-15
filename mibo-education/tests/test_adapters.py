@@ -119,7 +119,7 @@ def test_w0_qualification_shapes_are_first_party_single_turn_and_default_samplin
     shapes = build_request_shapes()
     assert set(shapes) == {
         "M01",
-        "M02_CONDITIONAL_OPUS",
+        "M02",
         "M03",
         "M04",
         "M05",
@@ -141,6 +141,18 @@ def test_w0_qualification_shapes_are_first_party_single_turn_and_default_samplin
     assert xai_request.body["max_output_tokens"] == 8192
     assert "max_tokens" not in xai_request.body
     assert "messages" not in xai_request.body
+
+    anthropic_request, _ = shapes["M02"]
+    assert anthropic_request.body == {
+        "model": "claude-opus-5",
+        "messages": [
+            {"role": "user", "content": "W0 engineering diagnostic. Reply with exactly: OK"}
+        ],
+        "stream": False,
+        "max_tokens": 8192,
+    }
+    assert "thinking" not in anthropic_request.body
+    assert "output_config" not in anthropic_request.body
 
 
 def test_preserved_request_omits_credential_header_names() -> None:

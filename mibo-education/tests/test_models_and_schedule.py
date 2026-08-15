@@ -31,6 +31,10 @@ def test_frozen_series_registry_is_distinct_from_wave_model_resolution() -> None
         "M05",
     ]
     assert all("exact_model_id" not in row for row in registry["series"])
+    m02 = next(row for row in registry["series"] if row["series_id"] == "M02")
+    assert m02["permanent_mibo_lineage_id"] == "MIBO-SL-002"
+    assert m02["permanent_mibo_lineage_label"] == "Claude"
+    assert "Opus" not in m02["label"]
 
 
 def test_model_aliases_are_rejected_without_substitution(wave_factory) -> None:

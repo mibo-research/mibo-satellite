@@ -14,9 +14,7 @@ ROOT = Path(__file__).parents[1]
 def test_committed_w0_request_evidence_matches_serialized_adapter_shapes() -> None:
     evidence_paths = {
         "M01": "evidence/openai/request-shape.closed.json",
-        "M02_CONDITIONAL_OPUS": (
-            "evidence/anthropic/request-shape.conditional-opus.closed.json"
-        ),
+        "M02": "evidence/anthropic/request-shape.closed.json",
         "M03": "evidence/google/request-shape.closed.json",
         "M04": "evidence/xai/request-shape.closed.json",
     }
@@ -49,7 +47,7 @@ def test_perplexity_native_and_nonofficial_closed_evidence_matches_adapter() -> 
     assert evidence["closed_diagnostic"]["official_w01_observation"] is False
 
 
-def test_model_lock_candidate_is_fail_closed_and_does_not_select_m02() -> None:
+def test_model_lock_candidate_is_fail_closed_with_resolved_m02_w0_candidate() -> None:
     candidate = yaml.safe_load(
         (ROOT / "waves/W0/model-lock.candidate.yaml").read_text(encoding="utf-8")
     )
@@ -58,10 +56,9 @@ def test_model_lock_candidate_is_fail_closed_and_does_not_select_m02() -> None:
     assert candidate["official_longitudinal_data"] is False
     assert candidate["execution_permitted"] is False
     assert models["M01"]["requested_model"] == "gpt-5.6-sol"
-    assert models["M02"]["requested_model"] is None
-    assert models["M02"]["conditional_requested_model_if_core_selects_opus"] == (
-        "claude-opus-5"
-    )
+    assert models["M02"]["permanent_mibo_lineage_id"] == "MIBO-SL-002"
+    assert models["M02"]["permanent_lineage_label"] == "Claude"
+    assert models["M02"]["requested_model"] == "claude-opus-5"
     assert models["M03"]["requested_model"] == "gemini-3.6-flash"
     assert models["M04"]["requested_model"] == "grok-4.5"
     assert models["M04"]["forbidden_alias"] == "grok-4.5-latest"

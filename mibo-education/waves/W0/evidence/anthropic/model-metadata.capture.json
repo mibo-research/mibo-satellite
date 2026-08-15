@@ -1,19 +1,25 @@
 {
   "qualification_run_id": "MIBO-EDU-W0-OQ-20260812T134641Z",
-  "status": "NOT_CAPTURED_MODEL_SELECTION_AND_CREDENTIAL_MISSING",
+  "status": "NOT_CAPTURED_CREDENTIAL_MISSING",
   "api_key_env": "ANTHROPIC_API_KEY",
-  "inherited_core_definition": "Claude continuing general-purpose family",
-  "requested_model": null,
-  "conditional_model_if_core_selects_opus": "claude-opus-5",
-  "planned_first_party_request": "GET https://api.anthropic.com/v1/models",
+  "permanent_mibo_lineage_id": "MIBO-SL-002",
+  "permanent_lineage_label": "Claude",
+  "requested_model": "claude-opus-5",
+  "resolution_evidence": "m02-w0-resolution.json",
+  "planned_first_party_requests": [
+    "GET https://api.anthropic.com/v1/models",
+    "GET https://api.anthropic.com/v1/models/claude-opus-5"
+  ],
   "raw_response": null,
   "substitution_attempted": false,
   "provider_evidence": {
-    "pinned_model_ids": true,
+    "pinned_canonical_model_id": true,
+    "model_weights_and_configuration_fixed_for_id": true,
     "serving_infrastructure_may_change": true
   },
   "official_sources": [
     "https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions",
-    "https://platform.claude.com/docs/en/about-claude/models/whats-new-opus-5"
+    "https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8",
+    "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons"
   ]
 }
