@@ -1,0 +1,33 @@
+registry_id: MIBO-EDU-MODEL-SERIES
+version: "1.0"
+status: FROZEN_SCIENTIFIC_ROLES
+approved: true
+principle: Permanent service/model series are distinct from Wave-specific exact requested models and provider-returned model metadata.
+series:
+  - series_id: M01
+    provider: openai
+    label: OpenAI GPT frontier general-purpose series
+    w01_environment: CLOSED
+    closed_eligibility: pending_operational_verification
+  - series_id: M02
+    permanent_mibo_lineage_id: MIBO-SL-002
+    permanent_mibo_lineage_label: Claude
+    provider: anthropic
+    label: Anthropic Claude frontier general-purpose series
+    w01_environment: CLOSED
+    closed_eligibility: pending_operational_verification
+  - series_id: M03
+    provider: gemini
+    label: Google Gemini Flash general-purpose series
+    w01_environment: CLOSED
+    closed_eligibility: pending_operational_verification
+  - series_id: M04
+    provider: xai
+    label: xAI Grok frontier general-purpose series
+    w01_environment: CLOSED
+    closed_eligibility: pending_operational_verification
+  - series_id: M05
+    provider: perplexity
+    label: Perplexity Sonar general-purpose series
+    w01_environment: NATIVE
+    closed_eligibility: false

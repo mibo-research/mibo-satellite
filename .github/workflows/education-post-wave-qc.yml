@@ -1,0 +1,32 @@
+name: MIBO-Education post-wave QC
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Completed Wave manifest path
+        required: true
+        default: waves/W01/manifest.yaml
+permissions:
+  contents: read
+jobs:
+  qc-and-certificate:
+    runs-on: [self-hosted, miboe-education-observatory]
+    environment: mibo-education-w01
+    concurrency:
+      group: mibo-education-w01-post-wave
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: satellites/mibo-education
+    env:
+      MIBOE_BLIND_SALT: ${{ secrets.MIBOE_BLIND_SALT }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: false
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -e .
+      - run: miboe qc --manifest "${{ inputs.manifest }}"
+      - run: miboe certificate --manifest "${{ inputs.manifest }}"
+      - run: miboe export-blind --manifest "${{ inputs.manifest }}"

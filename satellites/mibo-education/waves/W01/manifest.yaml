@@ -1,0 +1,32 @@
+schema_version: "1.0"
+wave_id: MIBO-EDU-W01
+official_longitudinal_data: true
+scientific_design_artifact: scientific-manifest-v1.0.yaml
+scientific_design_sha256: ecb5b5aa779d0806cb034581d76ab1c128587f1b9590a7b482fc3fa93336a6f1
+scientific_artifact_registry: ../../protocol/scientific-artifacts.yaml
+observation_surface: FIRST_PARTY_API
+consumer_ui_equivalence_assumed: false
+consumer_ui_equivalence_in_scope: false
+runtime_status: BLOCKED_UNTIL_OPERATIONAL_LOCKS
+exact_model_lock_path: null
+schedule_path: null
+schedule_sha256: null
+observer_site_or_region: null
+provider_required_controls:
+  M01: null
+  M02: null
+  M03: null
+  M04: null
+  M05: null
+closed_eligibility_verified:
+  M01: null
+  M02: null
+  M03: null
+  M04: null
+protocol_owner: null
+provider_terms_review: null
+institutional_ethics_or_governance_determination: null
+wave_lock_timestamp_utc: null
+execution_started: false
+execution_permitted: false
+protocol_deviations: []

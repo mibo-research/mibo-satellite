@@ -1,0 +1,20 @@
+{
+  "qualification_run_id": "MIBO-EDU-W0-OQ-20260812T134641Z",
+  "status": "NOT_CAPTURED_CREDENTIAL_MISSING",
+  "api_key_env": "XAI_API_KEY",
+  "requested_model": "grok-4.5",
+  "forbidden_alias": "grok-4.5-latest",
+  "planned_first_party_requests": [
+    "GET https://api.x.ai/v1/models",
+    "GET https://api.x.ai/v1/models/grok-4.5"
+  ],
+  "required_fields": ["id", "version", "fingerprint", "aliases", "returned_response_identity"],
+  "raw_response": null,
+  "silent_redirect_risk": "PROVIDER_DOCUMENTS_AUTOMATIC_REDIRECTS_FOR_SOME_RETIRED_SLUGS",
+  "substitution_attempted": false,
+  "official_sources": [
+    "https://docs.x.ai/developers/models/grok-4.5",
+    "https://docs.x.ai/developers/rest-api-reference/inference/models",
+    "https://docs.x.ai/developers/migration/may-15-retirement"
+  ]
+}

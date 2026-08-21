@@ -1,0 +1,23 @@
+name: MIBO-Education pre-wave checks
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Manifest path relative to Education Satellite
+        required: true
+        default: waves/W01/manifest.yaml
+permissions:
+  contents: read
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: satellites/mibo-education
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -e ".[dev]"
+      - run: pytest
+      - run: miboe preflight --manifest "${{ inputs.manifest }}"

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIBO-Education L1 Canonical Observation",
+  "type": "object",
+  "required": ["observation_id", "site_id", "wave_id", "OFFICIAL_LONGITUDINAL_DATA", "item_id", "replication_number", "series_id", "requested_model", "prompt_sha256", "status", "scientifically_completed", "completion_sha256"],
+  "properties": {
+    "observation_id": {"type": "string", "minLength": 1},
+    "OFFICIAL_LONGITUDINAL_DATA": {"type": "boolean"},
+    "replication_number": {"type": "integer", "minimum": 1},
+    "prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "request_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "response_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+  },
+  "additionalProperties": true
+}

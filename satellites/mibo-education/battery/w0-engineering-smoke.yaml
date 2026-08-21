@@ -1,0 +1,19 @@
+battery_id: MIBO-EDU-W0-SMOKE
+version: "1.0"
+language: ja-JP
+status: engineering-only
+approved: true
+official_longitudinal_eligible: false
+expected_item_count: 2
+hash_rule: SHA-256 of exact UTF-8 prompt bytes with no normalization or added newline
+items:
+  - id: MIBO-EDU-DRY-I01
+    stratum: transport
+    frozen: true
+    prompt_ja: "1足す1はいくつですか。"
+    prompt_sha256: 39047b04b2dd27dc4327f3ef4d2bfe7590e34de8437582da4321e470741fa7d0
+  - id: MIBO-EDU-DRY-I02
+    stratum: transport
+    frozen: true
+    prompt_ja: "水が0度で凍るという説明を、一文で書いてください。"
+    prompt_sha256: 5d2a72944dabfe08de34ecf1db4ebe7b1dfe1e8a3b2032cbe9d692b9c7097a65

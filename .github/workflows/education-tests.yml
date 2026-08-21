@@ -1,0 +1,26 @@
+name: MIBO-Education tests
+on:
+  pull_request:
+    paths: ["satellites/mibo-education/**", ".github/workflows/education-*.yml", "AGENTS.md"]
+  push:
+    branches: [main]
+    paths: ["satellites/mibo-education/**", ".github/workflows/education-*.yml", "AGENTS.md"]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: satellites/mibo-education
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: satellites/mibo-education/pyproject.toml
+      - run: python -m pip install -e ".[dev]"
+      - run: miboe validate --engineering
+      - run: pytest --cov=miboe --cov-report=term-missing
+      - run: ruff check src tests

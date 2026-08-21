@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIBO-Education Authoritative Scientific Artifact Registry v1.0",
+  "type": "object",
+  "required": ["registry", "version", "status", "artifacts", "supporting_integrity_files"],
+  "properties": {
+    "version": {"const": "1.0"},
+    "status": {"const": "FROZEN"},
+    "artifacts": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["artifact_id", "path", "status", "sha256", "required_for_scientific_protocol_complete"],
+        "properties": {
+          "artifact_id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "status": {"const": "FROZEN"},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "required_for_scientific_protocol_complete": {"const": true}
+        },
+        "additionalProperties": false
+      }
+    },
+    "supporting_integrity_files": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2
+    }
+  },
+  "additionalProperties": true
+}

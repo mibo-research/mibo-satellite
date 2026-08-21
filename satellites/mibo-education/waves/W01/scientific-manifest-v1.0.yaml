@@ -1,0 +1,121 @@
+artifact: MIBO-Education W01 Wave Manifest
+version: '1.0'
+status: FROZEN_SCIENTIFIC
+execution_state: BLOCKED_UNTIL_OPERATIONAL_LOCKS
+wave:
+  wave_id: W01
+  official_longitudinal_data: true
+  anchor_utc: '2026-09-01T00:00:00Z'
+  anchor_jst: '2026-09-01T09:00:00+09:00'
+  target_window_hours: 12
+  hard_window_hours: 24
+scientific_artifacts:
+  battery: EBB-JA-v1.0
+  codebook: MIBO-Education-Codebook-v1.0
+  item_scoring_manual: MIBO-Education-Item-Level-Scoring-Manual-v1.0
+  observation_protocol: MIBO-Education-Observation-Protocol-v1.0
+observation:
+  frozen_item_count: 70
+  replication_k: 10
+  session: independent_single_turn
+  conversation_history: false
+  researcher_added_system_prompt: false
+  researcher_added_developer_prompt: false
+  personalization: false
+  memory: false
+  structured_output: false
+  streaming: false
+  visible_output_token_cap_target: 8192
+  sampling_policy: provider_native_default_unless_required
+  optional_sampling_overrides: false
+  optional_reasoning_overrides: false
+  technical_retry_max_attempts: 5
+environments:
+  closed_primary:
+    series:
+    - M01
+    - M02
+    - M03
+    - M04
+    tools: false
+    web: false
+    retrieval: false
+    rag: false
+    files: false
+    memory: false
+    external_functions: false
+  native_mirror:
+    series:
+    - M05
+    note: M05 is analyzed separately and is not pooled with CLOSED as an equivalent environment in W01 v1.0.
+series_registry_contract:
+- series_id: M01
+  scientific_role: OpenAI GPT frontier general-purpose series
+  exact_model_id: null
+- series_id: M02
+  scientific_role: Anthropic Claude frontier general-purpose series
+  exact_model_id: null
+- series_id: M03
+  scientific_role: Google Gemini Flash general-purpose series
+  exact_model_id: null
+- series_id: M04
+  scientific_role: xAI Grok frontier general-purpose series
+  exact_model_id: null
+- series_id: M05
+  scientific_role: Perplexity Sonar general-purpose series
+  exact_model_id: null
+expected_observations:
+  closed_primary: 2800
+  native_mirror: 700
+  total: 3500
+schedule:
+  method: stratified_block_randomized_interleaved
+  temporally_distribute_replications: true
+  seed: null
+  schedule_sha256: null
+  lock_required_before_execution: true
+observer:
+  site_or_region: null
+  single_primary_site_required_where_feasible: true
+  lock_required_before_execution: true
+model_lock:
+  required_before_execution: true
+  exact_model_ids_locked: false
+  silent_substitution_forbidden: true
+  provider_returned_identity_must_be_recorded: true
+governance_gates:
+  protocol_owner: null
+  provider_terms_review: null
+  institutional_ethics_or_governance_determination: null
+  note: This manifest does not itself determine institutional ethics applicability; an explicit local determination must be
+    recorded.
+data:
+  l0_raw_immutable: true
+  l1_canonical: true
+  l2_coded: true
+  l3_analytical: true
+  raw_request_required: true
+  raw_response_required: true
+  secret_redaction_required: true
+  hashes_required:
+  - prompt
+  - request
+  - response
+  - schedule
+  - dataset_manifest
+preflight_fail_closed_if:
+- authoritative_scientific_artifact_missing_or_hash_mismatch
+- battery_not_exactly_70_items
+- prompt_lock_mismatch
+- closed_environment_not_verified_for_M01_to_M04
+- required_provider_control_unresolved
+- exact_model_lock_missing
+- schedule_lock_missing
+- observer_site_lock_missing
+- governance_gate_unrecorded
+- secret_scan_failure
+readiness_semantics:
+  ENGINEERING_READY: implementation and engineering test suite satisfy repository engineering gates
+  SCIENTIFIC_PROTOCOL_COMPLETE: all five authoritative scientific artifacts are present, FROZEN, schema-valid, and hash-verified
+  W0_READY: engineering pilot prerequisites and required local governance/provider operational gates are satisfied
+  W01_READY: scientific protocol is complete and every W01 operational/model/schedule/site/governance preflight gate is satisfied

@@ -1,0 +1,41 @@
+# MIBO-Education blockers
+
+## Scientific source state
+
+All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-file-hash verified. There is no remaining scientific-source blocker for `SCIENTIFIC_PROTOCOL_COMPLETE`.
+
+## W0 operational blockers
+
+- Protocol-owner, provider-terms, and ethics/governance approvals are not recorded.
+- The three human-governance templates exist, but no `FINAL` human-attributed records have been placed in `waves/W0/governance/records/`.
+- Credential/environment presence preflight is incomplete, including persistent `MIBOE_W0_EVIDENCE_ROOT`; GitHub execution also requires the protected W0 environment and runner markers.
+- No live-verified exact W0 model-lock exists.
+- No locked W0 execution schedule exists.
+- All five provider credentials were absent during the first operational-qualification run, so model-list/get and generation evidence could not be captured.
+- M02 is resolved for W0 as permanent lineage `MIBO-SL-002 — Claude` with exact candidate `claude-opus-5`; its Models API metadata, returned identity, stop reason, and thinking/output-cap evidence remain uncaptured.
+- W0-Q1 live smoke gates are absent for M01-M05.
+- W0-Q2 seven-item provider qualification gates are absent for M01-M05.
+- The W0-Q3 Core-35 production-flow dress rehearsal has not passed.
+
+## W01 operational blockers
+
+- Exact provider API model IDs have not been resolved or locked.
+- The interleaved schedule seed, schedule file, and schedule SHA-256 are not locked.
+- The observer site or region is not locked.
+- Required provider parameter mappings are unresolved for M01–M05.
+- CLOSED eligibility has not been operationally verified for M01–M04.
+- Protocol owner, provider terms review, and institutional ethics/governance determination are not recorded.
+- The Wave lock timestamp is missing and execution is not permitted.
+
+## Provider-specific ambiguities
+
+- M01–M05: any provider-required generation or reasoning-control field must be mapped and frozen without adding optional sampling overrides.
+- M01–M05: the effective visible-output cap must target 8192 tokens; M04 uses Responses API `max_output_tokens`, while M02 and M05 use `max_tokens`. Any provider hard-limit exception must be recorded before W01.
+- M01–M04: absence of tools, web, retrieval, RAG, files, memory, and external functions must be verified for the selected exact API surface.
+- M01–M05: exact requested model IDs must still be live-verified against provider-returned identity fields; M02's canonical ID is provider-documented as pinned, but serving-infrastructure behavioral variation remains possible.
+- M05 is scientifically assigned to the separate NATIVE mirror and must not be pooled with CLOSED; the exact NATIVE API surface still requires a runtime lock.
+- Any unavoidable provider-controlled system layer, forced streaming, or internal regional routing limitation must be documented explicitly rather than represented as absent.
+
+Consumer UI equivalence is not an ambiguity to resolve for W01. The official MIBO-Education surface is the first-party API, and UI equivalence is outside scope rather than a blocker.
+
+Consequently: `ENGINEERING_READY=true`, `SCIENTIFIC_PROTOCOL_COMPLETE=true`, `W0_READY=false`, and `W01_READY=false`.

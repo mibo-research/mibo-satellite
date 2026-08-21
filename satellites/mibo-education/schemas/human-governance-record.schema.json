@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mibo.example/schemas/human-governance-record.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_type",
+    "status",
+    "determination",
+    "decided_by",
+    "decided_at",
+    "rationale",
+    "evidence_references",
+    "human_attestation",
+    "agent_approval_permitted"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "record_type": {
+      "enum": [
+        "protocol_owner",
+        "terms_review",
+        "ethics_or_governance_determination"
+      ]
+    },
+    "status": {"enum": ["PENDING_HUMAN_DETERMINATION", "FINAL"]},
+    "determination": {"type": ["string", "null"]},
+    "decided_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "name", "role", "affiliation"],
+      "properties": {
+        "actor_type": {"enum": ["HUMAN"]},
+        "name": {"type": ["string", "null"]},
+        "role": {"type": ["string", "null"]},
+        "affiliation": {"type": ["string", "null"]}
+      }
+    },
+    "decided_at": {"type": ["string", "null"]},
+    "rationale": {"type": ["string", "null"]},
+    "evidence_references": {"type": "array", "items": {"type": "string"}},
+    "human_attestation": {"type": "boolean"},
+    "agent_approval_permitted": {"const": false}
+  }
+}

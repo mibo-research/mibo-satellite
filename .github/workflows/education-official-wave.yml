@@ -1,0 +1,39 @@
+name: MIBO-Education official Wave execution
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Approved committed manifest path
+        required: true
+        default: waves/W01/manifest.yaml
+      confirm_wave_id:
+        description: Type MIBO-EDU-W01 to authorize this Wave
+        required: true
+permissions:
+  contents: read
+jobs:
+  execute-due-observations:
+    if: inputs.confirm_wave_id == 'MIBO-EDU-W01'
+    runs-on: [self-hosted, miboe-education-observatory]
+    environment: mibo-education-w01
+    concurrency:
+      group: mibo-education-w01-official
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: satellites/mibo-education
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: false
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -e .
+      - run: miboe preflight --manifest "${{ inputs.manifest }}"
+      - run: miboe run-wave --manifest "${{ inputs.manifest }}"

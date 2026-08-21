@@ -1,0 +1,39 @@
+registry: MIBO-Education authoritative scientific artifacts
+version: '1.0'
+freeze_date: '2026-08-12'
+status: FROZEN
+artifacts:
+- artifact_id: EBB-JA-v1.0
+  path: battery/ebb-ja-v1.0.yaml
+  status: FROZEN
+  sha256: 5475d4c0edd651ae4fbc6e79c42642433fa7e0c27dba616a972236d35517cd4e
+  required_for_scientific_protocol_complete: true
+- artifact_id: MIBO-Education-Codebook-v1.0
+  path: protocol/codebook-v1.0.md
+  status: FROZEN
+  sha256: c38cce32bad4e3b156ec6094d2368fca0937536519b25a2a80e115042da9161a
+  required_for_scientific_protocol_complete: true
+- artifact_id: MIBO-Education-Item-Level-Scoring-Manual-v1.0
+  path: protocol/item-level-scoring-manual-v1.0.md
+  status: FROZEN
+  sha256: 3ae057c2e5f23312b5ca000f3d9f42ced4db23ca6b6db8c4889905c9f9a0bbef
+  required_for_scientific_protocol_complete: true
+- artifact_id: MIBO-Education-Observation-Protocol-v1.0
+  path: protocol/observation-protocol-v1.0.md
+  status: FROZEN
+  sha256: ca9b51ecbca1f5fd61443e7921ff4305dac82829a3043c795416c437b20d5d8f
+  required_for_scientific_protocol_complete: true
+- artifact_id: MIBO-Education-W01-Scientific-Manifest-v1.0
+  path: waves/W01/scientific-manifest-v1.0.yaml
+  status: FROZEN
+  sha256: ecb5b5aa779d0806cb034581d76ab1c128587f1b9590a7b482fc3fa93336a6f1
+  required_for_scientific_protocol_complete: true
+supporting_integrity_files:
+- path: battery/ebb-ja-v1.0.prompt-lock.json
+  purpose: external prompt hash lock
+- path: waves/W01/runtime-manifest.template.yaml
+  purpose: mutable/lockable operational Wave manifest template; not an authoritative scientific artifact
+readiness_rule:
+  SCIENTIFIC_PROTOCOL_COMPLETE: true iff every required artifact is present, schema-valid where applicable, status FROZEN,
+    and sha256 matches this registry
+  W01_READY: must remain false until the separate runtime manifest has all operational locks and local governance gates satisfied

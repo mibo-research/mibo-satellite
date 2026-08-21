@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIBO-Education Execution Schedule",
+  "type": "object",
+  "required": ["wave_id", "manifest_sha256", "battery_sha256", "model_lock_sha256", "random_seed", "rows", "schedule_sha256"],
+  "properties": {
+    "randomization_method": {"const": "stratified-block-randomized-v1"},
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["observation_id", "site_id", "item_id", "prompt_sha256", "series_id", "provider", "requested_model", "replication_number", "planned_start_utc", "execution_position"]
+      }
+    }
+  },
+  "additionalProperties": true
+}

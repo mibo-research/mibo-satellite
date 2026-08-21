@@ -1,0 +1,31 @@
+schema_version: "1.0"
+status: ENGINEERING
+approved: false
+wave_id: MIBO-EDU-W0
+site_id: MIBO-SITE-JP01
+official_longitudinal_data: false
+observation_surface: FIRST_PARTY_API
+consumer_ui_equivalence_assumed: false
+protocol_version: engineering-pilot-0.1
+battery: ../../battery/w0-engineering-smoke.yaml
+model_registry: ../../registry/model-series.yaml
+model_lock: model-lock.json
+model_lock_candidate: model-lock.candidate.yaml
+qualification_evidence_manifest: evidence-manifest.json
+live_qualification_plan: live-qualification-plan.yaml
+live_qualification_output: live-qualification/
+schedule: schedule.json
+environment: CLOSED
+replications: 2
+random_seed: "MIBO-Education|W0|engineering-only"
+field_window:
+  start: "2026-08-01T00:00:00Z"
+  end: "2026-08-31T23:59:59Z"
+sampling: {}
+native_options: {}
+max_technical_attempts: 3
+retry_delays_minutes: [10, 30]
+approvals:
+  protocol_owner: false
+  terms_review: false
+  ethics_or_governance_determination: false

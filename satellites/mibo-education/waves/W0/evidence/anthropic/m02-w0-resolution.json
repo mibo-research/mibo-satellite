@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "recorded_date": "2026-08-16",
+  "scope": "W0_QUALIFICATION_EXACT_MODEL_CANDIDATE",
+  "decision_status": "RECORDED",
+  "permanent_mibo_lineage_id": "MIBO-SL-002",
+  "permanent_lineage_label": "Claude",
+  "permanent_lineage_renamed_to_opus": false,
+  "w0_requested_model_candidate": "claude-opus-5",
+  "rationale": [
+    "The permanent MIBO panel unit is the Claude service lineage.",
+    "The immediately preceding MIBO pilot observation used the Opus tier.",
+    "W0 preserves tier continuity rather than switching to Fable solely because Fable is currently Anthropic's highest-capability widely released model."
+  ],
+  "canonical_id_classification": "PROVIDER_DOCUMENTED_PINNED_SNAPSHOT",
+  "behavioral_immutability_claimed": false,
+  "serving_infrastructure_behavioral_variation_possible": true,
+  "governance_approval_inferred": false,
+  "official_sources": [
+    "https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions",
+    "https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8",
+    "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons"
+  ]
+}
