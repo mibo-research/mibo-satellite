@@ -96,8 +96,8 @@
   },
   {
     "path": "satellites/mibo-education/CITATION.cff",
-    "bytes": 708,
-    "sha256": "0de2ecbab90552c6fb63631c4c7512e778b257e82b44fd282ec171173105e8be"
+    "bytes": 700,
+    "sha256": "f73f92fddd30d14a6ca2320ce8a36c2f3cfd0bd0d0048fa24d2cf8a8569895fb"
   },
   {
     "path": "satellites/mibo-education/LICENSE_PROTOCOL.md",
@@ -111,8 +111,8 @@
   },
   {
     "path": "satellites/mibo-education/README.md",
-    "bytes": 7076,
-    "sha256": "d257c51ba33e737653d1a7538f2fcbda69dd5e73bc3ba55ea30aa202039f2ea9"
+    "bytes": 7074,
+    "sha256": "0667eb7e902d1a9abfcc2541f3ef863dfe925882141dfd8469d7e07bc0ba1c13"
   },
   {
     "path": "satellites/mibo-education/battery/ebb-ja-v1.0.prompt-lock.json",
@@ -131,8 +131,8 @@
   },
   {
     "path": "satellites/mibo-education/protocol/README.md",
-    "bytes": 1017,
-    "sha256": "46456ad9313c5ad22fda11642de37369c2ea383a8ca5e78f9dcb4b4fede4954e"
+    "bytes": 956,
+    "sha256": "98a42578438c6841b48d525e713c80496abdfbd333381c24679c83d540ae7977"
   },
   {
     "path": "satellites/mibo-education/protocol/codebook-v1.0.md",

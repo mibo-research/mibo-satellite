@@ -14,4 +14,4 @@ license: "CC-BY-4.0"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.22047001"
-    description: "Reserved Zenodo DOI; publicly resolvable after publication"
+    description: "Published Zenodo DOI for the v1.0 protocol package"

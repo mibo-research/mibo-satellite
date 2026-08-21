@@ -7,11 +7,11 @@ Official MIBO Satellite for longitudinal observation of educational behavior in 
 ## Protocol release
 
 - Title: **MIBO-Education Protocol Package v1.0**
-- Reserved DOI: [10.5281/zenodo.22047001](https://doi.org/10.5281/zenodo.22047001)
+- DOI: [10.5281/zenodo.22047001](https://doi.org/10.5281/zenodo.22047001)
 - License: [CC BY 4.0](LICENSE_PROTOCOL.md) for the scoped scientific protocol materials
 - Citation metadata: [CITATION.cff](CITATION.cff)
 
-The DOI is reserved for the Zenodo Draft and will resolve publicly after publication. Runtime software and operational tooling are outside the scoped CC BY 4.0 grant and remain governed by the repository-level license notice.
+The protocol package is published on Zenodo, and the DOI resolves to the public v1.0 record. Runtime software and operational tooling are outside the scoped CC BY 4.0 grant and remain governed by the repository-level license notice.
 
 MIBO-Education inherits MIBO’s persistent service-series identity, synchronized Waves, independent replication, immutable raw records, prospective amendment, and re-observability principles. Education-specific instruments, observation conditions, provider adapters, and coding remain isolated here.
 

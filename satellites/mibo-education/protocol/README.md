@@ -6,4 +6,4 @@ The external `battery/ebb-ja-v1.0.prompt-lock.json` independently locks each of 
 
 `SCIENTIFIC_PROTOCOL_COMPLETE=true` does not imply `W01_READY=true` or authorize execution.
 
-The scientific protocol materials released as **MIBO-Education Protocol Package v1.0** are reserved at [10.5281/zenodo.22047001](https://doi.org/10.5281/zenodo.22047001) and licensed under [CC BY 4.0](../LICENSE_PROTOCOL.md). The DOI becomes publicly resolvable when the Zenodo Draft is published.
+The scientific protocol materials released as **MIBO-Education Protocol Package v1.0** are published on Zenodo at [10.5281/zenodo.22047001](https://doi.org/10.5281/zenodo.22047001) and licensed under [CC BY 4.0](../LICENSE_PROTOCOL.md).
