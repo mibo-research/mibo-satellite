@@ -17,7 +17,7 @@ jobs:
       cancel-in-progress: false
     defaults:
       run:
-        working-directory: mibo-education
+        working-directory: satellites/mibo-education
     env:
       MIBOE_BLIND_SALT: ${{ secrets.MIBOE_BLIND_SALT }}
     steps:

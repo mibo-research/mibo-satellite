@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 
 from miboe.qualification import build_request_shapes
-from miboe.util import artifact_hash, sha256_bytes, sha256_file
+from miboe.util import artifact_hash, sha256_bytes
 
 ROOT = Path(__file__).parents[1]
 
@@ -89,8 +89,11 @@ def test_w0_qualification_evidence_manifest_hashes_every_evidence_file() -> None
     assert artifact_hash(manifest) == claimed
     for entry in manifest["entries"]:
         path = ROOT / "waves" / "W0" / entry["path"]
-        assert path.stat().st_size == entry["bytes"]
-        assert sha256_file(path) == entry["sha256"]
+        # Verify canonical Git blob bytes. Windows checkouts may expand LF to
+        # CRLF without changing the evidence committed to the repository.
+        data = path.read_bytes().replace(b"\r\n", b"\n")
+        assert len(data) == entry["bytes"]
+        assert sha256_bytes(data) == entry["sha256"]
 
 
 def test_committed_request_shape_evidence_omits_credential_headers() -> None:

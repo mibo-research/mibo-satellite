@@ -83,7 +83,7 @@ def test_cli_exposes_required_commands() -> None:
 
 def test_w0_workflow_declares_protected_presence_only_preflight_markers() -> None:
     workflow = (
-        Path(__file__).parents[2] / ".github/workflows/education-w0-pilot.yml"
+        Path(__file__).parents[3] / ".github/workflows/education-w0-pilot.yml"
     ).read_text(encoding="utf-8")
     assert "runs-on: [self-hosted, mibo-education-w0]" in workflow
     assert "environment: mibo-education-w0" in workflow

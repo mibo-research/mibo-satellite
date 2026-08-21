@@ -25,7 +25,7 @@ jobs:
       cancel-in-progress: false
     defaults:
       run:
-        working-directory: mibo-education
+        working-directory: satellites/mibo-education
         shell: bash
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -44,7 +44,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: mibo-education/pyproject.toml
+          cache-dependency-path: satellites/mibo-education/pyproject.toml
       - run: python -m pip install -e .
       - name: Require controlled persistent evidence storage
         run: |

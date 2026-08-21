@@ -21,7 +21,7 @@ jobs:
       cancel-in-progress: false
     defaults:
       run:
-        working-directory: mibo-education
+        working-directory: satellites/mibo-education
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

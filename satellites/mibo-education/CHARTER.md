@@ -1,4 +1,4 @@
-# MIBO-Education Satellite Charter — engineering draft
+# MIBO-Education Satellite Charter v1.0
 
 ## 1. Name
 
@@ -18,7 +18,7 @@ Education inherits permanent service-lineage identity, Wave conventions, indepen
 
 ## 5. Observation design
 
-The primary planned condition is Frozen Battery × CLOSED environment × permanent model/service series × independent k replications × synchronized Wave. W0 is engineering-only. W01 is the first planned longitudinal baseline and is blocked until all source artifacts and approvals exist.
+The primary planned condition is Frozen Battery × CLOSED environment × permanent model/service series × independent k replications × synchronized Wave. W0 is engineering-only. W01 is the first planned longitudinal baseline and remains blocked until every required operational lock and human authorization is recorded.
 
 ## 6. Instrument or stimulus
 
@@ -26,7 +26,7 @@ EBB-JA v1.0, exactly 70 approved Frozen Items. Its authoritative text and extern
 
 ## 7. Outcomes and codebook
 
-Governed by the missing MIBO-Education Codebook v1.0 and Item-Level Scoring Manual v1.0. No replacement anchors are inferred here.
+Governed by the Frozen MIBO-Education Codebook v1.0 and Item-Level Scoring Manual v1.0. Both authoritative artifacts are present and exact-hash verified; no replacement anchors are inferred.
 
 ## 8. Missingness, deviations, and attrition
 
@@ -42,8 +42,8 @@ L0 is immutable. Corrections create versioned derived records. Protocol amendmen
 
 ## 11. Lifecycle status
 
-Incubation / engineering implementation. It is not yet a Registered or Active Satellite.
+Official MIBO Satellite in an engineering-ready, pre-operational stage. The scientific protocol v1.0 is Frozen; W01 remains blocked until every operational lock is recorded.
 
 ## 12. Approval and version
 
-Engineering draft 0.1. Scientific approval pending. See `BLOCKERS.md`.
+Charter version 1.0. Scientific protocol v1.0 complete and Frozen; operational authorization remains pending. See `BLOCKERS.md`.

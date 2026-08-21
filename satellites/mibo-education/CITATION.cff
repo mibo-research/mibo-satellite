@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Please cite the MIBO-Education Protocol Package v1.0 when reusing the scientific protocol materials in this directory."
+title: "MIBO-Education Protocol Package v1.0"
+type: dataset
+version: "1.0"
+doi: "10.5281/zenodo.22047001"
+url: "https://github.com/mibo-research/mibo-satellite/tree/main/satellites/mibo-education"
+authors:
+  - family-names: "Sasano"
+    given-names: "Kento"
+    orcid: "https://orcid.org/0009-0009-3853-8029"
+    affiliation: "Okayama University; Keio Research Institute at SFC, Keio University"
+license: "CC-BY-4.0"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22047001"
+    description: "Reserved Zenodo DOI; publicly resolvable after publication"
