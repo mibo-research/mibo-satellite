@@ -56,13 +56,13 @@
   },
   {
     "path": "LICENSE_NOTICE.md",
-    "bytes": 440,
-    "sha256": "c36265e7ae9b28a3e80afef2648bb0788ec5a861e6ad8db835cf17543a9fade7"
+    "bytes": 755,
+    "sha256": "d00cdcb24c67c34a2c99b127408177120920628fe12fffb92d422d2c9aeea2f0"
   },
   {
     "path": "README.md",
-    "bytes": 525,
-    "sha256": "e66d8abecb670bc6e7bb037d4339f35eaebe32a46093f54ee685f5352d296eb5"
+    "bytes": 523,
+    "sha256": "426758fc4b14c0ee0a18ed0cf72f73aeb70c0a6567e31152e00e120aba329f2a"
   },
   {
     "path": "SATELLITE_REGISTRY.md",
@@ -88,6 +88,16 @@
     "path": "eibo/CHARTER.md",
     "bytes": 2956,
     "sha256": "fcbeb20f07ee99498793198f6a1cc6011436058cb9c39b2065cea3621141d5a9"
+  },
+  {
+    "path": "eibo/CITATION.cff",
+    "bytes": 693,
+    "sha256": "dd5d51e8eee87a0c966aa14c8f0a47309e74848f355b52e3465e92797c829a82"
+  },
+  {
+    "path": "eibo/LICENSE_PROTOCOL.md",
+    "bytes": 912,
+    "sha256": "5dbc0db5f4db0401dd026909af2fb2732ac9ee1afcb02621f23b7c31166c7eab"
   },
   {
     "path": "eibo/READINESS.md",
