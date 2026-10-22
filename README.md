@@ -4,7 +4,7 @@ MIBO Satellite is the umbrella for specialized and applied observation modules t
 
 ## Provisional portfolio
 
-- [MIBO-Education](mibo-education/)
+- [EIBO](eibo/) — renamed from MIBO-Education; frozen v1.0 scientific artifacts retain their historical name and hashes
 
 ## Lifecycle
 

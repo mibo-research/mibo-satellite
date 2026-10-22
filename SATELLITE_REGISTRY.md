@@ -2,4 +2,4 @@
 
 | Satellite | Distinct focus | Current stage |
 |---|---|---|
-| [MIBO-Education](mibo-education/) | Educational behavior of general-purpose AI systems | Engineering ready; scientific protocol v1.0 Frozen; W01 operational locks pending |
+| [EIBO](eibo/) | Educational behavior of general-purpose AI systems | Renamed from MIBO-Education; solo-operation model configured prospectively; legacy W01 remains blocked |

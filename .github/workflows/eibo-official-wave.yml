@@ -1,0 +1,39 @@
+name: EIBO legacy W01 execution (blocked)
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Approved committed manifest path
+        required: true
+        default: waves/W01/manifest.yaml
+      confirm_wave_id:
+        description: Type MIBO-EDU-W01 to authorize this Wave
+        required: true
+permissions:
+  contents: read
+jobs:
+  execute-due-observations:
+    if: inputs.confirm_wave_id == 'MIBO-EDU-W01'
+    runs-on: [self-hosted, eibo-observatory]
+    environment: eibo-w01
+    concurrency:
+      group: eibo-w01-official
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: eibo
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: false
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: python -m pip install -e .
+      - run: eibo preflight --manifest "${{ inputs.manifest }}"
+      - run: eibo run-wave --manifest "${{ inputs.manifest }}"

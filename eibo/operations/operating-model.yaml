@@ -1,0 +1,38 @@
+schema_version: "1.0"
+project_name: EIBO
+legacy_project_name: MIBO-Education
+status: CONFIGURED_PENDING_HUMAN_ATTESTATION
+effective_scope: PROSPECTIVE_EIBO_WAVES_ONLY
+legacy_scientific_record:
+  preserve_frozen_v1_0_bytes: true
+  preserve_legacy_artifact_ids: true
+  preserve_legacy_wave_ids: true
+  w01_compatible_with_this_operating_model: false
+  w01_execution_permitted: false
+solo_operations:
+  mode: SINGLE_HUMAN_OPERATOR_WITH_AUTOMATION
+  human_operator_count: 1
+  separate_human_operator_required: false
+  automation_may_execute_approved_workflows: true
+  agent_may_approve_governance: false
+  explicit_human_governance_records_required: true
+coding:
+  primary_coder_type: HUMAN
+  primary_coder_count: 1
+  independent_human_coding_required: false
+  inter_rater_reliability_claimed: false
+  primary_codes_must_be_blind: true
+  coding_provenance_required: true
+  ai_secondary:
+    enabled_by_default: false
+    status: OPTIONAL
+    purpose: SENSITIVITY_ANALYSIS_ONLY
+    may_replace_human_coder: false
+    may_satisfy_independent_human_coder_requirement: false
+    may_overwrite_primary_codes: false
+    outputs_must_remain_separate: true
+    model_prompt_and_parameters_must_be_locked: true
+    blind_to_primary_codes: true
+adoption:
+  human_attestation_record: operations/operating-model-attestation.yaml
+  agent_approval_permitted: false
