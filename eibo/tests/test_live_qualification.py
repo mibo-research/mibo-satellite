@@ -10,6 +10,7 @@ import pytest
 import yaml
 
 from eibo.adapters import make_adapter
+from eibo.adapters.perplexity_w0 import PerplexityAgentW0Adapter, load_w0_agent_profile
 from eibo.errors import ValidationError
 from eibo.live_qualification import (
     FIRST_PARTY_HOSTS,
@@ -27,7 +28,7 @@ MODELS = {
     "M02": "claude-opus-5",
     "M03": "gemini-3.6-flash",
     "M04": "grok-4.5",
-    "M05": "sonar",
+    "M05": "perplexity/sonar",
 }
 PROVIDERS = {
     "M01": "openai",
@@ -97,7 +98,7 @@ def test_q1_executable_report_has_all_candidates_and_fail_closed_credentials(
     assert report["credential_values_hashed"] is False
 
 
-@pytest.mark.parametrize("series_id", ["M04", "M05"])
+@pytest.mark.parametrize("series_id", ["M04"])
 def test_held_provider_cannot_reach_adapter_in_q1_or_q2(
     series_id: str, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
@@ -186,12 +187,11 @@ def _response_body(
     return {
         "id": "sonar-response",
         "model": model,
-        "choices": [
-            {"message": {"content": "OK"}, "finish_reason": "stop"}
+        "status": "completed",
+        "output": [
+            {"type": "message", "content": [{"type": "output_text", "text": "OK"}]}
         ],
-        "usage": {"prompt_tokens": 1, "completion_tokens": 1},
-        "citations": [],
-        "search_results": [],
+        "usage": {"input_tokens": 1, "output_tokens": 1},
     }
 
 
@@ -231,11 +231,14 @@ def _mock_factory(
                 ),
             )
 
-        adapters[provider] = make_adapter(
-            provider,
+        adapter_class = PerplexityAgentW0Adapter if provider == "perplexity" else None
+        options = dict(
             api_key="unit-test-credential-value" if credentials else "",
             base_url=f"https://{FIRST_PARTY_HOSTS[provider]}",
             client=httpx.Client(transport=httpx.MockTransport(handler)),
+        )
+        adapters[provider] = (
+            adapter_class(**options) if adapter_class else make_adapter(provider, **options)
         )
         return adapters[provider]
 
@@ -264,6 +267,9 @@ def _seed_gate(output_root: Path, stage: str, series_id: str) -> None:
         "returned_model": MODELS[series_id],
         "result_path": str(result_path.resolve()),
         "result_sha256": sha256_file(result_path),
+        "qualification_profile_sha256": (
+            load_w0_agent_profile(ROOT)["profile_sha256"] if series_id == "M05" else None
+        ),
     }
     gate = {**core, "gate_sha256": artifact_hash(core)}
     path = output_root / "gates" / f"{stage}-{series_id}.json"
@@ -408,10 +414,13 @@ def test_q2_m05_runs_native_and_nonofficial_closed_sets(
     assert len(result["closed_diagnostic_results"]) == 7
     assert all(
         value["classification"] == "NON_OFFICIAL_W0_ONLY"
-        and value["disable_search"] is True
+        and value["disable_search"] is None
+        and value["no_search_mapping"] == "OMIT_TOOLS_AND_EFFORT"
         for value in result["closed_diagnostic_results"]
     )
-    assert calls["perplexity:POST:/v1/sonar"] == 15
+    assert calls["perplexity:POST:/v1/agent"] == 15
+    assert calls["perplexity:POST:/v1/sonar"] == 0
+    assert result["qualification_profile_sha256"] == load_w0_agent_profile(ROOT)["profile_sha256"]
 
 
 def test_q2_claude_opus_records_output_cap_evidence_without_speculation(

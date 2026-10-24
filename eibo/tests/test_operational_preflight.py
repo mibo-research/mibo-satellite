@@ -187,14 +187,13 @@ def test_combined_pre_live_gate_requires_human_and_selected_credential(
 def test_runtime_holds_block_only_affected_providers_even_with_credentials() -> None:
     environment = {name: "test-only-secret" for name in CREDENTIAL_ENV_BY_SERIES.values()}
     environment["EIBO_W0_EVIDENCE_ROOT"] = "test-evidence-root"
-    for series_id in ("M01", "M02", "M03"):
+    for series_id in ("M01", "M02", "M03", "M05"):
         report = w0_pre_live_report(
             module_root=ROOT, series_ids=[series_id], environment=environment
         )
         assert report["W0_Q1_EXECUTABLE"] is True
     for series_id, status in (
         ("M04", "NOT_RUN_COST_CONSTRAINT"),
-        ("M05", "BLOCKED_PROVIDER_SERVICE_CHANGE"),
     ):
         report = w0_pre_live_report(
             module_root=ROOT, series_ids=[series_id], environment=environment

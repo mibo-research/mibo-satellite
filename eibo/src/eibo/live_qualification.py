@@ -9,9 +9,14 @@ import yaml
 
 from .adapters import Environment, ProviderAdapter, make_adapter
 from .adapters.perplexity import PerplexityAdapter
+from .adapters.perplexity_w0 import (
+    PROFILE_PATH,
+    PerplexityAgentW0Adapter,
+    load_w0_agent_profile,
+)
 from .artifacts import load_battery, load_manifest, load_registry, load_yaml
 from .certificate import create_certificate
-from .errors import ProviderError, TechnicalRetryableError, ValidationError
+from .errors import ImmutabilityError, ProviderError, TechnicalRetryableError, ValidationError
 from .models import load_model_lock
 from .operational import w0_pre_live_report
 from .qc import run_qc
@@ -40,14 +45,14 @@ OUTPUT_CAP_PARAMETERS = {
     "M02": "max_tokens",
     "M03": "maxOutputTokens",
     "M04": "max_output_tokens",
-    "M05": "max_tokens",
+    "M05": "max_output_tokens",
 }
 SAMPLING = {
     "M01": {"max_output_tokens": 8192},
     "M02": {"max_tokens": 8192},
     "M03": {"maxOutputTokens": 8192},
     "M04": {"max_output_tokens": 8192},
-    "M05": {"max_tokens": 8192},
+    "M05": {"max_output_tokens": 8192},
 }
 SENSITIVE_HEADER_NAMES = {
     "authorization",
@@ -69,6 +74,8 @@ def default_output_root(module_root: Path) -> Path:
 
 
 def _first_party_factory(provider: str) -> ProviderAdapter:
+    if provider == "perplexity":
+        return PerplexityAgentW0Adapter(base_url="https://api.perplexity.ai")
     return make_adapter(provider, base_url=f"https://{FIRST_PARTY_HOSTS[provider]}")
 
 
@@ -89,7 +96,9 @@ def _public_headers(headers: dict[str, str]) -> dict[str, str]:
     }
 
 
-def _load_plan(module_root: Path) -> tuple[dict[str, Any], Any]:
+def _load_plan(
+    module_root: Path, *, include_m05_profile: bool = True
+) -> tuple[dict[str, Any], Any]:
     path = module_root / "waves" / "W0" / "live-qualification-plan.yaml"
     plan = load_yaml(path)
     battery = load_battery(module_root / "battery" / "ebb-ja-v1.0.yaml")
@@ -130,6 +139,17 @@ def _load_plan(module_root: Path) -> tuple[dict[str, Any], Any]:
         raise ValidationError("Core-35 rehearsal must contain exactly 35 observations")
     if plan.get("governance", {}).get("agent_approval_permitted") is not False:
         raise ValidationError("agents must not approve W0 governance")
+    # The legacy plan remains preserved; this separately versioned W0 profile
+    # explicitly resolves the provider's new namespaced Sonar API identifier.
+    if include_m05_profile and (module_root / PROFILE_PATH).is_file():
+        profile = load_w0_agent_profile(module_root)
+        models["M05"] = {
+            **models["M05"],
+            "legacy_requested_model": models["M05"]["requested_model"],
+            "requested_model": profile["requested_model"],
+            "qualification_profile_sha256": profile["profile_sha256"],
+            "api_surface": profile["profile_id"],
+        }
     return plan, battery
 
 
@@ -167,6 +187,8 @@ def _prepare_request(
             environment=environment,
             sampling=SAMPLING[series_id],
         )
+    if isinstance(adapter, PerplexityAgentW0Adapter):
+        return request, adapter.qualification_audit(request, diagnostic=diagnostic)
     audit = audit_qualification_shape(
         request,
         provider=adapter.provider,
@@ -276,6 +298,7 @@ def _write_gate(
         "returned_model": result.get("returned_model"),
         "result_path": str(result_path.resolve()),
         "result_sha256": sha256_file(result_path),
+        "qualification_profile_sha256": result.get("qualification_profile_sha256"),
     }
     gate = {**core, "gate_sha256": artifact_hash(core)}
     _write_json(_gate_path(output_root, stage, series_id), gate)
@@ -295,6 +318,39 @@ def _read_gate(output_root: Path, stage: str, series_id: str) -> dict[str, Any] 
         raise ValidationError(f"qualification gate evidence changed: {path}")
     gate["gate_sha256"] = claimed
     return gate
+
+
+def _current_gate(
+    output_root: Path, stage: str, series_id: str, row: dict[str, Any]
+) -> dict[str, Any] | None:
+    gate = _read_gate(output_root, stage, series_id)
+    if gate and (
+        gate.get("requested_model") != row.get("requested_model")
+        or gate.get("qualification_profile_sha256") != row.get("qualification_profile_sha256")
+    ):
+        raise ValidationError(
+            "qualification model/profile changed; existing evidence cannot be reused"
+        )
+    return gate
+
+
+def _claim_profile_attempt(
+    output_root: Path, stage: str, series_id: str, row: dict[str, Any], run_dir: Path
+) -> None:
+    profile_hash = row.get("qualification_profile_sha256")
+    if not profile_hash:
+        return
+    receipt = output_root / "profile-attempts" / f"{stage}-{series_id}-{profile_hash}.json"
+    try:
+        _write_json(receipt, {
+            "stage": stage, "series_id": series_id, "requested_model": row["requested_model"],
+            "qualification_profile_sha256": profile_hash, "claimed_at": utc_now(),
+            "run_directory": str(run_dir), "official_longitudinal_data": False,
+        })
+    except ImmutabilityError as exc:
+        raise ValidationError(
+            "this W0 profile stage was already attempted; preserve evidence and require review"
+        ) from exc
 
 
 def _rehearsal_gate_passed(output_root: Path) -> bool:
@@ -321,7 +377,10 @@ def run_smoke_qualification(
 ) -> dict[str, Any]:
     module_root = (module_root or default_module_root()).resolve()
     output_root = (output_root or default_output_root(module_root)).resolve()
-    plan, _ = _load_plan(module_root)
+    series_ids = list(series_ids) if series_ids is not None else None
+    plan, _ = _load_plan(
+        module_root, include_m05_profile=series_ids is None or "M05" in series_ids
+    )
     selected = _selected_series(plan, series_ids)
     identifier = run_id or _run_id("Q1")
     run_dir = output_root / "Q1" / identifier
@@ -352,7 +411,7 @@ def run_smoke_qualification(
         return report
     results: dict[str, Any] = {}
     for series_id in selected:
-        existing = _read_gate(output_root, "Q1", series_id)
+        existing = _current_gate(output_root, "Q1", series_id, plan["models"][series_id])
         if existing:
             results[series_id] = {"status": "ALREADY_PASSED", "gate": existing}
             continue
@@ -369,11 +428,14 @@ def run_smoke_qualification(
             "ordinary_requests_attempted": 0,
             "substitution_attempted": False,
             "pre_live_report_sha256": pre_live["report_sha256"],
+            "qualification_profile_sha256": row.get("qualification_profile_sha256"),
+            "api_surface": row.get("api_surface"),
         }
         if not isinstance(model, str) or not model:
             result.update(status="BLOCKED_EXACT_MODEL_UNRESOLVED", passed=False)
         else:
             try:
+                _claim_profile_attempt(output_root, "Q1", series_id, row, run_dir)
                 adapter = adapter_factory(provider)
             except Exception as exc:
                 result.update(
@@ -427,10 +489,16 @@ def run_smoke_qualification(
                             raise ProviderError(error or "ordinary response was not JSON")
                         normalized = adapter.normalize(response.body)
                         identity_match = _identity_match(model, normalized.returned_model)
+                        response_errors = (
+                            adapter.qualification_response_errors(response.body)
+                            if isinstance(adapter, PerplexityAgentW0Adapter) else []
+                        )
                         response_flags = _response_flags(normalized)
                         result.update(
-                            status="PASSED" if identity_match else "FAILED_RETURNED_IDENTITY",
-                            passed=identity_match,
+                            status=("PASSED" if identity_match and not response_errors
+                                    else "FAILED_RETURNED_IDENTITY_OR_CONFIGURATION"),
+                            passed=identity_match and not response_errors,
+                            provider_configuration_errors=response_errors,
                             returned_model=normalized.returned_model,
                             returned_identity_matches_requested=identity_match,
                             response_id=normalized.response_id,
@@ -550,7 +618,10 @@ def run_provider_qualification_set(
 ) -> dict[str, Any]:
     module_root = (module_root or default_module_root()).resolve()
     output_root = (output_root or default_output_root(module_root)).resolve()
-    plan, battery = _load_plan(module_root)
+    series_ids = list(series_ids) if series_ids is not None else None
+    plan, battery = _load_plan(
+        module_root, include_m05_profile=series_ids is None or "M05" in series_ids
+    )
     selected = _selected_series(plan, series_ids)
     items = {item.item_id: item for item in battery.items}
     qualification_items = [items[item_id] for item_id in plan["qualification_item_ids"]]
@@ -582,11 +653,12 @@ def run_provider_qualification_set(
         return report
     results: dict[str, Any] = {}
     for series_id in selected:
-        existing = _read_gate(output_root, "Q2", series_id)
+        row = plan["models"][series_id]
+        existing = _current_gate(output_root, "Q2", series_id, row)
         if existing:
             results[series_id] = {"status": "ALREADY_PASSED", "gate": existing}
             continue
-        q1_gate = _read_gate(output_root, "Q1", series_id)
+        q1_gate = _current_gate(output_root, "Q1", series_id, row)
         if not q1_gate:
             results[series_id] = {
                 "status": "BLOCKED_Q1_NOT_PASSED",
@@ -609,8 +681,11 @@ def run_provider_qualification_set(
             "closed_diagnostic_results": [],
             "substitution_attempted": False,
             "pre_live_report_sha256": pre_live["report_sha256"],
+            "qualification_profile_sha256": row.get("qualification_profile_sha256"),
+            "api_surface": row.get("api_surface"),
         }
         try:
+            _claim_profile_attempt(output_root, "Q2", series_id, row, run_dir)
             adapter = adapter_factory(provider)
         except Exception as exc:
             result.update(
@@ -656,6 +731,12 @@ def run_provider_qualification_set(
                         item_result["anthropic_thinking_metadata"] = (
                             _anthropic_thinking_metadata(response.body)
                         )
+                    if isinstance(adapter, PerplexityAgentW0Adapter):
+                        item_result["provider_observation_metadata"] = normalized.safety
+                        failures.extend(
+                            f"{item.item_id}: {error}"
+                            for error in adapter.qualification_response_errors(response.body)
+                        )
                     result["item_results"].append(item_result)
                     if not identity_match:
                         failures.append(f"{item.item_id}: returned identity mismatch")
@@ -682,7 +763,11 @@ def run_provider_qualification_set(
                         diagnostic_result = {
                             "item_id": item.item_id,
                             "classification": "NON_OFFICIAL_W0_ONLY",
-                            "disable_search": True,
+                            "disable_search": (request.body or {}).get("disable_search"),
+                            "no_search_requested": True,
+                            "no_search_mapping": audit.get(
+                                "no_search_mapping", "disable_search=true"
+                            ),
                             "prompt_sha256": item.prompt_sha256,
                             "request_sha256": audit["serialized_request_sha256"],
                             "response_sha256": sha256_bytes(response.body_bytes),
@@ -691,6 +776,14 @@ def run_provider_qualification_set(
                             **_response_flags(normalized),
                         }
                         result["closed_diagnostic_results"].append(diagnostic_result)
+                        if isinstance(adapter, PerplexityAgentW0Adapter):
+                            diagnostic_result["provider_observation_metadata"] = normalized.safety
+                            failures.extend(
+                                f"{item.item_id} diagnostic: {error}"
+                                for error in adapter.qualification_response_errors(
+                                    response.body, diagnostic=True
+                                )
+                            )
                         if not identity_match:
                             failures.append(
                                 f"{item.item_id} diagnostic: returned identity mismatch"
@@ -906,7 +999,10 @@ def run_dress_rehearsal(
             "W0-Q3 refused: pre-live operational gates are incomplete: "
             f"{pre_live['W0_Q1_EXECUTABLE_reasons']}"
         )
-    q2_gates = {series_id: _read_gate(output_root, "Q2", series_id) for series_id in SERIES_IDS}
+    q2_gates = {
+        series_id: _current_gate(output_root, "Q2", series_id, plan["models"][series_id])
+        for series_id in SERIES_IDS
+    }
     missing = [series_id for series_id, gate in q2_gates.items() if gate is None]
     if missing:
         raise ValidationError(f"W0-Q3 refused: required Q2 gates are missing: {missing}")
@@ -1035,7 +1131,10 @@ def qualification_status_report(
 ) -> dict[str, Any]:
     module_root = (module_root or default_module_root()).resolve()
     output_root = (output_root or default_output_root(module_root)).resolve()
-    plan, _ = _load_plan(module_root)
+    series_ids = list(series_ids) if series_ids is not None else None
+    plan, _ = _load_plan(
+        module_root, include_m05_profile=series_ids is None or "M05" in series_ids
+    )
     selected = _selected_series(plan, series_ids)
     pre_live = w0_pre_live_report(module_root=module_root, series_ids=selected)
     gates: dict[str, Any] = {}
@@ -1044,8 +1143,8 @@ def qualification_status_report(
         model = plan["models"][series_id].get("requested_model")
         resolved_candidates[series_id] = isinstance(model, str) and bool(model)
         gates[series_id] = {
-            "Q1": _read_gate(output_root, "Q1", series_id) is not None,
-            "Q2": _read_gate(output_root, "Q2", series_id) is not None,
+            stage: _current_gate(output_root, stage, series_id, plan["models"][series_id])
+            is not None for stage in ("Q1", "Q2")
         }
     q1_executable_reasons = list(pre_live["W0_Q1_EXECUTABLE_reasons"])
     unresolved = [
@@ -1073,6 +1172,15 @@ def qualification_status_report(
         "environment_values_exposed": False,
         "environment_values_hashed": False,
         "exact_w0_candidates_resolved": resolved_candidates,
+        "w0_model_resolutions": {
+            series_id: {
+                key: plan["models"][series_id].get(key)
+                for key in (
+                    "requested_model", "legacy_requested_model", "api_surface",
+                    "qualification_profile_sha256",
+                )
+            } for series_id in selected
+        },
         "W0_Q1_EXECUTABLE": not q1_executable_reasons,
         "W0_Q1_EXECUTABLE_reasons": q1_executable_reasons,
         "gates": gates,

@@ -9,13 +9,14 @@ holds:
     reason: Human protocol owner deferred xAI due to cost; do not create a key or call xAI.
     decision_authority: HUMAN_PROTOCOL_OWNER
     evidence_reference: conversation_human_confirmation_2026-10-24_xai_deferral
-  M05:
-    status: BLOCKED_PROVIDER_SERVICE_CHANGE
-    execution_permitted: false
-    reason: Sonar support ended and synchronous calls may be reformulated as Agent API calls; the approved Sonar-only observation surface cannot be assured.
-    decision_authority: EXISTING_SONAR_ONLY_PROTOCOL_CONSTRAINT
-    evidence_reference: evidence/perplexity/sonar-service-change-2026-10-24.json
-unaffected_series: [M01, M02, M03]
+supersedes: operational-history/provider-execution-holds-2026-10-24-sonar-only.yaml
+M05_W0_release:
+  status: MIGRATED_PROFILE_REQUIRED_NOT_LIVE_QUALIFIED
+  profile: perplexity-agent-profile-v1.yaml
+  authority: conversation_2026-10-24_owner_requested_W0_API_change_support
+  scope: W0_ONLY
+  w01_authorized: false
+unaffected_series: [M01, M02, M03, M05]
 core_35_rehearsal_permitted: false
 scientific_panel_redefined: false
 model_substitution_permitted: false

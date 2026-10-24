@@ -1,8 +1,8 @@
 [
   {
     "path": ".gitattributes",
-    "bytes": 764,
-    "sha256": "08c871f1122f95d386bd478af3225b72bcd57ec4febdf8ffa185eb6ef4bc6ebf"
+    "bytes": 1028,
+    "sha256": "582da8ebb03dafe58186e42cf91118e6a6078b15979e784d69acdebac226cc73"
   },
   {
     "path": ".github/workflows/eibo-official-wave.yml",
@@ -81,8 +81,8 @@
   },
   {
     "path": "eibo/BLOCKERS.md",
-    "bytes": 3936,
-    "sha256": "1049a806edb2462411de1203140d1fcb89d70beff59ff78b15d95dd644ab93bf"
+    "bytes": 4210,
+    "sha256": "d0097f46ecdade5fe962b84cd8e765ce2f40e6cbf32c1d55f6bb2bd49957cdd6"
   },
   {
     "path": "eibo/CHARTER.md",
@@ -101,13 +101,13 @@
   },
   {
     "path": "eibo/READINESS.md",
-    "bytes": 4262,
-    "sha256": "f7adc64e44874d4879975fb67ef7e125a7347915deccf1e7cbf7580aa8342cb5"
+    "bytes": 4767,
+    "sha256": "b4d873de381d71ff9b780e840e66cfefc55614d32e380f54ca666a76e6286603"
   },
   {
     "path": "eibo/README.md",
-    "bytes": 7643,
-    "sha256": "abf87034375b7fabcaa8549dda629a7463856dbb7768473468e2910c090c34dd"
+    "bytes": 8185,
+    "sha256": "bf12141885aaf0577dbdb640651da00c0336b5a72bac8e0c3c517470c1d781e8"
   },
   {
     "path": "eibo/battery/ebb-ja-v1.0.prompt-lock.json",
@@ -148,6 +148,11 @@
     "path": "eibo/protocol/amendments/EIBO-PA-001-rename-and-solo-operations.md",
     "bytes": 2057,
     "sha256": "af060659d662a924e345945decc2def3ff374b6ce523b69e76be89b4a3aa2be5"
+  },
+  {
+    "path": "eibo/protocol/amendments/EIBO-W0-PA-002-perplexity-agent-api.md",
+    "bytes": 3358,
+    "sha256": "1f1262f8bc8ab2bc07a018a74423f3098fdf8d22089f0654888b35f05ae906ca"
   },
   {
     "path": "eibo/protocol/codebook-v1.0.md",
@@ -260,6 +265,11 @@
     "sha256": "dc0df630acc08f8f9e03e122772e29caa633a8d2824db9b03f8e052f5f7e93cf"
   },
   {
+    "path": "eibo/src/eibo/adapters/perplexity_w0.py",
+    "bytes": 10373,
+    "sha256": "38ecf544283273305e15203c76c168fe682ce2fe8853daf6598ec719e4d8a2b7"
+  },
+  {
     "path": "eibo/src/eibo/adapters/xai.py",
     "bytes": 2611,
     "sha256": "f3270b17eb019ca436be8729778f8bcdce05c77acd50d5c8840f3b5d32969a3e"
@@ -296,8 +306,8 @@
   },
   {
     "path": "eibo/src/eibo/live_qualification.py",
-    "bytes": 44666,
-    "sha256": "6f8c28b85fad734a0c49f05a0111c5c792ddf97bbb75cd937d28d61fd2b977c2"
+    "bytes": 50007,
+    "sha256": "cec7ef4f9d2c1ac86a975d4ea4abe43baace0b71b2646ced06843655a17b51f6"
   },
   {
     "path": "eibo/src/eibo/models.py",
@@ -311,8 +321,8 @@
   },
   {
     "path": "eibo/src/eibo/operational.py",
-    "bytes": 11104,
-    "sha256": "eec650a7b2ffb86fb1a1a8a57f656f861ddb591224e84d4b2deaba8702a7c569"
+    "bytes": 11581,
+    "sha256": "b5f7f2009ee1a2382d5eb27a6c0e7cd6a8d4bb3a65d5ae641ec17686d5a2e9c6"
   },
   {
     "path": "eibo/src/eibo/preflight.py",
@@ -371,8 +381,8 @@
   },
   {
     "path": "eibo/tests/test_live_qualification.py",
-    "bytes": 18120,
-    "sha256": "7f571d5e6e9036511e3a0812be309ea255d08fb6f0756aa74aec5b06f511e126"
+    "bytes": 18737,
+    "sha256": "cd492bd5f3cabf5c140d4526d5b0750141aa7e3279646ce7542e00412bb9a589"
   },
   {
     "path": "eibo/tests/test_models_and_schedule.py",
@@ -381,8 +391,13 @@
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",
-    "bytes": 8178,
-    "sha256": "37e122bf4e0a37c7fa5daa40fa68a4a3935dc2151d253b1b5504f68f35ce943b"
+    "bytes": 8133,
+    "sha256": "bba7f4bd923ef32bd6d346004a8c78dab0ee9ad32e96817d08aec3be627328fe"
+  },
+  {
+    "path": "eibo/tests/test_perplexity_agent_w0.py",
+    "bytes": 12883,
+    "sha256": "aca11b0a78c2937d4513946f11dc1843e5a6f8262c5ead3c37256b2618dd29e6"
   },
   {
     "path": "eibo/tests/test_preflight_cli_security.py",
@@ -465,6 +480,11 @@
     "sha256": "3641f4d3193b4376b375adebe902a2cf675d4004768591a0cd4bda3fc99c34c4"
   },
   {
+    "path": "eibo/waves/W0/evidence/perplexity/request-shapes.agent-w0-v1.json",
+    "bytes": 2997,
+    "sha256": "9de1860bee9a016a0bf4fd595f8203d6de599e28681d558983f8b06cb99ac200"
+  },
+  {
     "path": "eibo/waves/W0/evidence/perplexity/request-shapes.native-and-w0-closed.json",
     "bytes": 1254,
     "sha256": "3eae9c79f67aa2af2cdc14a692ee351e7cf059f97e53e6b562c9a4f8a3348617"
@@ -535,9 +555,29 @@
     "sha256": "d1ebce7106f12a92a21962c5186bfcb49016f5021627cf906ea7b6a4f8f541eb"
   },
   {
+    "path": "eibo/waves/W0/model-lock.agent-w0.candidate.yaml",
+    "bytes": 1049,
+    "sha256": "113f5ceda2bb9d7d90f24daccae9e832f1d4183eea666ba23682043bc1d1086b"
+  },
+  {
     "path": "eibo/waves/W0/model-lock.candidate.yaml",
     "bytes": 3293,
     "sha256": "bf1f4bd6178b8cc020df7c7dbe8d46a67de03e1ccb775eda8f70c5dfd4eb20cd"
+  },
+  {
+    "path": "eibo/waves/W0/operational-history/provider-execution-holds-2026-10-24-sonar-only.yaml",
+    "bytes": 986,
+    "sha256": "5e204c25ec537bdeefd5a7d1589c931d9e83c9cf81a8623b4374134512837857"
+  },
+  {
+    "path": "eibo/waves/W0/perplexity-agent-profile-v1.yaml",
+    "bytes": 939,
+    "sha256": "389c00451b55c0736198d8529f9594681098112f578aff06f6591ab5aacfe4df"
+  },
+  {
+    "path": "eibo/waves/W0/provider-capabilities.agent-w0-v1.yaml",
+    "bytes": 1054,
+    "sha256": "71871d6dd37d87d473483dcdf9750d40dec54ee15012ae663add48f19cc39214"
   },
   {
     "path": "eibo/waves/W0/provider-capabilities.yaml",
@@ -546,8 +586,13 @@
   },
   {
     "path": "eibo/waves/W0/provider-execution-holds.yaml",
-    "bytes": 986,
-    "sha256": "5e204c25ec537bdeefd5a7d1589c931d9e83c9cf81a8623b4374134512837857"
+    "bytes": 922,
+    "sha256": "ab28392b7015d6b8130a996d0d6d1b99ffb7af6d8c644516af9f531c7118cfc0"
+  },
+  {
+    "path": "eibo/waves/W0/qualification-report.agent-w0-v1.md",
+    "bytes": 4163,
+    "sha256": "5e20b548ec90704e37d6e3d2da886505b34ebdaeaefb96ea7bdd372899b6c75a"
   },
   {
     "path": "eibo/waves/W0/qualification-report.md",

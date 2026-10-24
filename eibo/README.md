@@ -14,7 +14,7 @@ EIBO is the current project name. It was renamed from MIBO-Education. The import
 | `SCIENTIFIC_PROTOCOL_COMPLETE` | True | All five authoritative v1.0 artifacts are Frozen and exact-hash verified |
 | `HUMAN_GOVERNANCE_READY` | True | Three explicit human W0 determinations are recorded |
 | `CREDENTIAL_ENVIRONMENT_READY` | False | Full-panel credentials are incomplete; local persistent evidence root is configured |
-| `W0_Q1_EXECUTABLE` | False | Full panel held: M04 deferred for cost; M05 Sonar-to-Agent routing change; M01-M03 may qualify individually |
+| `W0_Q1_EXECUTABLE` | False | Full panel held by M04 cost deferral; M01-M03 and the explicit migrated M05 W0 profile may qualify individually |
 | `W0_READY` | False | Full-panel live qualification, exact model lock, and locked schedule are incomplete |
 | `W01_READY` | False | Required runtime model, schedule, site, provider-control, and governance locks are absent |
 
@@ -66,7 +66,7 @@ eibo qualify providers
 eibo qualify rehearsal
 ```
 
-Q1 makes at most one ordinary request per selected series after human-governance, credential/environment, and model-metadata checks. A provider-specific Q1 checks only that series' credential; it never requires an unrelated provider's credential. Q2 is gated independently per provider by current pre-live checks and that provider's Q1, and runs the seven preselected E1-E7 items; M05 additionally runs the non-official `disable_search=true` diagnostic. Q3 requires current full-panel pre-live readiness plus all Q2 gates and runs Core-35 through the production scheduler, runner, technical-retry classifier, raw archive, QC, and certificate flow. Every stage remains `OFFICIAL_LONGITUDINAL_DATA=false`.
+Q1 makes at most one ordinary request per selected series after human-governance, credential/environment, and model-metadata checks. A provider-specific Q1 checks only that series' credential; it never requires an unrelated provider's credential. Q2 is gated independently per provider by current pre-live checks and that provider's Q1, and runs the seven preselected E1-E7 items. Migrated M05 uses the separate [W0 Agent API profile](waves/W0/perplexity-agent-profile-v1.yaml), exact `perplexity/sonar`, and a non-official no-search diagnostic with tools and effort omitted; the obsolete `disable_search` field is not sent. Its gates bind the model and profile hash. Q3 requires current full-panel pre-live readiness plus all Q2 gates and runs Core-35 through the production scheduler, runner, technical-retry classifier, raw archive, QC, and certificate flow. Every stage remains `OFFICIAL_LONGITUDINAL_DATA=false`. M04's cost deferral keeps the full-panel rehearsal blocked.
 
 The human templates are under `waves/W0/governance/templates/`; signed records belong under `waves/W0/governance/records/`. Agents cannot approve them. `NOT_APPLICABLE` and `NOT_HUMAN_SUBJECTS` still require a named human, role, timezone-aware decision time, rationale, and explicit attestation.
 
@@ -93,5 +93,5 @@ eibo run-wave --manifest waves/W01/manifest.yaml
 - Anthropic: W0 uses canonical pinned ID `claude-opus-5`, omits effort and thinking overrides, and retains protocol-required `max_tokens=8192`. Live evidence must determine whether default thinking causes `stop_reason=max_tokens` or materially constrains visible output; serving-infrastructure variation remains possible despite the pinned model ID.
 - Gemini: stable IDs are preferable, but provider documentation does not promise behavioral immutability; returned `modelVersion` must be retained.
 - xAI: the W0 candidate is `grok-4.5` on `/v1/responses` with `max_output_tokens=8192`; Models API version/fingerprint evidence and returned identity remain live-unverified. `grok-4.5-latest` is forbidden.
-- Perplexity: W01 remains NATIVE on the first-party Sonar API. The `disable_search=true` path is a separate, non-official W0 diagnostic and cannot qualify as a W01 observation.
+- Perplexity: the frozen W01 design remains unchanged and blocked. W0 alone uses the explicit `perplexity/sonar` Agent API profile: NATIVE enables `web_search`; its non-official no-search diagnostic omits tools and effort rather than sending legacy `disable_search=true`. Returned identity, actual search behavior, and equivalence to the former API require empirical evidence; no official CLOSED eligibility or immutable pinning is claimed.
 - NATIVE API observations are not automatically equivalent to consumer web products. Any such equivalence requires a registered observation-surface decision.

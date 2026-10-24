@@ -1,0 +1,26 @@
+schema_version: "1.0"
+artifact_id: EIBO-W0-M05-AGENT-MODEL-LOCK-CANDIDATE-V1
+status: INCOMPLETE_NOT_EXECUTABLE
+candidate_only: true
+official_longitudinal_data: false
+execution_permitted: false
+extends_legacy_candidate: model-lock.candidate.yaml
+runtime_profile: perplexity-agent-profile-v1.yaml
+series_id: M05
+provider: perplexity
+legacy_requested_model: sonar
+requested_model: perplexity/sonar
+environment: NATIVE
+first_party_endpoint: https://api.perplexity.ai/v1/agent
+model_metadata_endpoint: https://api.perplexity.ai/v1/models
+output_cap_parameter: max_output_tokens
+output_cap_value: 8192
+live_verified: false
+provider_returned_model: null
+pinning_classification: CATALOG_ID_ONLY_NO_IMMUTABLE_SNAPSHOT_CLAIM
+legacy_comparability: NOT_ESTABLISHED
+fallback_permitted: false
+blockers:
+  - Current-profile Q1 and Q2 gates and live Models API evidence are absent.
+  - Returned identity, tool traces, no-search behavior, refusals, and truncation require W0 evidence.
+  - M04 remains deferred for cost; the full-panel Core-35 rehearsal cannot pass.

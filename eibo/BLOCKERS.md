@@ -8,7 +8,7 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 
 - The three W0 human-governance determinations and prospective operating-model adoption were explicitly recorded on 2026-10-22; they no longer block W0.
 - M04 is held as `NOT_RUN_COST_CONSTRAINT` following the human owner's 2026-10-24 decision; do not create an xAI key or send requests.
-- M05 is held as `BLOCKED_PROVIDER_SERVICE_CHANGE`: first-party documentation states that Sonar synchronous requests are being reformulated as Agent API requests. Sonar-only operation cannot currently be assured; an Agent API replacement is not authorized.
+- M05's former service-change hold is preserved in `waves/W0/operational-history/`. The owner's subsequent W0 API-change instruction permits the explicit Agent API profile under EIBO-W0-PA-002. Current-profile Q1/Q2, exact returned identity, Models API evidence, and actual no-search behavior remain unverified.
 - Full-panel credential presence remains incomplete. The local evidence root is configured. GitHub execution additionally requires a controlled self-hosted runner; the protected `eibo-w0` environment is configured.
 - No live-verified exact W0 model-lock exists.
 - No locked W0 execution schedule exists.
@@ -35,6 +35,7 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 - M01–M04: absence of tools, web, retrieval, RAG, files, memory, and external functions must be verified for the selected exact API surface.
 - M01–M05: exact requested model IDs must still be live-verified against provider-returned identity fields; M02's canonical ID is provider-documented as pinned, but serving-infrastructure behavioral variation remains possible.
 - M05 is scientifically assigned to the separate NATIVE mirror and must not be pooled with CLOSED; the exact NATIVE API surface still requires a runtime lock.
+- W0-only M05 now uses `perplexity/sonar` at `/v1/agent` and `max_output_tokens=8192`, without effort presets or fallback lists. It does not establish behavioral equivalence to legacy Sonar or authorize any W01 change.
 - Any unavoidable provider-controlled system layer, forced streaming, or internal regional routing limitation must be documented explicitly rather than represented as absent.
 
 Consumer UI equivalence is not an ambiguity to resolve for W01. The official EIBO observation surface is the first-party API, and UI equivalence is outside scope rather than a blocker.

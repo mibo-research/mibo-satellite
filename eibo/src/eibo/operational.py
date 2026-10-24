@@ -6,6 +6,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from .adapters.perplexity_w0 import load_w0_agent_profile
 from .artifacts import load_yaml
 from .errors import ValidationError
 from .util import artifact_hash, sha256_file
@@ -234,10 +235,18 @@ def w0_pre_live_report(
         series_ids=selected, environment=environment
     )
     execution_holds = provider_execution_hold_report(module_root, selected)
+    profile_reasons: list[str] = []
+    profile_hashes: dict[str, str] = {}
+    if "M05" in selected:
+        try:
+            profile_hashes["M05"] = load_w0_agent_profile(module_root)["profile_sha256"]
+        except (OSError, ValidationError) as exc:
+            profile_reasons.append(f"M05 W0 Agent API profile unavailable: {exc}")
     reasons = [
         *governance["reasons"],
         *credential_environment["reasons"],
         *execution_holds["reasons"],
+        *profile_reasons,
     ]
     core = {
         "schema_version": "1.0",
@@ -255,6 +264,7 @@ def w0_pre_live_report(
         "governance_records": governance["records"],
         "credential_environment": credential_environment,
         "provider_execution_holds": execution_holds,
+        "qualification_profile_hashes": profile_hashes,
         "secret_or_environment_values_exposed": False,
     }
     return {**core, "report_sha256": artifact_hash(core)}
