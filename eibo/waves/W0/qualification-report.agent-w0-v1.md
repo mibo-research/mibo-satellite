@@ -39,7 +39,9 @@ or mere credential presence. All results remain OFFICIAL_LONGITUDINAL_DATA=false
 
 ## Preparation verification
 
-- Non-live repository suite: 126 passed; overall coverage 83%; new adapter coverage 96%.
+- Non-live repository suite: 129 passed; overall coverage 83%; new adapter coverage 96%.
+  Mock migration scenarios explicitly cover local and protected-CI execution contexts;
+  tests for missing protected-runner markers remain fail-closed.
 - Ruff, wheel build, engineering validation, and the 125-file source secret scan passed.
 - All five authoritative scientific hashes and the external 70-prompt lock passed;
   each domain still has ten Frozen items. The historical evidence manifest passed.

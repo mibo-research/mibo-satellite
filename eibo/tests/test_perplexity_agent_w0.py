@@ -24,7 +24,11 @@ from eibo.live_qualification import (
     run_provider_qualification_set,
     run_smoke_qualification,
 )
-from eibo.operational import w0_pre_live_report
+from eibo.operational import (
+    PROTECTED_ENVIRONMENT_MARKER,
+    RUNNER_REQUIREMENTS_MARKER,
+    w0_pre_live_report,
+)
 from eibo.util import canonical_json_bytes, sha256_bytes, write_immutable
 
 ROOT = Path(__file__).parents[1]
@@ -206,9 +210,18 @@ def test_agent_request_evidence_is_independently_hashed_and_separate_from_legacy
 
 
 @pytest.mark.parametrize("behavior", ["identity_mismatch", "diagnostic_search", "refusal_cap"])
+@pytest.mark.parametrize("github_actions", [False, True])
 def test_live_migration_flow_preserves_scientific_responses_and_never_retries(
-    behavior: str, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    behavior: str, github_actions: bool, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
+    # Isolate the simulated execution context from the machine running pytest.
+    monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
+    monkeypatch.delenv(PROTECTED_ENVIRONMENT_MARKER, raising=False)
+    monkeypatch.delenv(RUNNER_REQUIREMENTS_MARKER, raising=False)
+    if github_actions:
+        monkeypatch.setenv("GITHUB_ACTIONS", "true")
+        monkeypatch.setenv(PROTECTED_ENVIRONMENT_MARKER, "mock-only-protected-environment")
+        monkeypatch.setenv(RUNNER_REQUIREMENTS_MARKER, "mock-only-protected-runner")
     monkeypatch.setenv("PERPLEXITY_API_KEY", "test-only-key")
     monkeypatch.setenv("EIBO_W0_EVIDENCE_ROOT", "test-evidence")
     posts = []

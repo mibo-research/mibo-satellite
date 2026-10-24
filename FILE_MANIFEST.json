@@ -396,8 +396,8 @@
   },
   {
     "path": "eibo/tests/test_perplexity_agent_w0.py",
-    "bytes": 12883,
-    "sha256": "aca11b0a78c2937d4513946f11dc1843e5a6f8262c5ead3c37256b2618dd29e6"
+    "bytes": 13560,
+    "sha256": "6fa4451d22d3e1a1df5bceebf49fbea303e75c6329fe6034f04a18933d0fbec1"
   },
   {
     "path": "eibo/tests/test_preflight_cli_security.py",
@@ -591,8 +591,8 @@
   },
   {
     "path": "eibo/waves/W0/qualification-report.agent-w0-v1.md",
-    "bytes": 4163,
-    "sha256": "5e20b548ec90704e37d6e3d2da886505b34ebdaeaefb96ea7bdd372899b6c75a"
+    "bytes": 4315,
+    "sha256": "0ca918435555df4d79c95c3b44fcff8227e682d45ed1c44f932982b0f2ef69bd"
   },
   {
     "path": "eibo/waves/W0/qualification-report.md",
