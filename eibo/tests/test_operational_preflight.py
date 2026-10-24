@@ -8,9 +8,11 @@ import pytest
 import yaml
 
 from eibo.operational import (
+    CREDENTIAL_ENV_BY_SERIES,
     GOVERNANCE_RECORDS,
     credential_environment_report,
     human_governance_report,
+    provider_execution_hold_report,
     w0_pre_live_report,
 )
 
@@ -180,3 +182,37 @@ def test_combined_pre_live_gate_requires_human_and_selected_credential(
     assert report["CREDENTIAL_ENVIRONMENT_READY"] is True
     assert report["W0_Q1_EXECUTABLE"] is True
     assert report["secret_or_environment_values_exposed"] is False
+
+
+def test_runtime_holds_block_only_affected_providers_even_with_credentials() -> None:
+    environment = {name: "test-only-secret" for name in CREDENTIAL_ENV_BY_SERIES.values()}
+    environment["EIBO_W0_EVIDENCE_ROOT"] = "test-evidence-root"
+    for series_id in ("M01", "M02", "M03"):
+        report = w0_pre_live_report(
+            module_root=ROOT, series_ids=[series_id], environment=environment
+        )
+        assert report["W0_Q1_EXECUTABLE"] is True
+    for series_id, status in (
+        ("M04", "NOT_RUN_COST_CONSTRAINT"),
+        ("M05", "BLOCKED_PROVIDER_SERVICE_CHANGE"),
+    ):
+        report = w0_pre_live_report(
+            module_root=ROOT, series_ids=[series_id], environment=environment
+        )
+        assert report["CREDENTIAL_ENVIRONMENT_READY"] is True
+        assert report["W0_Q1_EXECUTABLE"] is False
+        assert any(status in reason for reason in report["W0_Q1_EXECUTABLE_reasons"])
+        assert report["provider_execution_holds"]["source_sha256"]
+
+
+@pytest.mark.parametrize("holds", [{"M99": {}}, {"M04": {"execution_permitted": True}}])
+def test_malformed_runtime_holds_fail_closed(tmp_path: Path, holds: dict[str, Any]) -> None:
+    from eibo.errors import ValidationError
+
+    hold_path = tmp_path / "waves/W0/provider-execution-holds.yaml"
+    hold_path.parent.mkdir(parents=True)
+    hold_path.write_text(yaml.safe_dump({
+        "schema_version": "1.0", "official_longitudinal_data": False, "holds": holds,
+    }), encoding="utf-8")
+    with pytest.raises(ValidationError, match="W0"):
+        provider_execution_hold_report(tmp_path, ["M01"])

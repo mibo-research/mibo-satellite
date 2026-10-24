@@ -6,12 +6,13 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 
 ## W0 operational blockers
 
-- Protocol-owner, provider-terms, and ethics/governance approvals are not recorded.
-- The three human-governance templates exist, but no `FINAL` human-attributed records have been placed in `waves/W0/governance/records/`.
-- Credential/environment presence preflight is incomplete, including persistent `EIBO_W0_EVIDENCE_ROOT`; GitHub execution also requires the protected W0 environment and runner markers.
+- The three W0 human-governance determinations and prospective operating-model adoption were explicitly recorded on 2026-10-22; they no longer block W0.
+- M04 is held as `NOT_RUN_COST_CONSTRAINT` following the human owner's 2026-10-24 decision; do not create an xAI key or send requests.
+- M05 is held as `BLOCKED_PROVIDER_SERVICE_CHANGE`: first-party documentation states that Sonar synchronous requests are being reformulated as Agent API requests. Sonar-only operation cannot currently be assured; an Agent API replacement is not authorized.
+- Full-panel credential presence remains incomplete. The local evidence root is configured. GitHub execution additionally requires a controlled self-hosted runner; the protected `eibo-w0` environment is configured.
 - No live-verified exact W0 model-lock exists.
 - No locked W0 execution schedule exists.
-- All five provider credentials were absent during the first operational-qualification run, so model-list/get and generation evidence could not be captured.
+- No live model-list/get or generation evidence has been captured; credential presence checks do not verify API access or identity.
 - M02 is resolved for W0 as permanent lineage `MIBO-SL-002 — Claude` with exact candidate `claude-opus-5`; its Models API metadata, returned identity, stop reason, and thinking/output-cap evidence remain uncaptured.
 - W0-Q1 live smoke gates are absent for M01-M05.
 - W0-Q2 seven-item provider qualification gates are absent for M01-M05.
@@ -40,7 +41,7 @@ Consumer UI equivalence is not an ambiguity to resolve for W01. The official EIB
 
 ## Prospective EIBO blocker
 
-- The solo operating/coding model is configured but still needs an attributed human attestation.
+- The solo operating/coding model has an attributed human adoption record dated 2026-10-22.
 - Frozen W01 v1.0 requires at least two independent coders and cannot use the prospective solo-coding amendment. A future official EIBO Wave needs a prospectively approved and hash-locked amendment or successor protocol.
 
 Consequently: `ENGINEERING_READY=true`, `SCIENTIFIC_PROTOCOL_COMPLETE=true`, `W0_READY=false`, and `W01_READY=false`.

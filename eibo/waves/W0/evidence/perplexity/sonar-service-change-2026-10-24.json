@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "evidence_type": "FIRST_PARTY_DOCUMENTATION_REVIEW",
+  "observed_on": "2026-10-24",
+  "provider": "perplexity",
+  "requested_model": "sonar",
+  "sources": [
+    "https://docs.perplexity.ai/docs/agent-api/migrate-from-sonar/overview",
+    "https://community.perplexity.ai/t/sonar-is-moving-to-the-agent-api/5802"
+  ],
+  "provider_documented_support_end": "2026-09-27",
+  "provider_documented_behavior": "Synchronous and streaming Sonar calls are progressively reformulated into Agent API calls by model.",
+  "live_api_test_performed": false,
+  "legacy_surface_independence_verified": false,
+  "operational_consequence": "Hold M05 live qualification before sending any request. Do not substitute Agent API or another model under the Sonar lock.",
+  "credential_setup_authorizes_agent_api": false,
+  "official_longitudinal_data": false
+}

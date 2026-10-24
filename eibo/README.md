@@ -12,10 +12,10 @@ EIBO is the current project name. It was renamed from MIBO-Education. The import
 |---|---|---|
 | `ENGINEERING_READY` | True | Automated tests, lint, packaging, CLI, and secret checks pass |
 | `SCIENTIFIC_PROTOCOL_COMPLETE` | True | All five authoritative v1.0 artifacts are Frozen and exact-hash verified |
-| `HUMAN_GOVERNANCE_READY` | False | Three explicitly attributed final human records are absent |
-| `CREDENTIAL_ENVIRONMENT_READY` | False | Credential and persistent evidence-root presence checks are incomplete |
-| `W0_Q1_EXECUTABLE` | False | Human-governance and credential/environment gates are incomplete |
-| `W0_READY` | False | W0 approvals, exact model lock, and locked schedule are absent |
+| `HUMAN_GOVERNANCE_READY` | True | Three explicit human W0 determinations are recorded |
+| `CREDENTIAL_ENVIRONMENT_READY` | False | Full-panel credentials are incomplete; local persistent evidence root is configured |
+| `W0_Q1_EXECUTABLE` | False | Full panel held: M04 deferred for cost; M05 Sonar-to-Agent routing change; M01-M03 may qualify individually |
+| `W0_READY` | False | Full-panel live qualification, exact model lock, and locked schedule are incomplete |
 | `W01_READY` | False | Required runtime model, schedule, site, provider-control, and governance locks are absent |
 
 The software is intentionally fail-closed. Legacy `MIBO-EDU-W01` remains blocked and cannot adopt the prospective solo-coding model retroactively. See [READINESS.md](READINESS.md), [BLOCKERS.md](BLOCKERS.md), the [operating model](operations/operating-model.yaml), and the machine-readable [scientific artifact registry](protocol/scientific-artifacts.yaml).
@@ -26,7 +26,7 @@ EIBO is configured for one accountable human operator. Approved execution, immut
 
 Primary coding is performed by one human coder using a blind export and versioned provenance. EIBO does not claim two-human inter-rater reliability. A second AI model is optional and disabled by default; if enabled later, it is a separate sensitivity analysis whose model, prompt, parameters, outputs, and hashes must be preserved. It cannot replace the human coder, adjudicate the primary codes, or overwrite them.
 
-The transition is documented in [EIBO-PA-001](protocol/amendments/EIBO-PA-001-rename-and-solo-operations.md). It applies prospectively and needs an attributed human attestation before it can authorize an official EIBO Wave.
+The transition is documented in [EIBO-PA-001](protocol/amendments/EIBO-PA-001-rename-and-solo-operations.md). Its attributed human adoption is recorded in `operations/operating-model-attestation.yaml`; future official Waves still need their own approved scientific and runtime locks.
 
 ## Layer model
 

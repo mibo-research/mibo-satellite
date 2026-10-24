@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .artifacts import load_yaml
+from .errors import ValidationError
 from .util import artifact_hash, sha256_file
 
 SERIES_IDS = ("M01", "M02", "M03", "M04", "M05")
@@ -49,6 +50,45 @@ def _valid_decision_time(value: Any) -> bool:
     except ValueError:
         return False
     return parsed.tzinfo is not None
+
+
+def provider_execution_hold_report(
+    module_root: Path, series_ids: Iterable[str] | None = None
+) -> dict[str, Any]:
+    """Apply runtime holds without changing the scientific panel or candidate IDs."""
+    selected = _selected_series(series_ids)
+    path = module_root / "waves/W0/provider-execution-holds.yaml"
+    holds: dict[str, Any] = {}
+    if path.is_file():
+        value = load_yaml(path)
+        if (
+            value.get("schema_version") != "1.0"
+            or value.get("official_longitudinal_data") is not False
+            or not isinstance(value.get("holds"), dict)
+        ):
+            raise ValidationError("invalid W0 provider execution holds")
+        holds = value["holds"]
+        if set(holds) - set(SERIES_IDS):
+            raise ValidationError("unknown series in W0 provider execution holds")
+        for series_id, hold in holds.items():
+            if (
+                not isinstance(hold, dict)
+                or hold.get("execution_permitted") is not False
+                or not isinstance(hold.get("status"), str)
+                or not hold["status"].strip()
+                or not isinstance(hold.get("reason"), str)
+                or not hold["reason"].strip()
+            ):
+                raise ValidationError(f"invalid W0 execution hold for {series_id}")
+    selected_holds = {key: holds[key] for key in selected if key in holds}
+    return {
+        "holds": selected_holds,
+        "source_sha256": sha256_file(path) if path.is_file() else None,
+        "reasons": [
+            f"{key} live execution held: {hold['status']}: {hold['reason']}"
+            for key, hold in selected_holds.items()
+        ],
+    }
 
 
 def human_governance_report(module_root: Path) -> dict[str, Any]:
@@ -193,7 +233,12 @@ def w0_pre_live_report(
     credential_environment = credential_environment_report(
         series_ids=selected, environment=environment
     )
-    reasons = [*governance["reasons"], *credential_environment["reasons"]]
+    execution_holds = provider_execution_hold_report(module_root, selected)
+    reasons = [
+        *governance["reasons"],
+        *credential_environment["reasons"],
+        *execution_holds["reasons"],
+    ]
     core = {
         "schema_version": "1.0",
         "selected_series": selected,
@@ -209,6 +254,7 @@ def w0_pre_live_report(
         "credential_environment_report_sha256": credential_environment["report_sha256"],
         "governance_records": governance["records"],
         "credential_environment": credential_environment,
+        "provider_execution_holds": execution_holds,
         "secret_or_environment_values_exposed": False,
     }
     return {**core, "report_sha256": artifact_hash(core)}

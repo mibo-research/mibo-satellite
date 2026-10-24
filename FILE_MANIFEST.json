@@ -81,8 +81,8 @@
   },
   {
     "path": "eibo/BLOCKERS.md",
-    "bytes": 3613,
-    "sha256": "10c24cd563f0cc06cf4fd84cd23d3f430ea87335433d84f203290964debebe59"
+    "bytes": 3936,
+    "sha256": "1049a806edb2462411de1203140d1fcb89d70beff59ff78b15d95dd644ab93bf"
   },
   {
     "path": "eibo/CHARTER.md",
@@ -101,13 +101,13 @@
   },
   {
     "path": "eibo/READINESS.md",
-    "bytes": 3274,
-    "sha256": "d4d7af5d88108de7f683ff694ad13274faec5887da6511ee13995ae9165a0528"
+    "bytes": 3719,
+    "sha256": "e6c66e196c39a902d97fa019c6bf17324ca203742997e244a02c0b230e550f64"
   },
   {
     "path": "eibo/README.md",
-    "bytes": 7514,
-    "sha256": "a32deca6450edfc578233c29de79a01d1ef56aae3a7c827b3e8fa889d07909b3"
+    "bytes": 7643,
+    "sha256": "abf87034375b7fabcaa8549dda629a7463856dbb7768473468e2910c090c34dd"
   },
   {
     "path": "eibo/battery/ebb-ja-v1.0.prompt-lock.json",
@@ -128,6 +128,11 @@
     "path": "eibo/operations/operating-model-attestation.template.yaml",
     "bytes": 367,
     "sha256": "e4488f17cc8245fad2d6a3c06a919c7f4ef6ddc6aeda35ac35c514024eab1a6f"
+  },
+  {
+    "path": "eibo/operations/operating-model-attestation.yaml",
+    "bytes": 746,
+    "sha256": "f2bc0702d122e3b94346179d0805ae066219d94b055bc675e1dbe562594d0591"
   },
   {
     "path": "eibo/operations/operating-model.yaml",
@@ -306,8 +311,8 @@
   },
   {
     "path": "eibo/src/eibo/operational.py",
-    "bytes": 9211,
-    "sha256": "7154f479e93a0a3375639291fee4aae24a75ca111d19489e2aff67d9b826a71c"
+    "bytes": 11104,
+    "sha256": "eec650a7b2ffb86fb1a1a8a57f656f861ddb591224e84d4b2deaba8702a7c569"
   },
   {
     "path": "eibo/src/eibo/preflight.py",
@@ -361,13 +366,13 @@
   },
   {
     "path": "eibo/tests/test_eibo_transition.py",
-    "bytes": 4518,
-    "sha256": "4f55065a4c33c947441147bf60d3002a0ce1e4a7fe26cec38a2d257b23227d73"
+    "bytes": 4523,
+    "sha256": "d296045d2b3eb3da4c7cbb0338f08ae5ad1e38dccf0c9e429bbfe87a091a627f"
   },
   {
     "path": "eibo/tests/test_live_qualification.py",
-    "bytes": 16534,
-    "sha256": "77558bd4ef88efe1238669213a161776632793bbebfac786d9729e51bdc27643"
+    "bytes": 18120,
+    "sha256": "7f571d5e6e9036511e3a0812be309ea255d08fb6f0756aa74aec5b06f511e126"
   },
   {
     "path": "eibo/tests/test_models_and_schedule.py",
@@ -376,8 +381,8 @@
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",
-    "bytes": 6522,
-    "sha256": "a4e31d7c26a4a1de2f267feb38c91386c71b35a229347c76384174a163387ec4"
+    "bytes": 8178,
+    "sha256": "37e122bf4e0a37c7fa5daa40fa68a4a3935dc2151d253b1b5504f68f35ce943b"
   },
   {
     "path": "eibo/tests/test_preflight_cli_security.py",
@@ -465,6 +470,11 @@
     "sha256": "3eae9c79f67aa2af2cdc14a692ee351e7cf059f97e53e6b562c9a4f8a3348617"
   },
   {
+    "path": "eibo/waves/W0/evidence/perplexity/sonar-service-change-2026-10-24.json",
+    "bytes": 866,
+    "sha256": "87b687a149857974ce57fa4dc10fe1067f6265c1eab96d210000cbdde176fe96"
+  },
+  {
     "path": "eibo/waves/W0/evidence/xai/model-metadata.capture.json",
     "bytes": 803,
     "sha256": "12fd1d42de3cf973ab50cb1464b110f1b92a1ddd229dcce8e3e54842653ebd5b"
@@ -483,6 +493,21 @@
     "path": "eibo/waves/W0/governance/records/.gitkeep",
     "bytes": 1,
     "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "path": "eibo/waves/W0/governance/records/ethics-or-governance-determination.yaml",
+    "bytes": 804,
+    "sha256": "9732e975d08adfbced9db4d2c0662f5c8290aa5184788820b5b76a21de0e1fb7"
+  },
+  {
+    "path": "eibo/waves/W0/governance/records/protocol-owner.yaml",
+    "bytes": 496,
+    "sha256": "1f69cfb3a2e683c1b1cf651ceb554a6fc985e7a8155d66bdf8df4759d6fd0ac4"
+  },
+  {
+    "path": "eibo/waves/W0/governance/records/terms-review.yaml",
+    "bytes": 622,
+    "sha256": "9ba71002d2ba7a0163bf45ec1fc960a38e11c3e59d6d66cb3aa20f2959435e4d"
   },
   {
     "path": "eibo/waves/W0/governance/templates/ethics-or-governance-determination.template.yaml",
@@ -518,6 +543,11 @@
     "path": "eibo/waves/W0/provider-capabilities.yaml",
     "bytes": 6673,
     "sha256": "514d5590179874a5cd25ad16240367e60ff51d714d5af74ef757262781abdd7c"
+  },
+  {
+    "path": "eibo/waves/W0/provider-execution-holds.yaml",
+    "bytes": 986,
+    "sha256": "5e204c25ec537bdeefd5a7d1589c931d9e83c9cf81a8623b4374134512837857"
   },
   {
     "path": "eibo/waves/W0/qualification-report.md",

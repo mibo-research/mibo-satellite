@@ -1,0 +1,15 @@
+schema_version: "1.0"
+record_type: protocol_owner
+status: FINAL
+determination: APPROVED
+decided_by:
+  actor_type: HUMAN
+  name: Kento Sasano
+  role: EIBO Protocol Owner
+  affiliation: Okayama University / Keio Research Institute at SFC
+decided_at: "2026-10-22T13:05:49+09:00"
+rationale: EIBOの科学プロトコルおよびW0運用に対する責任を引き受ける。
+evidence_references:
+  - conversation_human_confirmation_2026-10-22
+human_attestation: true
+agent_approval_permitted: false

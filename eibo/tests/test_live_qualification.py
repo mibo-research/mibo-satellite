@@ -85,19 +85,57 @@ def test_q1_executable_report_has_all_candidates_and_fail_closed_credentials(
         monkeypatch.delenv(name, raising=False)
     report = qualification_status_report(module_root=ROOT, output_root=tmp_path)
     assert all(report["exact_w0_candidates_resolved"].values())
-    assert report["HUMAN_GOVERNANCE_READY"] is False
+    assert report["HUMAN_GOVERNANCE_READY"] is True
     assert report["CREDENTIAL_ENVIRONMENT_READY"] is False
     assert report["W0_Q1_EXECUTABLE"] is False
-    assert any(
-        "human governance record is missing" in reason
-        for reason in report["W0_Q1_EXECUTABLE_reasons"]
-    )
+    assert report["HUMAN_GOVERNANCE_READY_reasons"] == []
     assert any(
         "credential is missing for M02: ANTHROPIC_API_KEY" in reason
         for reason in report["W0_Q1_EXECUTABLE_reasons"]
     )
     assert report["credential_values_exposed"] is False
     assert report["credential_values_hashed"] is False
+
+
+@pytest.mark.parametrize("series_id", ["M04", "M05"])
+def test_held_provider_cannot_reach_adapter_in_q1_or_q2(
+    series_id: str, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    from eibo.operational import CREDENTIAL_ENV_BY_SERIES
+
+    for name in CREDENTIAL_ENV_BY_SERIES.values():
+        monkeypatch.setenv(name, "test-only-secret")
+    monkeypatch.setenv("EIBO_W0_EVIDENCE_ROOT", "test-root")
+
+    def forbidden_factory(provider: str) -> Any:
+        pytest.fail(f"held provider reached adapter: {provider}")
+
+    for stage in (run_smoke_qualification, run_provider_qualification_set):
+        result = stage(
+            module_root=ROOT, output_root=tmp_path,
+            series_ids=[series_id], adapter_factory=forbidden_factory,
+        )
+        assert result["passed"] is False
+        assert result["results"][series_id]["status"] == "BLOCKED_PRE_LIVE_OPERATIONAL_GATES"
+        assert result["pre_live"]["provider_execution_holds"]["holds"][series_id]
+
+
+def test_core35_cannot_drop_held_providers_or_call_any_adapter(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    from eibo.operational import CREDENTIAL_ENV_BY_SERIES
+
+    for name in CREDENTIAL_ENV_BY_SERIES.values():
+        monkeypatch.setenv(name, "test-only-secret")
+    monkeypatch.setenv("EIBO_W0_EVIDENCE_ROOT", "test-root")
+
+    def forbidden_factory(provider: str) -> Any:
+        pytest.fail(f"held Core-35 reached adapter: {provider}")
+
+    with pytest.raises(ValidationError, match="W0-Q3 refused.*live execution held"):
+        run_dress_rehearsal(
+            module_root=ROOT, output_root=tmp_path, adapter_factory=forbidden_factory,
+        )
 
 
 def _response_body(

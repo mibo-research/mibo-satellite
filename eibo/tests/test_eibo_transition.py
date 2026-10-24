@@ -56,8 +56,8 @@ def test_solo_operating_model_is_simple_fail_closed_and_prospective() -> None:
     assert model["legacy_scientific_record"]["w01_execution_permitted"] is False
     report = operating_model_report(root)
     assert report["configured"] is True
-    assert report["human_attestation_complete"] is False
-    assert report["reasons"]
+    assert report["human_attestation_complete"] is True
+    assert report["reasons"] == []
 
 
 def test_legacy_w01_remains_blocked_under_solo_operating_model() -> None:

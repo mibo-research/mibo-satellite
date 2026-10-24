@@ -1,0 +1,16 @@
+schema_version: "1.0"
+record_type: eibo_operating_model
+status: FINAL
+determination: ADOPTED
+decided_by:
+  actor_type: HUMAN
+  name: Kento Sasano
+  role: EIBO Protocol Owner
+  affiliation: Okayama University / Keio Research Institute at SFC
+decided_at: "2026-10-22T13:15:30+09:00"
+rationale: 1名の責任ある人間が運用し、一次コーディングも1名で行う。AIによる二次コーディングは任意の感度分析に限定し、人間の一次判定を上書きせず、2名の人間による評価者間信頼性は主張しない。
+evidence_references:
+  - protocol/amendments/EIBO-PA-001-rename-and-solo-operations.md
+  - conversation_human_confirmation_2026-10-22
+human_attestation: true
+agent_approval_permitted: false

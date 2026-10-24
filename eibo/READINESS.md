@@ -6,11 +6,11 @@
 |---|---:|---|
 | `ENGINEERING_READY` | `true` | — |
 | `SCIENTIFIC_PROTOCOL_COMPLETE` | `true` | — |
-| `OPERATING_MODEL_ATTESTED` | `false` | The EIBO solo operating/coding model is configured, but the named-human attestation record is absent. This is reported separately from the legacy scientific-completeness flag. |
-| `HUMAN_GOVERNANCE_READY` | `false` | Final human-attributed records are absent for protocol owner, terms review, and ethics/governance determination. Templates are present but cannot constitute approval. |
-| `CREDENTIAL_ENVIRONMENT_READY` | `false` | The five credentials and persistent `EIBO_W0_EVIDENCE_ROOT` are absent. Protected environment/runner presence markers are additionally required in GitHub Actions. |
-| `W0_Q1_EXECUTABLE` | `false` | Exact W0 candidates are resolved, but human-governance and credential/environment gates are incomplete. Provider-specific Q1 requires only the selected provider credential plus the common governance and evidence-root gates. |
-| `W0_READY` | `false` | Q1, Q2, and Q3 live qualification gates are incomplete; provider credentials and live model evidence are absent; protocol-owner, terms-review, and explicit ethics-or-governance determination are missing; no qualified exact W0 model-lock or locked schedule exists. M02 model selection is no longer a blocker. |
+| `OPERATING_MODEL_ATTESTED` | `true` | Human adoption recorded on 2026-10-22; applies prospectively. |
+| `HUMAN_GOVERNANCE_READY` | `true` | Three explicit human-attributed W0 determinations recorded on 2026-10-22. |
+| `CREDENTIAL_ENVIRONMENT_READY` | `false` | Full-panel credential presence is incomplete. M04 is deferred for cost and M05 credential setup remains pending. The local persistent evidence root is configured; GitHub execution separately requires a controlled runner. |
+| `W0_Q1_EXECUTABLE` | `false` | Full-panel execution is held: M04 `NOT_RUN_COST_CONSTRAINT`; M05 `BLOCKED_PROVIDER_SERVICE_CHANGE`. M01-M03 may pass provider-specific preflight with their credentials and evidence root loaded. |
+| `W0_READY` | `false` | Q1/Q2 live evidence, Q3 Core-35, qualified immutable exact model lock, and schedule lock are absent. M04 and M05 execution holds prevent the full-panel qualification. |
 | `W01_READY` | `false` | Runtime manifest is not locked; exact model-lock, schedule hash, observer site, provider-required controls, CLOSED eligibility evidence, governance determinations, and Wave lock timestamp are missing; execution is not permitted. |
 
 ## Authoritative artifact freeze state
@@ -27,8 +27,14 @@ The immutable scientific manifest is not the mutable runtime manifest. Scientifi
 
 ## Prospective EIBO operating model
 
-EIBO is configured for one accountable human operator with automated execution and one human primary coder. Two-human inter-rater reliability is not claimed. Optional AI secondary coding is disabled by default and may be used only as a separately preserved sensitivity analysis. The operating-model attestation remains pending and agents cannot complete it.
+EIBO is configured for one accountable human operator with automated execution and one human primary coder. Two-human inter-rater reliability is not claimed. Optional AI secondary coding is disabled by default and may be used only as a separately preserved sensitivity analysis. The operating model was adopted by the attributed human on 2026-10-22; agents cannot approve it.
 
 This model applies only to prospective EIBO Waves. It does not alter the frozen Codebook v1.0 requirement for two independent coders and therefore cannot make legacy W01 executable.
 
 The official observation surface is the first-party provider API. Consumer UI equivalence is neither assumed nor a readiness requirement.
+
+## Runtime holds recorded on 2026-10-24
+
+`waves/W0/provider-execution-holds.yaml` blocks M04 and M05 before adapter creation in Q1/Q2 and before Q3. Credentials do not override a hold. The scheduled 2026-10-28 09:00 JST run explicitly selects M01-M03; it must not shrink Core-35 or redefine the scientific panel.
+
+M04 is deferred at the human owner's request because of cost. M05 is held because [Perplexity documents](https://docs.perplexity.ai/docs/agent-api/migrate-from-sonar/overview) that Sonar support ended on 2026-09-27 and synchronous calls are progressively reformulated as Agent API calls. This was established from first-party documentation, not an experimental request. Key provisioning alone cannot qualify that observation surface.

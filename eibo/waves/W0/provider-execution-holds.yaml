@@ -1,0 +1,22 @@
+schema_version: "1.0"
+recorded_on: "2026-10-24"
+official_longitudinal_data: false
+scope: W0_LIVE_QUALIFICATION_ONLY
+holds:
+  M04:
+    status: NOT_RUN_COST_CONSTRAINT
+    execution_permitted: false
+    reason: Human protocol owner deferred xAI due to cost; do not create a key or call xAI.
+    decision_authority: HUMAN_PROTOCOL_OWNER
+    evidence_reference: conversation_human_confirmation_2026-10-24_xai_deferral
+  M05:
+    status: BLOCKED_PROVIDER_SERVICE_CHANGE
+    execution_permitted: false
+    reason: Sonar support ended and synchronous calls may be reformulated as Agent API calls; the approved Sonar-only observation surface cannot be assured.
+    decision_authority: EXISTING_SONAR_ONLY_PROTOCOL_CONSTRAINT
+    evidence_reference: evidence/perplexity/sonar-service-change-2026-10-24.json
+unaffected_series: [M01, M02, M03]
+core_35_rehearsal_permitted: false
+scientific_panel_redefined: false
+model_substitution_permitted: false
+release_requires_explicit_recorded_review: true
