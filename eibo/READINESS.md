@@ -8,7 +8,7 @@
 | `SCIENTIFIC_PROTOCOL_COMPLETE` | `true` | — |
 | `OPERATING_MODEL_ATTESTED` | `true` | Human adoption recorded on 2026-10-22; applies prospectively. |
 | `HUMAN_GOVERNANCE_READY` | `true` | Three explicit human-attributed W0 determinations recorded on 2026-10-22. |
-| `CREDENTIAL_ENVIRONMENT_READY` | `false` | Full-panel credential presence is incomplete. M04 is deferred for cost and M05 credential setup remains pending. The local persistent evidence root is configured; GitHub execution separately requires a controlled runner. |
+| `CREDENTIAL_ENVIRONMENT_READY` | `false` | Full-panel credential presence is incomplete only because M04 is deliberately deferred for cost. Local presence checks passed for M01, M02, M03, and M05 on 2026-10-24. The local persistent evidence root is configured; GitHub execution separately requires a controlled runner. |
 | `W0_Q1_EXECUTABLE` | `false` | Full-panel execution is held: M04 `NOT_RUN_COST_CONSTRAINT`; M05 `BLOCKED_PROVIDER_SERVICE_CHANGE`. M01-M03 may pass provider-specific preflight with their credentials and evidence root loaded. |
 | `W0_READY` | `false` | Q1/Q2 live evidence, Q3 Core-35, qualified immutable exact model lock, and schedule lock are absent. M04 and M05 execution holds prevent the full-panel qualification. |
 | `W01_READY` | `false` | Runtime manifest is not locked; exact model-lock, schedule hash, observer site, provider-required controls, CLOSED eligibility evidence, governance determinations, and Wave lock timestamp are missing; execution is not permitted. |
@@ -36,5 +36,7 @@ The official observation surface is the first-party provider API. Consumer UI eq
 ## Runtime holds recorded on 2026-10-24
 
 `waves/W0/provider-execution-holds.yaml` blocks M04 and M05 before adapter creation in Q1/Q2 and before Q3. Credentials do not override a hold. The scheduled 2026-10-28 09:00 JST run explicitly selects M01-M03; it must not shrink Core-35 or redefine the scientific panel.
+
+M05 credential provisioning is complete: the dedicated key `EIBO-W0-Qualification-2026-10` was created with explicit human authorization and saved to the Windows user environment as `PERPLEXITY_API_KEY`. Only presence and successful local persistence were verified; no inference request or live authentication test was performed. The key value was not printed, hashed, or committed, and the clipboard was cleared. This does not release the M05 execution hold or authorize Agent API use.
 
 M04 is deferred at the human owner's request because of cost. M05 is held because [Perplexity documents](https://docs.perplexity.ai/docs/agent-api/migrate-from-sonar/overview) that Sonar support ended on 2026-09-27 and synchronous calls are progressively reformulated as Agent API calls. This was established from first-party documentation, not an experimental request. Key provisioning alone cannot qualify that observation surface.
