@@ -1,4 +1,9 @@
-# 確認②：単独codingの品質確認方法（未承認案）
+# 確認②：単独codingの品質確認方法（Aの採用を別記録に保存済み）
+
+2026-11-01に、以下のAの方法を所有者が明示的に採用しました。採用の対象は
+`coding-qa-02.proposal.yaml` の正確なファイルハッシュで、元の提案ファイルは変更しません。
+以下は確認時の提示内容です。現在の確認位置は[decision-progress.yaml](decision-progress.yaml)、
+次の判断は[反復数・一次codingの作業量](REPLICATION-03.md)を参照してください。
 
 基本方針Aは、所有者の明示的なチャット回答に基づいて別記録へ転記しました。
 対象は[基本方針v0.1](scope-01.proposal.yaml)のSHA-256に限定されます。
@@ -55,5 +60,6 @@ The seven-day interval, one-per-cell workload and two-point review flag are EIBO
 operational proposals, not requirements established by that paper. No power,
 precision, reliability threshold, or memory-erasure guarantee is inferred.
 
-旧Codebookの2名・150/200件のpilotを満たしたとは扱いません。この案はまだ未承認・
-未実装・未実施です。採用しても正式プロトコルの凍結や観測開始の許可にはなりません。
+旧Codebookの2名・150/200件のpilotを満たしたとは扱いません。方法は採用済みですが、
+未実装・未実施であり、実測された一致率はまだありません。正式プロトコルの凍結や
+観測開始の許可にはなりません。

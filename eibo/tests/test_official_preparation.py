@@ -171,8 +171,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 2
-    assert progress["next_decision_id"] == "solo_coding_QA"
+    assert progress["current_step"] == 3
+    assert progress["next_decision_id"] == "replication_count_and_coding_workload"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -181,13 +181,13 @@ def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     assert adopted["exact_human_message_time_assumed"] is False
     assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
     assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
-    assert progress["other_decisions"]["coding_QA"] == "PENDING"
+    assert progress["other_decisions"]["replication_and_primary_coding_workload"] == "PENDING"
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
     assert all(v in {"PENDING", "NOT_AUTHORIZED"} for v in progress["other_decisions"].values())
     assert all(progress["prohibitions"].values())
 
 
-def test_coding_qa_proposal_is_not_adopted_or_runnable() -> None:
+def test_historical_coding_qa_proposal_is_preserved_and_not_runnable() -> None:
     proposal = load_yaml(PACK / "coding-qa-02.proposal.yaml")
     assert proposal["approved"] is proposal["execution_permitted"] is False
     assert not any(proposal["other_authority"].values())
@@ -263,3 +263,75 @@ def test_audit_example_does_not_approve_replication_or_workload() -> None:
     assert example["selected_audit_records"] == 280
     assert example["maximum_first_plus_repeat_coding_records"] == 3080
     assert proposal["other_authority"]["primary_replication_count_or_workload_approved"] is False
+
+
+def test_qa_method_adoption_is_attributed_and_does_not_approve_primary_volume() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    adopted = progress["coding_QA_adoption"]
+    assert adopted["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert adopted["agent_is_transcriber_not_approver"] is True
+    assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
+    assert adopted["method_adopted_but_not_implemented_or_completed"] is True
+    assert adopted["selected_audit_target"] == 280
+    assert adopted["minimum_days_after_first_pass_lock"] == 7
+    assert adopted["exact_human_message_time_assumed"] is False
+    assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
+    assert progress["other_decisions"]["replication_and_primary_coding_workload"] == "PENDING"
+    assert progress["execution_permitted"] is False
+
+
+@pytest.mark.parametrize("choice, expected_k", [("A", 10), ("B", 5), ("C", 3)])
+def test_replication_options_count_primary_and_recoding_separately(choice, expected_k) -> None:
+    proposal = load_yaml(PACK / "replication-03.proposal.yaml")
+    option = proposal["options"][choice]
+    assert option["k"] == expected_k
+    assert option["primary_requests_per_series"] == 70 * expected_k
+    assert option["CLOSED_primary_requests"] == 3 * 70 * expected_k
+    assert option["NATIVE_primary_requests"] == 70 * expected_k
+    assert option["total_primary_requests_and_coding_records"] == 4 * 70 * expected_k
+    assert option["repeat_coding_target"] == 280
+    assert option["maximum_primary_plus_repeat_coding_records"] == 4 * 70 * expected_k + 280
+    assert option["audit_fraction"] == pytest.approx(1 / expected_k)
+    assert option["per_cell_empirical_frequency_step_percent"] == pytest.approx(100 / expected_k)
+    assert (
+        option["historical_Google_65_second_gap_minimum_start_span_seconds"]
+        == (70 * expected_k - 1) * 65
+    )
+
+
+def test_replication_recommendation_does_not_approve_budgets_or_claim_power() -> None:
+    proposal = load_yaml(PACK / "replication-03.proposal.yaml")
+    assert proposal["recommended_option"] == "A"
+    assert proposal["approved_k"] is None
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert not any(proposal["other_authority"].values())
+    limits = proposal["scientific_limits"]
+    for field in (
+        "sufficient_power_or_precision_claimed",
+        "primary_records_are_independent_human_subjects",
+        "empirical_frequency_steps_are_accuracy_or_confidence_bounds",
+        "k_changed_after_inspecting_answers",
+        "missing_cells_relabelled_or_filled_by_later_recovery",
+        "good_answers_selected_from_extra_runs",
+        "NATIVE_and_CLOSED_pooled_as_equivalent",
+        "legacy_Frozen_k10_or_W01_manifest_modified",
+        "Google_lower_bounds_guarantee_completion_within_a_target_window",
+    ):
+        assert limits[field] is False
+    assert limits["replication_temporally_distributed"] is True
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "replication-03.proposal.yaml")
+
+
+def test_coding_time_examples_are_explicit_assumptions_not_observed_times_or_api_calls() -> None:
+    proposal = load_yaml(PACK / "replication-03.proposal.yaml")
+    workload = proposal["workload_interpretation"]
+    assert workload["time_per_record_measured"] is False
+    assert workload["repeat_coding_reuses_existing_answers_without_provider_requests"] is True
+    assert workload["discrepancy_review_training_and_breaks_included_in_example"] is False
+    for choice, option in proposal["options"].items():
+        assert workload["example_total_hours_not_a_schedule_or_observed_timing"][choice] == (
+            option["maximum_primary_plus_repeat_coding_records"]
+            * workload["example_minutes_per_coding_record_assumption_only"]
+            / 60
+        )

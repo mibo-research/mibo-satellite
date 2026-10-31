@@ -1,0 +1,87 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-REPLICATION-03
+version: "0.1"
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_ADOPTION
+approved: false
+execution_permitted: false
+recommended_option: A
+approved_k: null
+source_scope: NEW_PROSPECTIVE_FOUR_PROVIDER_BASELINE_NOT_LEGACY_W01
+fixed_inputs:
+  Frozen_item_count: 70
+  CLOSED_series: [M01, M02, M03]
+  NATIVE_series: [M05]
+  human_primary_coder_count: 1
+  already_adopted_repeat_coding_targets: 280
+  already_adopted_minimum_days_after_first_pass_lock: 7
+  primary_or_secondary_AI_scoring_enabled: false
+options:
+  A:
+    k: 10
+    primary_requests_per_series: 700
+    CLOSED_primary_requests: 2100
+    NATIVE_primary_requests: 700
+    total_primary_requests_and_coding_records: 2800
+    repeat_coding_target: 280
+    maximum_primary_plus_repeat_coding_records: 3080
+    audit_fraction: 0.10
+    per_cell_empirical_frequency_step_percent: 10
+    rationale: RETAIN_INHERITED_K10_PLAN_NOT_A_POWER_OR_PRECISION_GUARANTEE
+    historical_Google_65_second_gap_minimum_start_span_seconds: 45435
+  B:
+    k: 5
+    primary_requests_per_series: 350
+    CLOSED_primary_requests: 1050
+    NATIVE_primary_requests: 350
+    total_primary_requests_and_coding_records: 1400
+    repeat_coding_target: 280
+    maximum_primary_plus_repeat_coding_records: 1680
+    audit_fraction: 0.20
+    per_cell_empirical_frequency_step_percent: 20
+    rationale: LOWER_WORKLOAD_WITH_FEWER_WITHIN_CELL_REPLICATIONS
+    historical_Google_65_second_gap_minimum_start_span_seconds: 22685
+  C:
+    k: 3
+    primary_requests_per_series: 210
+    CLOSED_primary_requests: 630
+    NATIVE_primary_requests: 210
+    total_primary_requests_and_coding_records: 840
+    repeat_coding_target: 280
+    maximum_primary_plus_repeat_coding_records: 1120
+    audit_fraction: 0.3333333333333333
+    per_cell_empirical_frequency_step_percent: 33.333333333333336
+    rationale: LOWER_WORKLOAD_WITH_COARSER_WITHIN_CELL_STATE_COUNTS
+    historical_Google_65_second_gap_minimum_start_span_seconds: 13585
+workload_interpretation:
+  counts_are_planned_maxima_not_completed_or_rateable_response_guarantees: true
+  repeat_coding_reuses_existing_answers_without_provider_requests: true
+  technical_missing_and_NR_preserved_not_scored_as_zero: true
+  time_per_record_measured: false
+  example_minutes_per_coding_record_assumption_only: 3
+  example_total_hours_not_a_schedule_or_observed_timing: {A: 154, B: 84, C: 56}
+  discrepancy_review_training_and_breaks_included_in_example: false
+  coding_time_window_is_not_API_observation_window: true
+scientific_limits:
+  sufficient_power_or_precision_claimed: false
+  primary_records_are_independent_human_subjects: false
+  empirical_frequency_steps_are_accuracy_or_confidence_bounds: false
+  identical_k_for_all_selected_series_items_and_environments: true
+  replication_temporally_distributed: true
+  k_changed_after_inspecting_answers: false
+  missing_cells_relabelled_or_filled_by_later_recovery: false
+  good_answers_selected_from_extra_runs: false
+  NATIVE_and_CLOSED_pooled_as_equivalent: false
+  legacy_Frozen_k10_or_W01_manifest_modified: false
+  Google_lower_bounds_guarantee_completion_within_a_target_window: false
+other_authority:
+  financial_or_technical_attempt_budget_approved: false
+  date_cadence_or_observation_window_approved: false
+  governance_or_scientific_freeze_approved: false
+  final_model_or_schedule_lock_approved: false
+  API_execution_authorized: false
+  xai_execution_authorized: false
+  W01_execution_authorized: false
+  agent_approval_permitted: false
+method_reference:
+  doi: 10.1525/collabra.33267
+  scope: JUSTIFY_SAMPLE_SIZE_AGAINST_GOALS_AND_RESOURCES_NOT_VALIDATION_OF_ANY_PROPOSED_K

@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: BASIC_SCOPE_ADOPTED_CODING_QA_PENDING
-current_step: 2
-next_decision_id: solo_coding_QA
+status: BASIC_SCOPE_AND_CODING_QA_METHOD_ADOPTED_REPLICATION_PENDING
+current_step: 3
+next_decision_id: replication_count_and_coding_workload
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -17,8 +17,23 @@ scope_adoption:
   original_proposal_kept_unchanged: true
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
+coding_QA_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_280_RECODING_AFTER_AT_LEAST_7_DAYS_METHOD_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/coding-qa-02.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: 3d53f14ca8fe45b3b4171c5f334bdc2a7cc4173845f6a8a4c85890ba46fb1c09
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/02-coding-qa-adoption.json
+  receipt_file_sha256: 7ea85b7eb7e2ad1577b4f4a5690e69866660d56832692b18c48ba1895a7b1773
+  receipt_sha256: 89035de9e9f9d61cd3cedc423e54f130dad2e1ad357942585b77610b919a94a4
+  selected_audit_target: 280
+  minimum_days_after_first_pass_lock: 7
+  method_adopted_but_not_implemented_or_completed: true
+  original_proposal_kept_unchanged: true
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
 other_decisions:
-  coding_QA: PENDING
   replication_and_primary_coding_workload: PENDING
   financial_or_request_budget: PENDING
   official_provider_profiles_and_exact_models: PENDING
