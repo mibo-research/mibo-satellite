@@ -1,0 +1,41 @@
+schema_version: "0.1-draft"
+record_type: FUTURE_OFFICIAL_RUNTIME_LOCK_TEMPLATE_NOT_AN_EXECUTABLE_MANIFEST
+status: BLOCKED_PENDING_SCIENTIFIC_FREEZE_HUMAN_GATES_AND_ENGINEERING_SUPPORT
+execution_permitted: false
+wave_id: null
+official_longitudinal_data: null
+scientific_protocol_path: null
+scientific_protocol_sha256: null
+scientific_design_path: null
+scientific_design_sha256: null
+human_decision_bundle_path: null
+human_decision_bundle_sha256: null
+model_lock_path: null
+model_lock_sha256: null
+provider_profile_lock_path: null
+provider_profile_lock_sha256: null
+schedule_path: null
+schedule_sha256: null
+schedule_seed: null
+field_window: {start: null, end: null, timezone: Asia/Tokyo}
+observer_site_lock: null
+environment_lock: null
+implementation_commit: null
+runtime_and_dependency_lock: null
+coding_plan_lock: null
+governance_records: null
+request_budget: null
+technical_attempt_budget: null
+financial_budget: null
+rate_limit_and_backoff_lock: null
+capacity_dry_run_evidence: null
+secret_presence_and_persistent_storage_preflight: null
+explicit_launch_authority: null
+locked_at_utc: null
+prohibitions:
+  xai_requests: true
+  legacy_W01_execution: true
+  reuse_W0_observations_as_official: true
+  reuse_rehearsal_model_or_schedule_locks_as_official: true
+  route_through_legacy_Sonar_or_third_party: true
+  agent_approval: true

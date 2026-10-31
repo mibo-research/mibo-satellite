@@ -1,0 +1,28 @@
+schema_version: "1.0"
+scope: W0_ONLY
+status: ENGINEERING_VERIFIED_LIVE_QUALIFICATION_PENDING
+official_longitudinal_data: false
+supersedes_for_M05_W0_only: provider-capabilities.yaml
+profile: perplexity-agent-profile-v1.yaml
+candidate: model-lock.agent-w0.candidate.yaml
+request_evidence: evidence/perplexity/request-shapes.agent-w0-v1.json
+M05:
+  requested_model: perplexity/sonar
+  legacy_requested_model: sonar
+  endpoint: https://api.perplexity.ai/v1/agent
+  models_endpoint: https://api.perplexity.ai/v1/models
+  native_tools: [web_search]
+  no_search_diagnostic: OMIT_TOOLS_AND_EFFORT_NON_OFFICIAL_W0_ONLY
+  max_output_tokens: 8192
+  effort: OMITTED
+  optional_sampling: OMITTED
+  researcher_instructions: ABSENT
+  single_user_turn: true
+  streaming: false
+  fallback_model_list: ABSENT
+  http_redirects: REFUSED
+  returned_model: EXACT_MATCH_REQUIRED
+  provider_internal_routing: OBSERVABLE_METADATA_ONLY_NO_IMMUTABILITY_CLAIM
+  closed_eligibility: NOT_CLAIMED
+  legacy_behavioral_equivalence: NOT_ESTABLISHED
+  frozen_W01_change_authorized: false

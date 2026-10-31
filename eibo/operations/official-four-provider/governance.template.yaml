@@ -1,0 +1,32 @@
+schema_version: "0.1-draft"
+scope: FUTURE_OFFICIAL_FOUR_PROVIDER_WAVE_NOT_W0_OR_LEGACY_W01
+scope_artifact_path: null
+scope_artifact_sha256: null
+prior_W0_approval_is_sufficient: false
+agent_approval_permitted: false
+explicit_human_attribution_required_for_NOT_APPLICABLE_and_NOT_HUMAN_SUBJECTS: true
+records:
+  protocol_owner:
+    status: PENDING
+    determination: null
+    decided_by: {actor_type: null, name: null, role: null}
+    decided_at: null
+    rationale: null
+    evidence_references: []
+    human_attestation: false
+  terms_review:
+    status: PENDING
+    determination: null
+    decided_by: {actor_type: null, name: null, role: null}
+    decided_at: null
+    rationale: null
+    evidence_references: []
+    human_attestation: false
+  ethics_or_governance_determination:
+    status: PENDING
+    determination: null
+    decided_by: {actor_type: null, name: null, role: null}
+    decided_at: null
+    rationale: null
+    evidence_references: []
+    human_attestation: false

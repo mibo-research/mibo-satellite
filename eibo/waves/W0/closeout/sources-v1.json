@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "official_longitudinal_data": false,
+  "summary": {
+    "path": "operations/W0-RESUME-20261029T033531Z/qualification-summary.json",
+    "sha256": "c3f4245b37a78c6f817239e9579068b1973da8190e73da299064136ab2dd5adb"
+  },
+  "archive": {
+    "path": "operations/W0-RESUME-20261029T033531Z/archive-checksums.json",
+    "sha256": "fba814441a88c5d06297c08b3c7a0c1dcbf547168e556d16d8299d7febd8a993"
+  },
+  "prior_integrity": {
+    "path": "recoveries/M03-E7-01-20261031T045453Z/original-record-checksums.before.json",
+    "sha256": "2e9dfa9e2d6896a008c63111fb5b58e3842920fc1741cd38a86dd300ee10b786"
+  },
+  "recovery_qc": {
+    "path": "recoveries/M03-E7-01-20261031T045453Z/recovery-qc.json",
+    "sha256": "084fd2f589318766546acd9bb0abd4ab7643a409ee2f03637674487683514cee"
+  },
+  "m05_profile_sha256": "389c00451b55c0736198d8529f9594681098112f578aff06f6591ab5aacfe4df",
+  "providers": {
+    "M01": {
+      "q1": {
+        "path": "Q1/W0-Q1-RESUME-20261029T033531Z-M01/M01/result.json",
+        "sha256": "2dc4874e4ff45168c8be6e4dd86116ab4dac001541dedddbb65b0d5580923d50"
+      },
+      "q2": {
+        "path": "Q2/W0-Q2-RESUME-20261029T033531Z-M01/M01/result.json",
+        "sha256": "fbcc406e5ece994e1a47502383c13b8437a3845f69390b5f242fd0bb11415b0e"
+      }
+    },
+    "M02": {
+      "q1": {
+        "path": "Q1/W0-Q1-RESUME-20261029T033531Z-M02/M02/result.json",
+        "sha256": "6a32706adcbf9c86db26411aed07c65cd455c6c2984dbe695c4bd5d6dddfefc9"
+      },
+      "q2": {
+        "path": "Q2/W0-Q2-RESUME-20261029T033531Z-M02/M02/result.json",
+        "sha256": "91295d0aa1149b0d2b6fce36d68f0912340be226dff88a5b8feaf135450be7eb"
+      }
+    },
+    "M03": {
+      "q1": {
+        "path": "Q1/W0-Q1-RESUME-20261029T033531Z-M03/M03/result.json",
+        "sha256": "0fcda50ffeb574cc58cd839f3bee913accd55d0298809a414a96cdb38be8e95a"
+      },
+      "q2": {
+        "path": "Q2/W0-Q2-RESUME-20261029T033531Z-M03/M03/result.json",
+        "sha256": "2ba0aca0268503f75df8b66f606667f1a1c1fbaaa65ace60a07d838d5cbcfa25"
+      },
+      "recoveries": [
+        {
+          "path": "recoveries/M03-Q2-20261029T035249Z/E6-01.result.json",
+          "sha256": "45d84bff3885d10a1b33808ab5b46658868baeaa7e9ec77c6f8b9abc7d66dffd"
+        },
+        {
+          "path": "recoveries/M03-E7-01-20261031T045453Z/E7-01.result.json",
+          "sha256": "8a4a4810d612ee77570576cd64ca823deabf4a1a28a27423e76a21b79e0138f6"
+        }
+      ],
+      "original_technical_failures": {
+        "E6-01": {
+          "path": "Q2/W0-Q2-RESUME-20261029T033531Z-M03/M03/E6-01.response.json",
+          "sha256": "1014b434843ab2c7c6f16ad3e3d70ae422defadceeb968f6b239cb91905029ec"
+        },
+        "E7-01": {
+          "path": "Q2/W0-Q2-RESUME-20261029T033531Z-M03/M03/E7-01.response.json",
+          "sha256": "d72e00a89186f2268e11e46d140e74142bb996b9552b1b498e901c0f90e9405a"
+        }
+      }
+    },
+    "M05": {
+      "q1": {
+        "path": "Q1/W0-Q1-RESUME-20261029T033531Z-M05/M05/result.json",
+        "sha256": "cae98fcc655505d73a1b800dc8b1fb9597f672159ba7d0ee3617db87c3e0a79c"
+      },
+      "q2": {
+        "path": "Q2/W0-Q2-RESUME-20261029T033531Z-M05/M05/result.json",
+        "sha256": "f975548497dd93193b11bcc2bd5504ae68dc898c7fb02f108dab29d86fd28756"
+      }
+    }
+  }
+}

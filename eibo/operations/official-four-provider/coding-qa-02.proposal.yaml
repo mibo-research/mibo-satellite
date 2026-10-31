@@ -1,0 +1,95 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-CODING-QA-02
+version: "0.1"
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_ADOPTION
+approved: false
+execution_permitted: false
+recommended_option: A
+record_type: CODING_QA_METHOD_PROPOSAL_NOT_AN_IMPLEMENTED_OR_COMPLETED_AUDIT
+applies_to: NEW_PROSPECTIVE_SCOPE_ONLY_NOT_LEGACY_W01
+options:
+  A: ONE_HUMAN_DELAYED_MASKED_RECODING_ONE_PRESELECTED_OBSERVATION_PER_SERIES_ITEM
+  B: HOLD_AND_ADJUST_AUDIT_BURDEN_OR_DELAY
+primary_coding:
+  coder_type: HUMAN
+  coder_count: 1
+  all_rateable_primary_responses_coded: true
+  automated_primary_scoring: false
+  AI_secondary_enabled: false
+  Frozen_scoring_anchors: EXACT_ORIGINAL_BY_REFERENCE_NO_REWRITE
+  first_pass_codes_locked_before_repeat_coding: true
+proposed_repeat_audit:
+  target_observations_per_series_item: 1
+  series: [M01, M02, M03, M05]
+  item_count: 70
+  target_selected_count: 280
+  selection: SEEDED_UNIFORM_REPLICATION_SELECTION_WITHIN_EACH_SERIES_ITEM
+  seed: null
+  selection_rule_and_seed_locked_before_wave_execution: true
+  sample_locked_before_primary_coding: true
+  audit_membership_hidden_from_primary_coding_view: true
+  exclude_or_reselect_based_on_response_or_score: false
+  technical_missing_remains_missing_no_replacement: true
+  NR_outcomes_preserved_not_forced_to_zero: true
+  minimum_days_after_first_pass_lock: 7
+  same_human_coder: true
+  previous_codes_hidden: true
+  provider_model_wave_metadata_hidden_where_feasible: true
+  new_blind_identifiers_and_random_order: true
+  visible_response_text_modified: false
+  same_Frozen_anchors_and_coding_fields: true
+  both_passes_preserved_with_timestamps_and_hashes: true
+  recoding_may_call_provider_API: false
+reporting:
+  purpose: DESCRIPTIVE_WITHIN_CODER_CONSISTENCY_AUDIT_NOT_RELIABILITY_CERTIFICATION
+  before_discrepancy_review:
+    - complete_pair_and_missing_denominators
+    - primary_item_score_exact_agreement_counts_and_proportions
+    - primary_item_score_within_one_point_counts_and_proportions
+    - primary_item_score_absolute_difference_distribution
+    - observable_categorical_code_agreement
+    - rateable_NR_transitions_and_missing_audit_coverage
+  report_per_series_and_domain: true
+  NATIVE_and_CLOSED_reported_separately: true
+  precision_or_power_guaranteed_by_280: false
+  inferential_reliability_coefficient_or_threshold_adopted: false
+  aggregate_agreement_pass_threshold: null
+review:
+  primary_score_difference_at_least_2: DOCUMENTED_HUMAN_REVIEW_REQUIRED
+  rateable_vs_NR_disagreement: DOCUMENTED_HUMAN_REVIEW_REQUIRED
+  unresolved_flags_block_coding_QA_procedure_closeout: true
+  review_flags_are_validated_reliability_thresholds: false
+  automatically_choose_higher_or_average_scores: false
+  first_pass_score_overwritten: false
+  correction_rule: APPEND_VERSION_REASON_AND_AFFECTED_SCOPE_PRESERVE_BOTH_ORIGINAL_PASSES
+  correction_selection_based_on_provider_or_desired_result: false
+  post_review_agreement_may_replace_original_agreement_report: false
+automated_checks:
+  may_check: [required_fields, allowed_values, observation_links, provenance, hashes, audit_coverage]
+  may_assign_or_change_substantive_scores: false
+  may_claim_coding_correctness: false
+limits:
+  seven_days_and_one_per_cell_are_project_proposals_not_external_standards: true
+  memory_or_identity_recognition_eliminated: false
+  independent_second_rater_created: false
+  two_human_inter_rater_reliability_claimed: false
+  coding_validity_or_correctness_guaranteed: false
+  legacy_150_or_200_response_two_coder_pilot_satisfied: false
+  agreement_results_already_observed: false
+  observed_reliability_claimed: false
+example_only_not_a_volume_approval:
+  if_primary_replication_k: 10
+  primary_records: 2800
+  selected_audit_records: 280
+  selected_fraction: 0.10
+  maximum_first_plus_repeat_coding_records: 3080
+  actual_recodeable_pair_count_may_be_lower: true
+method_reference:
+  doi: 10.1186/s12874-024-02431-y
+  scope: AGREEMENT_VS_RELIABILITY_AND_REPORTING_CONCEPTS_NOT_A_SOURCE_FOR_7_DAYS_OR_280
+other_authority:
+  primary_replication_count_or_workload_approved: false
+  financial_budget_approved: false
+  scientific_freeze_approved: false
+  API_execution_authorized: false
+  agent_approval_permitted: false

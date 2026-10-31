@@ -1,0 +1,35 @@
+schema_version: "1.0"
+proposal_id: EIBO-4P-SOLO-SCOPE-01
+version: "0.1"
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_ADOPTION
+approved: false
+execution_permitted: false
+recommended_option: A
+scope:
+  new_prospective_baseline: true
+  wave_id_proposal: EIBO-F01
+  legacy_W01_renamed_or_reused: false
+  legacy_W01_execution_permitted: false
+  xai_requests_permitted: false
+  permanent_registry_changed: false
+  closed_primary: [M01, M02, M03]
+  native_separate_mirror: [M05]
+  excluded_series: {M04: NOT_RUN_COST_CONSTRAINT}
+  pool_NATIVE_with_CLOSED: false
+  Frozen_battery_and_scoring_anchors: REFERENCE_EXACT_EXISTING_BYTES_ONLY
+  primary_human_coder_count: 1
+  primary_coder_type: HUMAN
+  ai_secondary_enabled: false
+  two_human_inter_rater_reliability_claimed: false
+  perfect_blinding_claimed: false
+  W0_data_may_be_promoted: false
+adoption_does_not_approve:
+  - replication_count_or_coding_workload
+  - coding_QA_procedure
+  - financial_or_request_budget
+  - exact_models_or_official_provider_profiles
+  - terms_or_ethics_or_governance_determination
+  - scientific_freeze_or_final_runtime_lock
+  - observation_date_or_API_execution
+human_decision_record: null
+agent_approval_permitted: false

@@ -1,0 +1,25 @@
+schema_version: "1.0"
+profile_id: EIBO-W0-PERPLEXITY-AGENT-V1
+scope: W0_ONLY
+official_longitudinal_data: false
+w01_authorized: false
+legacy_requested_model: sonar
+requested_model: perplexity/sonar
+endpoint: https://api.perplexity.ai/v1/agent
+metadata_endpoint: https://api.perplexity.ai/v1/models
+input_item_type: message
+max_output_tokens: 8192
+effort_override: null
+native_tools:
+  - type: web_search
+no_search_mapping: OMIT_TOOLS_AND_EFFORT
+model_fallback_permitted: false
+legacy_comparability: NOT_ESTABLISHED
+human_request_reference: conversation_2026-10-24_owner_requested_W0_API_change_support
+amendment: protocol/amendments/EIBO-W0-PA-002-perplexity-agent-api.md
+sources:
+  - https://docs.perplexity.ai/docs/agent-api/models
+  - https://docs.perplexity.ai/docs/agent-api/migrate-from-sonar/how-to
+  - https://docs.perplexity.ai/api-reference/models-get
+  - https://docs.perplexity.ai/api-reference/agent-post
+live_qualified: false

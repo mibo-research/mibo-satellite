@@ -4,13 +4,7 @@ MIBO Satellite is the umbrella for specialized and applied observation modules t
 
 ## Provisional portfolio
 
-- [MIBO-Education](satellites/mibo-education/)
-- [MIBO-Okayama](satellites/mibo-okayama/)
-- [MIBO-NOW](satellites/mibo-now/)
-- [MIBO-Q](satellites/mibo-q/)
-- [MIBO Economy](satellites/mibo-economy/)
-- [MIBO Politics](satellites/mibo-politics/)
-- [MIBO Singularity](satellites/mibo-singularity/)
+- [EIBO](eibo/) — renamed from MIBO-Education; frozen v1.0 scientific artifacts retain their historical name and hashes
 
 ## Lifecycle
 

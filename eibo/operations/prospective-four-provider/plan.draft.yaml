@@ -1,0 +1,93 @@
+schema_version: "1.0"
+plan_id: EIBO-4P-PROSPECTIVE-DRAFT-001
+status: DRAFT_PENDING_EXPLICIT_HUMAN_DETERMINATIONS
+execution_permitted: false
+official_longitudinal_data: false
+scope: PREPARATION_ONLY_NOT_AN_EXECUTABLE_WAVE_MANIFEST
+supersedes_frozen_artifacts: false
+legacy_W01_execution_permitted: false
+legacy_Core_35_redefined: false
+permanent_series_registry_changed: false
+panel:
+  closed_primary: [M01, M02, M03]
+  native_separate_mirror: [M05]
+  M04_status: NOT_RUN_COST_CONSTRAINT
+  xai_api_calls_permitted: false
+  consumer_UI_equivalence_assumed: false
+  third_party_routers_permitted: false
+  model_substitution_permitted: false
+scientific_sources:
+  battery: ../../battery/ebb-ja-v1.0.yaml
+  external_prompt_lock: ../../battery/ebb-ja-v1.0.prompt-lock.json
+  codebook: ../../protocol/codebook-v1.0.md
+  item_scoring_manual: ../../protocol/item-level-scoring-manual-v1.0.md
+  preserve_all_prompt_and_anchor_bytes: true
+qualification_evidence_sources: ../../waves/W0/closeout/sources-v1.json
+next_rehearsal_proposal:
+  proposal_id: EIBO-W0-4P-R1
+  stage: SEPARATE_FOUR_PROVIDER_ENGINEERING_REHEARSAL_NOT_Q3_CORE_35
+  official_longitudinal_data: false
+  item_ids: [E1-01, E2-01, E3-01, E4-01, E5-01, E6-01, E7-01]
+  repetitions_per_item: 1
+  expected_primary_requests: 28
+  closed_primary_requests: 21
+  native_mirror_requests: 7
+  additional_M05_no_search_requests: 0
+  rationale: Seven additional no-search diagnostic requests are not proposed; completed W0 diagnostics remain separate evidence.
+  execution_authorized: false
+  schedule_and_model_locks_created: false
+  original_Q3_gate_may_be_satisfied_by_this_rehearsal: false
+future_official_wave_proposal:
+  status: NOT_APPROVED_NOT_SCHEDULED
+  wave_id: null
+  frozen_items: 70
+  replications_k: 10
+  proposed_closed_observations: 2100
+  proposed_native_observations: 700
+  proposed_total_observations: 2800
+  W0_data_may_be_promoted: false
+  no_search_diagnostic_in_official_indices: false
+  primary_human_coders: 1
+  two_human_inter_rater_reliability_claimed: false
+  ai_secondary_coding_enabled: false
+  existing_solo_adoption: ../operating-model-attestation.yaml
+  new_scoped_human_approval_required: true
+  legacy_W01_two_coder_requirement_satisfied: false
+runtime_policy_proposal:
+  request_instrument: EXACT_FROZEN_PROMPT_ONE_USER_TURN
+  researcher_system_or_developer_prompt: ABSENT
+  history_memory_files_RAG_in_CLOSED: ABSENT
+  tools_or_search_in_CLOSED: ABSENT
+  streaming: false
+  optional_sampling_or_reasoning_overrides: ABSENT
+  output_cap_target: 8192
+  model_candidates: model-lock.candidate.yaml
+  M05_surface_scope: W0_ONLY_UNTIL_SEPARATE_PROSPECTIVE_APPROVAL
+  M05_native_tools: [web_search]
+  M05_profile: ../../waves/W0/perplexity-agent-profile-v1.yaml
+  first_party_requests_only: true
+  redirects_and_fallbacks: FORBIDDEN
+  retry_policy: TECHNICAL_ONLY_PRESERVE_ALL_ATTEMPTS_NEVER_REPLACE_COMPLETED_OUTCOMES
+  max_attempts_and_backoff: MUST_BE_APPROVED_AND_LOCKED_BEFORE_NEW_EXECUTION
+  Google_rate_limits: PRESPACE_REQUESTS_USING_DOCUMENTED_PROJECT_LIMITS_AND_CAPTURED_RETRY_METADATA
+  Google_minimum_start_spacing_seconds_proposed: 65
+  rate_limit_guarantee_claimed: false
+  scheduling_method: EXISTING_STRATIFIED_BLOCK_RANDOMIZED_INTERLEAVED_SCHEDULER
+  schedule_seed: null
+  seed_is_a_model_generation_parameter: false
+  replications_temporally_distributed: true
+  evidence_storage: PERSISTENT_LOCAL_ROOT_OUTSIDE_GIT
+  AC_power_and_native_sleep_guard_required: true
+  governance_approval_by_agent_permitted: false
+blocking_human_decisions:
+  plan_and_recovery_closeout_acceptance: PENDING
+  new_scoped_protocol_owner_record: PENDING
+  terms_review_scope_or_reference: PENDING
+  ethics_or_governance_scope_or_reference: PENDING
+  local_observer_site_and_network_region: PENDING
+  rehearsal_start_and_end_with_timezone: PENDING
+  additional_live_request_budget: PENDING
+blocking_engineering_preparation:
+  - A separately approved 4-provider rehearsal entry point is not implemented or authorized by this draft.
+  - Do not bypass the existing five-provider Q3 gate or route M05 through the legacy Sonar adapter.
+  - Produce final manifest/model/schedule/site locks only after scoped decisions and preflight pass.

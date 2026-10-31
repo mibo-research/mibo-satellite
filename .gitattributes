@@ -1,10 +1,18 @@
-# Frozen MIBO-Education scientific sources are byte-locked as UTF-8/LF.
-/satellites/mibo-education/battery/ebb-ja-v1.0.yaml text eol=lf
-/satellites/mibo-education/battery/ebb-ja-v1.0.prompt-lock.json text eol=lf
-/satellites/mibo-education/protocol/codebook-v1.0.md text eol=lf whitespace=-trailing-space
-/satellites/mibo-education/protocol/item-level-scoring-manual-v1.0.md text eol=lf whitespace=-trailing-space
-/satellites/mibo-education/protocol/observation-protocol-v1.0.md text eol=lf whitespace=-trailing-space
-/satellites/mibo-education/protocol/scientific-artifacts.yaml text eol=lf
-/satellites/mibo-education/protocol/scientific-artifacts.authoritative.yaml text eol=lf
-/satellites/mibo-education/waves/W01/scientific-manifest-v1.0.yaml text eol=lf
-/satellites/mibo-education/waves/W01/runtime-manifest.template.yaml text eol=lf
+# Frozen legacy MIBO-Education scientific sources remain byte-locked under EIBO.
+/eibo/battery/ebb-ja-v1.0.yaml text eol=lf
+/eibo/battery/ebb-ja-v1.0.prompt-lock.json text eol=lf
+/eibo/protocol/codebook-v1.0.md text eol=lf whitespace=-trailing-space
+/eibo/protocol/item-level-scoring-manual-v1.0.md text eol=lf whitespace=-trailing-space
+/eibo/protocol/observation-protocol-v1.0.md text eol=lf whitespace=-trailing-space
+/eibo/protocol/scientific-artifacts.yaml text eol=lf
+/eibo/protocol/scientific-artifacts.authoritative.yaml text eol=lf
+/eibo/waves/W01/scientific-manifest-v1.0.yaml text eol=lf
+/eibo/waves/W01/runtime-manifest.template.yaml text eol=lf
+/eibo/protocol/amendments/*.md text eol=lf whitespace=-trailing-space
+/eibo/operations/*.yaml text eol=lf
+# W0 profile and preserved snapshots have explicit byte-hash bindings.
+/eibo/waves/W0/perplexity-agent-profile-v1.yaml text eol=lf
+/eibo/waves/W0/evidence/perplexity/request-shapes.agent-w0-v1.json text eol=lf
+/eibo/waves/W0/operational-history/*.yaml text eol=lf
+# Prospective drafts are separate from frozen sources; protect future byte locks.
+/eibo/operations/official-four-provider/** text eol=lf

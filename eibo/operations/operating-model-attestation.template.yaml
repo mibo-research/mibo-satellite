@@ -1,0 +1,15 @@
+schema_version: "1.0"
+record_type: eibo_operating_model
+status: PENDING_HUMAN_DETERMINATION
+determination: null
+decided_by:
+  actor_type: HUMAN
+  name: null
+  role: null
+  affiliation: null
+decided_at: null
+rationale: null
+evidence_references:
+  - protocol/amendments/EIBO-PA-001-rename-and-solo-operations.md
+human_attestation: false
+agent_approval_permitted: false

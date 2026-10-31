@@ -1,0 +1,99 @@
+schema_version: "0.1-draft"
+record_type: PROSPECTIVE_SCIENTIFIC_DESIGN_NOT_A_WAVE_MANIFEST
+proposal_id: EIBO-4P-SOLO-PROTOCOL-001
+status: DRAFT_PENDING_SEQUENTIAL_HUMAN_DECISIONS
+approved: false
+execution_permitted: false
+protocol_proposal: protocol/amendments/EIBO-PA-003-four-provider-solo.draft.md
+scope_proposal: operations/official-four-provider/scope-01.proposal.yaml
+wave_id: null
+wave_id_proposal: EIBO-F01
+intended_data_class: FUTURE_OFFICIAL_ONLY_AFTER_SEPARATE_APPROVAL_AND_LOCK
+source_path_base: EIBO_MODULE_ROOT
+source_artifacts:
+  - path: battery/ebb-ja-v1.0.yaml
+    sha256: 5475d4c0edd651ae4fbc6e79c42642433fa7e0c27dba616a972236d35517cd4e
+  - path: battery/ebb-ja-v1.0.prompt-lock.json
+    sha256: 8e251463eebb1c2e3f86ae7e82d98a4685afbf2dd3434731cdc72939d6ef6a82
+  - path: protocol/codebook-v1.0.md
+    sha256: c38cce32bad4e3b156ec6094d2368fca0937536519b25a2a80e115042da9161a
+  - path: protocol/item-level-scoring-manual-v1.0.md
+    sha256: 3ae057c2e5f23312b5ca000f3d9f42ced4db23ca6b6db8c4889905c9f9a0bbef
+  - path: protocol/observation-protocol-v1.0.md
+    sha256: ca9b51ecbca1f5fd61443e7921ff4305dac82829a3043c795416c437b20d5d8f
+  - path: waves/W01/scientific-manifest-v1.0.yaml
+    sha256: ecb5b5aa779d0806cb034581d76ab1c128587f1b9590a7b482fc3fa93336a6f1
+source_interpretation:
+  legacy_W01_manifest: HISTORICAL_REFERENCE_NOT_THE_NEW_WAVE_DESIGN
+  Codebook_section_13_two_coder_pilot: EXCEPTION_PROPOSED_FOR_NEW_SCOPE_ONLY_NOT_YET_ADOPTED
+  Frozen_prompts_and_scoring_anchors: UNMODIFIED_REFERENCED_NOT_COPIED
+  W0_data_may_be_promoted: false
+panel:
+  closed_primary: [M01, M02, M03]
+  native_separate_mirror: [M05]
+  excluded_series: {M04: NOT_RUN_COST_CONSTRAINT_DO_NOT_CALL}
+  permanent_registry_changes: false
+  NATIVE_and_CLOSED_pooled_as_equivalent: false
+replication:
+  approved_k: null
+  inherited_proposal_k: 10
+  frozen_items: 70
+  proposed_counts: {CLOSED: 2100, NATIVE: 700, total: 2800}
+  additional_no_search_diagnostic_count: 0
+  temporally_distributed: true
+coding:
+  proposed_primary_coder_type: HUMAN
+  proposed_primary_coder_count: 1
+  ai_secondary_enabled: false
+  two_human_inter_rater_reliability_claimed: false
+  perfect_blinding_claimed: false
+  masked_export_required: true
+  response_text_edited_to_hide_identity: false
+  unmasking_incidents_must_be_recorded: true
+  legacy_reliability_pilot_claimed_satisfied: false
+  coding_QA_plan_approved: false
+  coding_QA_method: null
+  audit_sample_size: null
+  audit_selection_seed: null
+  repeat_coding_delay: null
+  agreement_or_correctness_guarantee_claimed: false
+observation_invariants:
+  exact_UTF8_prompt_and_independent_external_hash_check: true
+  independent_single_user_turn: true
+  researcher_system_or_developer_instruction: false
+  CLOSED_tools_search_RAG_files_memory_history: false
+  optional_sampling_or_reasoning_overrides: false
+  first_party_only: true
+  consumer_UI_equivalence_assumed: false
+  non_streaming: true
+  output_cap_target: 8192
+  exact_model_substitution_permitted: false
+  scientific_outcomes_retryable: false
+  L0_immutable: true
+  secrets_or_auth_headers_may_be_stored: false
+  pre_generated_hashed_stratified_interleaved_schedule_required: true
+provider_preparation:
+  historical_candidates: operations/prospective-four-provider/model-lock.candidate.yaml
+  current_availability_assumed: false
+  exact_official_models: null
+  official_request_profiles: null
+  M02_permanent_lineage: {id: MIBO-SL-002, label: Claude}
+  M05_proposed_surface: FIRST_PARTY_AGENT_API_NATIVE_WEB_SEARCH_ONLY
+  M05_official_surface_approved: false
+  W0_profile_may_authorize_official_use: false
+  legacy_Sonar_fallback_permitted: false
+  legacy_behavioral_equivalence_claimed: false
+synchronization:
+  cadence: null
+  target_window_hours: null
+  hard_window_hours: null
+  historical_Google_generation_start_gap_seconds: 65
+  at_proposed_k_Google_starts: 700
+  at_65_second_gap_minimum_span_seconds: 45435
+  historical_12h_target_feasible_at_that_gap: false
+  future_capacity_verified: false
+readiness:
+  FUTURE_PROTOCOL_FROZEN: false
+  FUTURE_RUNTIME_LOCKED: false
+  FUTURE_OFFICIAL_EXECUTION_READY: false
+  legacy_W01_execution_permitted: false
