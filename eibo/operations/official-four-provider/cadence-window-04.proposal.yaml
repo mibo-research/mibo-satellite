@@ -1,0 +1,94 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-CADENCE-WINDOW-04
+version: "0.1"
+record_type: CADENCE_AND_DURATION_PROPOSAL_NOT_A_CALENDAR_SCHEDULE_OR_EXECUTION_MANIFEST
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_ADOPTION
+approved: false
+execution_permitted: false
+recommended_option: A
+fixed_inputs:
+  adopted_k: 10
+  primary_records_per_wave: 2800
+  repeat_coding_targets_per_wave: 280
+  maximum_coding_records_per_wave: 3080
+  human_primary_coder_count: 1
+  illustrative_minutes_per_coding_record_not_measured: 3
+  illustrative_coding_hours_per_wave_excluding_review_and_breaks: 154
+options:
+  A:
+    interval_calendar_months: 3
+    rationale: RESOURCE_CONSTRAINED_QUARTERLY_TRAJECTORY_OBSERVATION_NOT_OPTIMALITY_CLAIM
+    steady_state_waves_per_year_for_accounting_only: 4
+    illustrative_annual_coding_hours_not_a_commitment: 616
+    limitation: MAY_MISS_WITHIN_QUARTER_TRANSIENT_OR_MULTIPLE_CHANGES
+  B:
+    interval_calendar_months: 1
+    rationale: MORE_FREQUENT_SNAPSHOTS_WITH_GREATER_OPERATOR_WORKLOAD
+    steady_state_waves_per_year_for_accounting_only: 12
+    illustrative_annual_coding_hours_not_a_commitment: 1848
+    limitation: MONTHLY_3080_RECORD_CODING_LOAD_AND_BACKLOG_CAPACITY_REQUIRE_REVIEW
+  C:
+    interval_calendar_months: 6
+    rationale: LOWER_OPERATOR_LOAD_WITH_COARSER_TEMPORAL_OBSERVATION
+    steady_state_waves_per_year_for_accounting_only: 2
+    illustrative_annual_coding_hours_not_a_commitment: 308
+    limitation: MAY_MISS_WITHIN_HALF_YEAR_TRANSIENT_OR_MULTIPLE_CHANGES
+common_API_observation_window_proposal:
+  target_hours_from_shared_anchor: 18
+  planned_schedule_span_hours_from_shared_anchor: 18
+  hard_hours_from_shared_anchor: 24
+  canonical_clock: UTC
+  display_timezone: Asia/Tokyo
+  same_fixed_anchor_for_all_four_series: true
+  generation_before_shared_anchor: false
+  provider_specific_restarting_of_hard_window: false
+  predetermined_stratified_interleaving_required: true
+  replications_temporally_distributed: true
+  response_after_target_but_within_hard_window: RETAIN_PRIMARY_WITH_TARGET_OVERRUN_FLAG
+  new_generation_sends_or_retries_at_or_after_hard_deadline: false
+  response_received_after_hard_deadline: PRESERVE_IMMUTABLY_LABEL_LATE_NONPRIMARY_DO_NOT_BACKFILL
+  in_flight_response_preservation_required: true
+  silent_extension_to_finish_missing_cells: false
+  late_or_recovery_data_may_replace_primary_missing_cells: false
+  NATIVE_and_CLOSED_pooled_as_equivalent: false
+  whole_wave_18h_or_24h_feasibility_already_verified: false
+  legacy_W01_12h_target_or_24h_hard_window_changed: false
+capacity_gate:
+  adopted_Google_generation_count_per_wave: 700
+  historical_Google_generation_start_gap_seconds_not_a_quota_guarantee: 65
+  historical_gap_minimum_first_to_last_start_span_seconds: 45435
+  minimum_excludes_last_response_other_providers_waits_and_retries: true
+  full_wave_capacity_dry_run_evidence_required_before_launch: true
+  separate_planned_target_and_hard_deadline_scheduler_support_already_verified: false
+  protected_runner_power_and_sleep_guard_duration_must_be_verified: true
+  extrapolation_from_28_response_rehearsal_is_sufficient: false
+  if_not_feasible_or_not_verified: FAIL_CLOSED_BEFORE_ANY_OFFICIAL_GENERATION
+  larger_window_or_design_change_requires_prestart_human_approval: true
+  new_live_capacity_experiments_authorized: false
+coding_and_recurrence:
+  human_coding_deadline_is_API_24h_window: false
+  repeat_coding_waits_at_least_7_days_after_first_pass_lock: true
+  actual_coding_time_or_capacity_measured: false
+  automatic_next_wave_launch_from_cadence_alone: false
+  new_wave_requires_scoped_locks_governance_capacity_and_launch_authority: true
+  backlog_and_operator_capacity_review_before_each_wave: true
+  silent_skip_reschedule_or_cadence_change: false
+  annual_accounting_numbers_authorize_multiple_waves_or_spending: false
+unfilled_runtime_values:
+  first_anchor_utc: null
+  first_anchor_jst: null
+  future_concrete_calendar_dates: null
+  schedule_seed: null
+  final_schedule_or_model_lock_path: null
+other_authority:
+  concrete_dates_approved: false
+  financial_or_request_or_retry_budget_approved: false
+  governance_or_scientific_freeze_approved: false
+  automation_or_calendar_schedule_created: false
+  API_execution_authorized: false
+  xai_execution_authorized: false
+  W01_execution_authorized: false
+  agent_approval_permitted: false
+method_reference:
+  doi: 10.1037/met0000041
+  scope: TEMPORAL_SPACING_IS_DESIGN_DEPENDENT_NOT_VALIDATION_OF_EIBO_QUARTERLY_OR_18H

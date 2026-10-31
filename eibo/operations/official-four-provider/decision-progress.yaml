@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: BASIC_SCOPE_AND_CODING_QA_METHOD_ADOPTED_REPLICATION_PENDING
-current_step: 3
-next_decision_id: replication_count_and_coding_workload
+status: SCOPE_QA_AND_K10_WORKLOAD_ADOPTED_CADENCE_WINDOW_PENDING
+current_step: 4
+next_decision_id: cadence_and_synchronized_window_feasibility
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -33,8 +33,29 @@ coding_QA_adoption:
   original_proposal_kept_unchanged: true
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
+replication_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_K10_PRIMARY_2800_REPEAT_INCLUSIVE_3080_PLAN_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/replication-03.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: 5cde5319d5d239988631d5be0a1c9e0a5f3eb2f26bd59470e994eb60e819f78f
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/03-replication-adoption.json
+  receipt_file_sha256: 152128422a6778bed7d383332268d42e1aa7f6281c8627f04ddee0e0a1cde3f8
+  receipt_sha256: 557a584a10702cf716073a5453f070c3892429b84d093239af1975e7cacb0b52
+  selected_k: 10
+  CLOSED_primary_target: 2100
+  NATIVE_primary_target: 700
+  primary_coding_target: 2800
+  repeat_coding_target: 280
+  maximum_first_plus_repeat_coding_target: 3080
+  completed_or_rateable_responses_claimed: false
+  original_proposal_kept_unchanged: true
+  concrete_dates_or_financial_or_API_authority_inferred: false
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
 other_decisions:
-  replication_and_primary_coding_workload: PENDING
+  cadence_and_observation_window: PENDING
   financial_or_request_budget: PENDING
   official_provider_profiles_and_exact_models: PENDING
   named_protocol_owner_final_freeze: PENDING

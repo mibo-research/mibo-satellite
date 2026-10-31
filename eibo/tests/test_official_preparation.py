@@ -171,8 +171,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 3
-    assert progress["next_decision_id"] == "replication_count_and_coding_workload"
+    assert progress["current_step"] == 4
+    assert progress["next_decision_id"] == "cadence_and_synchronized_window_feasibility"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -181,7 +181,7 @@ def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     assert adopted["exact_human_message_time_assumed"] is False
     assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
     assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
-    assert progress["other_decisions"]["replication_and_primary_coding_workload"] == "PENDING"
+    assert progress["other_decisions"]["cadence_and_observation_window"] == "PENDING"
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
     assert all(v in {"PENDING", "NOT_AUTHORIZED"} for v in progress["other_decisions"].values())
     assert all(progress["prohibitions"].values())
@@ -265,7 +265,7 @@ def test_audit_example_does_not_approve_replication_or_workload() -> None:
     assert proposal["other_authority"]["primary_replication_count_or_workload_approved"] is False
 
 
-def test_qa_method_adoption_is_attributed_and_does_not_approve_primary_volume() -> None:
+def test_qa_method_adoption_is_attributed_separately_from_later_replication_adoption() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
     adopted = progress["coding_QA_adoption"]
     assert adopted["actor_attribution"] == "CURRENT_CHAT_USER"
@@ -276,7 +276,7 @@ def test_qa_method_adoption_is_attributed_and_does_not_approve_primary_volume() 
     assert adopted["minimum_days_after_first_pass_lock"] == 7
     assert adopted["exact_human_message_time_assumed"] is False
     assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
-    assert progress["other_decisions"]["replication_and_primary_coding_workload"] == "PENDING"
+    assert progress["other_decisions"]["cadence_and_observation_window"] == "PENDING"
     assert progress["execution_permitted"] is False
 
 
@@ -299,7 +299,9 @@ def test_replication_options_count_primary_and_recoding_separately(choice, expec
     )
 
 
-def test_replication_recommendation_does_not_approve_budgets_or_claim_power() -> None:
+def test_historical_replication_proposal_stays_nonexecuting_without_budgets_or_power_claims() -> (
+    None
+):
     proposal = load_yaml(PACK / "replication-03.proposal.yaml")
     assert proposal["recommended_option"] == "A"
     assert proposal["approved_k"] is None
@@ -335,3 +337,82 @@ def test_coding_time_examples_are_explicit_assumptions_not_observed_times_or_api
             * workload["example_minutes_per_coding_record_assumption_only"]
             / 60
         )
+
+
+def test_replication_adoption_does_not_infer_cadence_dates_money_or_api_authority() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    adopted = progress["replication_adoption"]
+    assert adopted["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert adopted["agent_is_transcriber_not_approver"] is True
+    assert adopted["exact_human_message_time_assumed"] is False
+    assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
+    assert adopted["selected_k"] == 10
+    assert adopted["CLOSED_primary_target"] == 2100
+    assert adopted["NATIVE_primary_target"] == 700
+    assert adopted["primary_coding_target"] == 2800
+    assert adopted["maximum_first_plus_repeat_coding_target"] == 3080
+    assert adopted["completed_or_rateable_responses_claimed"] is False
+    assert adopted["concrete_dates_or_financial_or_API_authority_inferred"] is False
+    assert progress["other_decisions"]["cadence_and_observation_window"] == "PENDING"
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+
+
+@pytest.mark.parametrize("choice, months, waves", [("A", 3, 4), ("B", 1, 12), ("C", 6, 2)])
+def test_cadence_options_account_for_fixed_workload_without_creating_dates(choice, months, waves):
+    proposal = load_yaml(PACK / "cadence-window-04.proposal.yaml")
+    option = proposal["options"][choice]
+    assert option["interval_calendar_months"] == months
+    assert option["steady_state_waves_per_year_for_accounting_only"] == waves == 12 / months
+    assert option["illustrative_annual_coding_hours_not_a_commitment"] == 154 * waves
+    assert proposal["fixed_inputs"]["adopted_k"] == 10
+    assert proposal["fixed_inputs"]["primary_records_per_wave"] == 2800
+    assert proposal["fixed_inputs"]["maximum_coding_records_per_wave"] == 3080
+    assert all(v is None for v in proposal["unfilled_runtime_values"].values())
+
+
+def test_shared_observation_window_never_silently_extends_or_backfills_late_data() -> None:
+    proposal = load_yaml(PACK / "cadence-window-04.proposal.yaml")
+    window = proposal["common_API_observation_window_proposal"]
+    assert window["target_hours_from_shared_anchor"] == 18
+    assert window["planned_schedule_span_hours_from_shared_anchor"] == 18
+    assert window["hard_hours_from_shared_anchor"] == 24
+    assert window["same_fixed_anchor_for_all_four_series"] is True
+    assert window["generation_before_shared_anchor"] is False
+    assert window["provider_specific_restarting_of_hard_window"] is False
+    assert window["new_generation_sends_or_retries_at_or_after_hard_deadline"] is False
+    assert window["silent_extension_to_finish_missing_cells"] is False
+    assert window["late_or_recovery_data_may_replace_primary_missing_cells"] is False
+    assert window["in_flight_response_preservation_required"] is True
+    assert "LATE_NONPRIMARY" in window["response_received_after_hard_deadline"]
+    assert window["response_after_target_but_within_hard_window"] == (
+        "RETAIN_PRIMARY_WITH_TARGET_OVERRUN_FLAG"
+    )
+    assert window["legacy_W01_12h_target_or_24h_hard_window_changed"] is False
+    capacity = proposal["capacity_gate"]
+    assert capacity["historical_gap_minimum_first_to_last_start_span_seconds"] == 699 * 65
+    assert capacity["full_wave_capacity_dry_run_evidence_required_before_launch"] is True
+    assert capacity["extrapolation_from_28_response_rehearsal_is_sufficient"] is False
+    assert (
+        capacity["separate_planned_target_and_hard_deadline_scheduler_support_already_verified"]
+        is False
+    )
+    assert capacity["if_not_feasible_or_not_verified"].startswith("FAIL_CLOSED")
+
+
+def test_frequency_policy_is_not_a_coding_deadline_automation_or_launch_permission() -> None:
+    proposal = load_yaml(PACK / "cadence-window-04.proposal.yaml")
+    assert proposal["recommended_option"] == "A"
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert not any(proposal["other_authority"].values())
+    recurrence = proposal["coding_and_recurrence"]
+    assert recurrence["human_coding_deadline_is_API_24h_window"] is False
+    assert recurrence["repeat_coding_waits_at_least_7_days_after_first_pass_lock"] is True
+    assert recurrence["automatic_next_wave_launch_from_cadence_alone"] is False
+    assert recurrence["annual_accounting_numbers_authorize_multiple_waves_or_spending"] is False
+    assert (
+        recurrence["new_wave_requires_scoped_locks_governance_capacity_and_launch_authority"]
+        is True
+    )
+    assert proposal["capacity_gate"]["new_live_capacity_experiments_authorized"] is False
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "cadence-window-04.proposal.yaml")
