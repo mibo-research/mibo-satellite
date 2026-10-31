@@ -1,8 +1,8 @@
 [
   {
     "path": ".gitattributes",
-    "bytes": 1028,
-    "sha256": "582da8ebb03dafe58186e42cf91118e6a6078b15979e784d69acdebac226cc73"
+    "bytes": 1165,
+    "sha256": "c1996e330b4b06a5610233a7954dcac7b20a8c25757f1244d18e8dee38e8c24a"
   },
   {
     "path": ".github/workflows/eibo-official-wave.yml",
@@ -106,8 +106,8 @@
   },
   {
     "path": "eibo/README.md",
-    "bytes": 8515,
-    "sha256": "b03f3a4c10a7237a37fe7a4c1a6e9f2979e55f42ba03a05a99c9ff0695c29650"
+    "bytes": 8836,
+    "sha256": "1e74e699896985162915a53ebf940bd305e374dde1a13e0b7d2a5a2f4e2a2eaf"
   },
   {
     "path": "eibo/battery/ebb-ja-v1.0.prompt-lock.json",
@@ -123,6 +123,36 @@
     "path": "eibo/battery/w0-engineering-smoke.yaml",
     "bytes": 694,
     "sha256": "721a593df9e17198c3fc5e463bedf3668032de9c88f4b79b1a741b265c0beb1b"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/README.md",
+    "bytes": 3275,
+    "sha256": "b6f318cec8ef1f099fa2d5fd494b23b57ec27b9e7b46ab4090f34152209c52bf"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/approval-queue.yaml",
+    "bytes": 1350,
+    "sha256": "ff69628338a80440d293bc8dc668095a56b26b0f5a29f3828e09a81662b9ac24"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/governance.template.yaml",
+    "bytes": 984,
+    "sha256": "b7eaf958fc0db15edb93cd1fecb5e29f6771bf3fb7a95162a0e9033d69510a41"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/runtime-lock.template.yaml",
+    "bytes": 1332,
+    "sha256": "f13291c115c4ebea0cf0633893c86218cab6ecf78f5a3723341585e003d3011d"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/scientific-design.draft.yaml",
+    "bytes": 4145,
+    "sha256": "680eab471fe1e07e1dd61c0a09f7670713573dd9067cc22c0c235f98160c4db8"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/scope-01.proposal.yaml",
+    "bytes": 1192,
+    "sha256": "cf917b081ca8e6e1c3413ff096632f216b9adf6d5a6b22ffa490bb0470957aaf"
   },
   {
     "path": "eibo/operations/operating-model-attestation.template.yaml",
@@ -193,6 +223,11 @@
     "path": "eibo/protocol/amendments/EIBO-PA-001-rename-and-solo-operations.md",
     "bytes": 2057,
     "sha256": "af060659d662a924e345945decc2def3ff374b6ce523b69e76be89b4a3aa2be5"
+  },
+  {
+    "path": "eibo/protocol/amendments/EIBO-PA-003-four-provider-solo.draft.md",
+    "bytes": 7152,
+    "sha256": "3a9f6bf2cd7bb4742061635be80898a8913c237a372aec56027a39884ccb4ea6"
   },
   {
     "path": "eibo/protocol/amendments/EIBO-W0-PA-002-perplexity-agent-api.md",
@@ -443,6 +478,11 @@
     "path": "eibo/tests/test_models_and_schedule.py",
     "bytes": 4144,
     "sha256": "d97a6c7fde757e8ad8f80532f4e597ce19eb761efbe1ad0a0a83e3e64dc857dc"
+  },
+  {
+    "path": "eibo/tests/test_official_preparation.py",
+    "bytes": 7696,
+    "sha256": "c3fc4197d27048f1227e4f004a7e5bbfa3e42fecf5da337839ea2ea69a86613d"
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",

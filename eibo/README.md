@@ -79,6 +79,11 @@ Missing governance, credentials, persistent evidence-root presence, model-identi
 
 ## W01 — BLOCKED
 
+Preparation for a distinct future four-provider/solo-coding official protocol is
+under [official-four-provider](operations/official-four-provider/README.md).
+It contains unapproved proposals and null runtime-lock templates only, not an
+executable Wave or permission to reuse W0 data/locks. Legacy W01 remains unchanged.
+
 The scientific target anchor is `2026-09-01T00:00:00Z` (`2026-09-01 09:00 JST`). This is metadata, not permission to run. The immutable scientific manifest is complete; the separate runtime manifest remains deliberately non-executable until every operational lock is recorded. After those locks are approved, use:
 
 ```bash

@@ -14,3 +14,5 @@
 /eibo/waves/W0/perplexity-agent-profile-v1.yaml text eol=lf
 /eibo/waves/W0/evidence/perplexity/request-shapes.agent-w0-v1.json text eol=lf
 /eibo/waves/W0/operational-history/*.yaml text eol=lf
+# Prospective drafts are separate from frozen sources; protect future byte locks.
+/eibo/operations/official-four-provider/** text eol=lf

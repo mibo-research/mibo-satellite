@@ -1,0 +1,24 @@
+schema_version: "0.1-draft"
+record_type: INITIAL_DECISION_SEQUENCE_TEMPLATE_NOT_A_HUMAN_DECISION_RECORD
+status: PREPARATION_ONLY_NO_APPROVALS_INFERRED
+ask_one_decision_at_a_time: true
+current_step: 1
+each_decision_requires_precise_scope_version_or_hash: true
+human_decision_may_be_inferred_from_preparation_request: false
+prior_W0_approvals_auto_extended: false
+agent_approval_permitted: false
+steps:
+  - {order: 1, id: scope_adoption, status: PENDING, proposal: scope-01.proposal.yaml}
+  - {order: 2, id: solo_coding_QA, status: PENDING}
+  - {order: 3, id: replication_count_and_coding_workload, status: PENDING}
+  - {order: 4, id: cadence_and_synchronized_window_feasibility, status: PENDING}
+  - {order: 5, id: official_provider_profiles_and_model_selection_policy, status: PENDING}
+  - {order: 6, id: named_protocol_owner_scientific_freeze, status: PENDING}
+  - {order: 7, id: provider_terms_review_for_official_scope, status: PENDING}
+  - {order: 8, id: ethics_or_governance_determination_for_official_scope, status: PENDING}
+  - {order: 9, id: observer_site_environment_and_anchor, status: PENDING}
+  - {order: 10, id: financial_request_retry_and_time_ceilings, status: PENDING}
+  - {order: 11, id: tested_scoped_runtime_locks_and_final_readiness, status: PENDING}
+launch:
+  authorized: false
+  separate_explicit_human_authority_required: true
