@@ -81,8 +81,8 @@
   },
   {
     "path": "eibo/BLOCKERS.md",
-    "bytes": 4210,
-    "sha256": "d0097f46ecdade5fe962b84cd8e765ce2f40e6cbf32c1d55f6bb2bd49957cdd6"
+    "bytes": 5917,
+    "sha256": "c569b398234c8ad5ab04ce36d9acaa34e04f6bb08c716fd1ed55f00aa3c0610c"
   },
   {
     "path": "eibo/CHARTER.md",
@@ -101,13 +101,13 @@
   },
   {
     "path": "eibo/READINESS.md",
-    "bytes": 4767,
-    "sha256": "b4d873de381d71ff9b780e840e66cfefc55614d32e380f54ca666a76e6286603"
+    "bytes": 6390,
+    "sha256": "0d7ae452c4e9a9ad23780a620a3f006a2487f0c3c0c01996f156014eecd62313"
   },
   {
     "path": "eibo/README.md",
-    "bytes": 8185,
-    "sha256": "bf12141885aaf0577dbdb640651da00c0336b5a72bac8e0c3c517470c1d781e8"
+    "bytes": 8515,
+    "sha256": "b03f3a4c10a7237a37fe7a4c1a6e9f2979e55f42ba03a05a99c9ff0695c29650"
   },
   {
     "path": "eibo/battery/ebb-ja-v1.0.prompt-lock.json",
@@ -138,6 +138,51 @@
     "path": "eibo/operations/operating-model.yaml",
     "bytes": 1347,
     "sha256": "555faa31521de3441158d80735ec214103c70a5aa444f688d1bbe48d68b3cbe6"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/EXECUTION.md",
+    "bytes": 3735,
+    "sha256": "b75e3de8789e5b0c825a0d203569750bafab2b3e8e0a6956572b3649e8bff5df"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/README.md",
+    "bytes": 4077,
+    "sha256": "3f3a67ab6e16ab8ff570862de44866627da2770cf38e699759b602ef8f468906"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/RESULTS-20261031.md",
+    "bytes": 3997,
+    "sha256": "21b6176dedf34c0f67f859f9f7d6df8122b04c6baa66d5051098ebd760f59ec4"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/governance/ethics-or-governance-determination.template.yaml",
+    "bytes": 318,
+    "sha256": "d8c5bbdbc3888db40da596b0847f423ca978e28674b97afe6de93f204715d741"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/governance/protocol-owner.template.yaml",
+    "bytes": 298,
+    "sha256": "16c636dc08670a8474a2bfb62e0bc9072505f52bb1c91fa2ee23b1fdc5ddbde7"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/governance/terms-review.template.yaml",
+    "bytes": 296,
+    "sha256": "89b76c4113e15d5d67dfc6efb52e4fbd00030908e208c8991c62459c77b5337c"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/model-lock.candidate.yaml",
+    "bytes": 2195,
+    "sha256": "c0d2833402ae1e51e843921a374cfb61b067546fba6ba88156241953d053d315"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/plan.draft.yaml",
+    "bytes": 4201,
+    "sha256": "db1b29239880b3b16645184afc06d55358527ba6bd9afea5f4c2974fb31ee6e9"
+  },
+  {
+    "path": "eibo/operations/prospective-four-provider/runtime-lock.template.yaml",
+    "bytes": 1590,
+    "sha256": "c3624087b50ff1945b5bcc75818077948cf75914c7ad161eee6ab5b5feff02f0"
   },
   {
     "path": "eibo/protocol/README.md",
@@ -295,6 +340,11 @@
     "sha256": "96c43fa7742aff9e842dbb4ab9f516e876446e0c8cbcb324c1d3c6a2ba7e1ca7"
   },
   {
+    "path": "eibo/src/eibo/closeout.py",
+    "bytes": 10181,
+    "sha256": "4be4cc2165345c6af50a2f4c8ef20ceaa2f81d410f880d87349c5b05a49f54f1"
+  },
+  {
     "path": "eibo/src/eibo/deviations.py",
     "bytes": 931,
     "sha256": "410fe5dc2888c969792fb3253cbe08e7db5b76832a313325fae0376c5e92633f"
@@ -326,8 +376,8 @@
   },
   {
     "path": "eibo/src/eibo/preflight.py",
-    "bytes": 5794,
-    "sha256": "7731ab3e7b42543df39742ad77d05ada3329e492ba30a8030c9b3f54b200e2cc"
+    "bytes": 5840,
+    "sha256": "56ed88f80755c2c742562575aa1de5acbe22c87201b2af31fc9782ebd8e7dd27"
   },
   {
     "path": "eibo/src/eibo/qc.py",
@@ -345,14 +395,19 @@
     "sha256": "727b51e570c5dd54ca0e1cfd2863c0eaf43c6a08663e89c69988bd455431b8f8"
   },
   {
+    "path": "eibo/src/eibo/rehearsal4.py",
+    "bytes": 30881,
+    "sha256": "e0ce721ec4b83b5594176e394a71235483c93da5e38c5bd43ee7aebc133e1e10"
+  },
+  {
     "path": "eibo/src/eibo/runner.py",
-    "bytes": 11022,
-    "sha256": "aeaf9bbb0433edebe0c8e2e943528d12947f33e90aa75be69d80ca6edc805c5c"
+    "bytes": 11247,
+    "sha256": "e1eba932d71b63f1c1f04d335627e29516d89d8f0b653c361ae42cc20da394e3"
   },
   {
     "path": "eibo/src/eibo/scheduling.py",
-    "bytes": 4932,
-    "sha256": "b07da7c1735bed7eae93bcb423ce57030ceeec0d7c2dee8f4f17a219b18bc993"
+    "bytes": 5369,
+    "sha256": "7f90ebdf489f852d6cf507efcde9423babd685e219eb0391621d6ebaa9beeb90"
   },
   {
     "path": "eibo/src/eibo/util.py",
@@ -410,6 +465,11 @@
     "sha256": "edfb2199bd7cf49548613a08f14265775d63058d3f477c4f324bb54ee3937876"
   },
   {
+    "path": "eibo/tests/test_rehearsal4.py",
+    "bytes": 20598,
+    "sha256": "4b37a0644fba3d0081dfa4cdf2a622c8d1490f5af773601d500b97eb664aec15"
+  },
+  {
     "path": "eibo/tests/test_repository_manifest.py",
     "bytes": 896,
     "sha256": "402eae73d3f639816531bfbadd443917f035a8c9846edbe30e2bfeffe52bc6d6"
@@ -420,6 +480,11 @@
     "sha256": "7c11e46ce15a305a93477b690f77d717022a586b4f64b576537e1c5865d07b13"
   },
   {
+    "path": "eibo/tests/test_w0_closeout.py",
+    "bytes": 12170,
+    "sha256": "1d8e764989cb0a70c08026ed44c662c3a80b68ea4c37eab62c225e44a4119eda"
+  },
+  {
     "path": "eibo/tests/test_w0_qualification.py",
     "bytes": 4374,
     "sha256": "6b86c6bdd9d2ab1dc836dced968beabe9e86efe17a04f6043bb7cf64bf6589a6"
@@ -428,6 +493,16 @@
     "path": "eibo/waves/.gitkeep",
     "bytes": 1,
     "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "path": "eibo/waves/W0/closeout/README.md",
+    "bytes": 2149,
+    "sha256": "251d4331bdf1687ac9fec4e4cfaf77bd269262501e7ac3119578b9dd7c1df25a"
+  },
+  {
+    "path": "eibo/waves/W0/closeout/sources-v1.json",
+    "bytes": 3273,
+    "sha256": "c116b209c7f69cdd635c122955e0ef37af2c365deb7357f713fce0904a76a6fc"
   },
   {
     "path": "eibo/waves/W0/evidence-manifest.json",

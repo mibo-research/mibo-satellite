@@ -77,7 +77,12 @@ def _save_response(stem: Path, response: Any) -> None:
     core = {
         "captured_at": utc_now(),
         "status_code": response.status_code,
-        "headers": response.headers,
+        "headers": {
+            key: value
+            for key, value in response.headers.items()
+            if key.lower()
+            not in {"authorization", "x-api-key", "x-goog-api-key", "cookie", "set-cookie"}
+        },
         "body_sha256": body_hash,
         "body_length": len(response.body_bytes),
     }
@@ -98,7 +103,7 @@ def run_wave(
     now: datetime | None = None,
 ) -> dict[str, int]:
     validate_bindings(manifest, battery, lock, schedule)
-    report = preflight(manifest, write_report=False)
+    report = preflight(manifest, write_report=False, adapter_factory=adapter_factory)
     if not report["passed"]:
         raise ValidationError("preflight failed: " + "; ".join(report["errors"]))
     if ignore_planned_time and manifest.official:

@@ -15,7 +15,9 @@ from .scheduling import load_schedule, validate_bindings
 from .util import artifact_hash, canonical_json_bytes, utc_now, write_derived
 
 
-def preflight(manifest: WaveManifest, *, write_report: bool = True) -> dict[str, Any]:
+def preflight(
+    manifest: WaveManifest, *, write_report: bool = True, adapter_factory: Any = make_adapter
+) -> dict[str, Any]:
     errors: list[str] = []
     warnings: list[str] = []
     battery: Battery | None = None
@@ -106,7 +108,7 @@ def preflight(manifest: WaveManifest, *, write_report: bool = True) -> dict[str,
         for model in lock["models"]:
             provider = model["provider"]
             try:
-                make_adapter(provider).prepare(
+                adapter_factory(provider).prepare(
                     model=model["requested_model"],
                     prompt=battery.items[0].prompt,
                     environment=Environment(manifest.environment),

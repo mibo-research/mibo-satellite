@@ -6,17 +6,26 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 
 ## W0 operational blockers
 
+Current evidence inventory (2026-10-31): four-provider Q1/Q2 captures are complete,
+including separate M03 E6-01/E7-01 recoveries. See `waves/W0/closeout/README.md`.
+The entries below that refer to historical candidates or absent gates are not
+grounds to repeat completed requests. Historical manifests are preserved rather
+than silently rewritten. The human-authorized four-provider rehearsal under
+`operations/prospective-four-provider/` passed 28/28 on 2026-10-31, but cannot
+release the existing five-provider Q3 gate.
+
 - The three W0 human-governance determinations and prospective operating-model adoption were explicitly recorded on 2026-10-22; they no longer block W0.
 - M04 is held as `NOT_RUN_COST_CONSTRAINT` following the human owner's 2026-10-24 decision; do not create an xAI key or send requests.
-- M05's former service-change hold is preserved in `waves/W0/operational-history/`. The owner's subsequent W0 API-change instruction permits the explicit Agent API profile under EIBO-W0-PA-002. Current-profile Q1/Q2, exact returned identity, Models API evidence, and actual no-search behavior remain unverified.
+- M05's former service-change hold is preserved in `waves/W0/operational-history/`. The owner's subsequent W0 API-change instruction permits the explicit Agent API profile under EIBO-W0-PA-002. Current-profile Q1/Q2, exact returned identity, Models API evidence, and no-search trace checks passed in the stored W0 evidence. Future official use still needs separate prospective approval.
 - Full-panel credential presence remains incomplete. The local evidence root is configured. GitHub execution additionally requires a controlled self-hosted runner; the protected `eibo-w0` environment is configured.
-- No live-verified exact W0 model-lock exists.
-- No locked W0 execution schedule exists.
-- No live model-list/get or generation evidence has been captured; credential presence checks do not verify API access or identity.
-- M02 is resolved for W0 as permanent lineage `MIBO-SL-002 — Claude` with exact candidate `claude-opus-5`; its Models API metadata, returned identity, stop reason, and thinking/output-cap evidence remain uncaptured.
-- W0-Q1 live smoke gates are absent for M01-M05.
-- W0-Q2 seven-item provider qualification gates are absent for M01-M05.
+- No final full-panel W0 model-lock exists. The separate four-provider rehearsal has its own metadata-verified exact-model lock, not a legacy W0/W01 lock.
+- No final full-panel W0 execution schedule exists. The separate rehearsal's hashed CLOSED/NATIVE and interleaved schedules are preserved in external evidence.
+- First-party model-list/get and generation evidence is captured for M01/M02/M03/M05. No M04 API evidence was requested or captured.
+- M02 retains permanent lineage `MIBO-SL-002 — Claude` and exact candidate `claude-opus-5`. Metadata, stop reasons and exposed thinking metadata are captured; 0/7 Q2 max-token stops do not prove the absence of a material visible-output effect.
+- W0-Q1 gates exist for M01/M02/M03/M05 only.
+- Original W0-Q2 gates exist for M01/M02/M05. M03 has 7/7 records including separate recovery, but its failed original and missing original Q2 gate are unchanged. Human acceptance of the separate closeout was explicitly recorded on 2026-10-31.
 - The W0-Q3 Core-35 production-flow dress rehearsal has not passed.
+- The separate four-provider scope now has eight human decision receipts, a tested runner, scoped runtime locks, 28/28 archived observations, successful QC/certificates and independent hash verification. This is not an official Wave or a redefinition of Core-35; its original plan/templates remain unchanged snapshots.
 
 ## W01 operational blockers
 
@@ -30,10 +39,10 @@ All five authoritative v1.0 scientific artifacts are present, Frozen, and exact-
 
 ## Provider-specific ambiguities
 
-- M01–M05: any provider-required generation or reasoning-control field must be mapped and frozen without adding optional sampling overrides.
-- M01–M05: the effective visible-output cap must target 8192 tokens; M04 uses Responses API `max_output_tokens`, while M02 and M05 use `max_tokens`. Any provider hard-limit exception must be recorded before W01.
-- M01–M04: absence of tools, web, retrieval, RAG, files, memory, and external functions must be verified for the selected exact API surface.
-- M01–M05: exact requested model IDs must still be live-verified against provider-returned identity fields; M02's canonical ID is provider-documented as pinned, but serving-infrastructure behavioral variation remains possible.
+- Future official use still needs scoped parameter locks; W0 verified native optional defaults for M01/M02/M03/M05 without sampling or reasoning overrides. M04 remains untested by explicit human choice.
+- The W0 cap mapping is M01 `max_output_tokens`, M02 `max_tokens`, M03 `maxOutputTokens`, and migrated M05 Agent API `max_output_tokens`, all 8192. Legacy Sonar used `max_tokens`; that surface was not used by the new rehearsal. M04 Responses mapping is `max_output_tokens` but was not exercised. Thinking may share the provider's output budget; no cap stops in this small sample do not establish that 8192 can never constrain visible output.
+- W0 CLOSED request shapes and returned structured tool/search traces were checked for M01/M02/M03. This does not expose provider-internal context/routing or qualify M04 or a future official surface.
+- All four rehearsal requested/returned exact model IDs matched. Future availability and behavioral stability are not guaranteed; M02's canonical ID is provider-documented as pinned, but serving-infrastructure behavioral variation remains possible.
 - M05 is scientifically assigned to the separate NATIVE mirror and must not be pooled with CLOSED; the exact NATIVE API surface still requires a runtime lock.
 - W0-only M05 now uses `perplexity/sonar` at `/v1/agent` and `max_output_tokens=8192`, without effort presets or fallback lists. It does not establish behavioral equivalence to legacy Sonar or authorize any W01 change.
 - Any unavoidable provider-controlled system layer, forced streaming, or internal regional routing limitation must be documented explicitly rather than represented as absent.

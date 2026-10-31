@@ -8,6 +8,11 @@ EIBO is the current project name. It was renamed from MIBO-Education. The import
 
 ## Status
 
+Live evidence update (2026-10-31): Q1/Q2 evidence is now complete for the four
+selected providers, including separately archived Google recoveries. This is not
+full-panel W0 completion. See the [offline closeout](waves/W0/closeout/README.md)
+and [blocked prospective preparation](operations/prospective-four-provider/README.md).
+
 | Gate | Current state | Reason |
 |---|---|---|
 | `ENGINEERING_READY` | True | Automated tests, lint, packaging, CLI, and secret checks pass |

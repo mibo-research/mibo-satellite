@@ -1,0 +1,43 @@
+schema_version: "1.0"
+status: BLOCKED_UNTIL_HUMAN_DECISIONS_AND_SCOPED_ENGINEERING_PREFLIGHT
+execution_permitted: false
+official_longitudinal_data: false
+proposal: plan.draft.yaml
+plan_sha256: null
+accepted_closeout_assessment_sha256: null
+exact_model_lock_path: null
+exact_model_lock_sha256: null
+schedule_path: null
+schedule_sha256: null
+schedule_seed: null
+field_window: {start: null, end: null, timezone: Asia/Tokyo}
+observer:
+  proposed_site_id: MIBO-SITE-JP01
+  actual_site_id: null
+  country_or_region: null
+  same_workstation_as_prior_W0_confirmed_by_human: null
+  provider_internal_routing_region_guaranteed: false
+environment:
+  proposed_runner: EXISTING_LOCAL_WINDOWS_WORKSTATION
+  protected_runner_determination: null
+  evidence_root_presence_and_write_check: REQUIRED_AT_EXECUTION
+  credential_presence_check_only: [OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, PERPLEXITY_API_KEY]
+  credential_values_may_be_stored: false
+  AC_power_required: true
+  native_sleep_guard_active_required: true
+  release_guard_in_finally: true
+approvals:
+  protocol_owner_record: null
+  terms_review_record_or_explicit_scoped_reference: null
+  ethics_or_governance_record_or_explicit_scoped_reference: null
+execution_controls:
+  provider_selection: [M01, M02, M03, M05]
+  xai_requests: FORBIDDEN
+  W01_execution: FORBIDDEN
+  legacy_Q3_execution: FORBIDDEN_WHILE_M04_HOLD_ACTIVE
+  max_ordinary_requests_for_new_rehearsal: null
+  technical_attempt_limit: null
+  retry_delays_minutes: null
+  Google_start_spacing_seconds: null
+  human_decision_required_before_locking: true
+locked_at_utc: null

@@ -2,6 +2,26 @@
 
 `eibo validate --engineering` recomputes the independent flags and emits machine-readable reasons.
 
+## Live evidence update — 2026-10-31
+
+The four selected providers now have complete Q1/Q2 evidence: M01/M02 original
+7/7, M03 original 5/7 plus separately preserved E6-01/E7-01 recoveries, and M05
+NATIVE 7/7 plus non-official no-search 7/7. The offline closeout verifier and pinned
+sources are documented in [the W0 closeout](waves/W0/closeout/README.md). This
+assessment does not rewrite Google's FAILED_CLOSED original result or create its
+legacy Q2 gate. Historical qualification candidates/evidence manifests remain
+unchanged and may still describe the pre-live state; their absence statements
+are not a current inventory of the externally stored captures.
+
+The [separate four-provider rehearsal](operations/prospective-four-provider/RESULTS-20261031.md)
+completed on 2026-10-31: 28/28 observations, 28 generation sends, six metadata
+GETs, no retries, both panel QCs passed, and scoped certificates issued. Eight
+explicit human decision receipts supplied the closeout acceptance, design,
+governance, timing, site, and limits. The original draft/templates remain
+unchanged snapshots, not agent-finalized approvals. Rehearsal-only model,
+schedule, and runtime locks were created after metadata verification; they do
+not lock legacy W0 or W01. All 411 prior evidence files remained byte-identical.
+
 | Flag | Value | Exact reason when false |
 |---|---:|---|
 | `ENGINEERING_READY` | `true` | — |
@@ -10,7 +30,7 @@
 | `HUMAN_GOVERNANCE_READY` | `true` | Three explicit human-attributed W0 determinations recorded on 2026-10-22. |
 | `CREDENTIAL_ENVIRONMENT_READY` | `false` | Full-panel credential presence is incomplete only because M04 is deliberately deferred for cost. Local presence checks passed for M01, M02, M03, and M05 on 2026-10-24. The local persistent evidence root is configured; GitHub execution separately requires a controlled runner. |
 | `W0_Q1_EXECUTABLE` | `false` | Full-panel execution remains held by M04 `NOT_RUN_COST_CONSTRAINT`. M01-M03 and migrated M05 may pass provider-specific preflight with their credentials and evidence root loaded. M05 requires its separate valid W0 Agent API profile. |
-| `W0_READY` | `false` | Q1/Q2 live evidence, Q3 Core-35, qualified immutable exact model lock, and schedule lock are absent. M04's deferral prevents the full-panel qualification. |
+| `W0_READY` | `false` | Four-provider Q1/Q2 closeout is human-accepted and the separately authorized 28-observation rehearsal passed. The original M03 Q2 gate remains unchanged; five-provider Q3 Core-35 and full-panel model/schedule locks remain incomplete. M04's deferral still blocks the original full-panel qualification. Scoped rehearsal success does not satisfy that gate. |
 | `W01_READY` | `false` | Runtime manifest is not locked; exact model-lock, schedule hash, observer site, provider-required controls, CLOSED eligibility evidence, governance determinations, and Wave lock timestamp are missing; execution is not permitted. |
 
 ## Authoritative artifact freeze state
@@ -31,7 +51,7 @@ EIBO is configured for one accountable human operator with automated execution a
 
 This model applies only to prospective EIBO Waves. It does not alter the frozen Codebook v1.0 requirement for two independent coders and therefore cannot make legacy W01 executable.
 
-The official observation surface is the first-party provider API. Consumer UI equivalence is neither assumed nor a readiness requirement.
+The official observation surface is the first-party provider API. Consumer UI equivalence is neither assumed nor a readiness requirement. No W0 result is official longitudinal data.
 
 ## Runtime holds recorded on 2026-10-24
 
@@ -39,4 +59,4 @@ The official observation surface is the first-party provider API. Consumer UI eq
 
 M05 credential provisioning is complete: the dedicated key `EIBO-W0-Qualification-2026-10` was created with explicit human authorization and saved to the Windows user environment as `PERPLEXITY_API_KEY`. Only presence and successful local persistence were verified; no inference request or live authentication test was performed. The key value was not printed, hashed, or committed, and the clipboard was cleared. Credential provisioning itself did not authorize migration; the later explicit W0 API-change instruction is recorded in EIBO-W0-PA-002.
 
-M04 is deferred at the human owner's request because of cost. M05 now explicitly requests the documented catalog ID `perplexity/sonar` at `/v1/agent`, with `max_output_tokens=8192` and no effort preset or fallback list. NATIVE enables only `web_search`; the separate W0-only no-search diagnostic omits tools and effort. The legacy Sonar adapter and evidence remain unchanged. Legacy equivalence, immutable pinning, and official CLOSED eligibility are not claimed. Live metadata, returned identity, actual tool behavior, refusals, and truncation remain unverified until Q1/Q2.
+M04 is deferred at the human owner's request because of cost. M05 now explicitly requests the documented catalog ID `perplexity/sonar` at `/v1/agent`, with `max_output_tokens=8192` and no effort preset or fallback list. NATIVE enables only `web_search`; the separate W0-only no-search diagnostic omits tools and effort. The legacy Sonar adapter and evidence remain unchanged. Q1/Q2 now retain live metadata, exact returned identity and tool traces; both M05 conditions passed the recorded qualification checks. This limited sample does not establish legacy behavioral equivalence, immutable pinning, official CLOSED eligibility, or future-Wave approval.

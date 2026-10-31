@@ -12,8 +12,10 @@ from .util import artifact_hash, canonical_json_bytes, load_json, write_immutabl
 
 
 def create_schedule(
-    manifest: WaveManifest, battery: Battery, lock: dict[str, Any]
+    manifest: WaveManifest, battery: Battery, lock: dict[str, Any], *, order_only: bool = False
 ) -> dict[str, Any]:
+    if order_only and (manifest.official or manifest.replications != 1):
+        raise ValidationError("order-only scheduling is limited to non-official k=1 rehearsals")
     if manifest.schedule_path.exists():
         raise ValidationError(f"schedule already exists: {manifest.schedule_path}")
     rng = random.Random(manifest.random_seed)
@@ -37,6 +39,8 @@ def create_schedule(
                 maximum_jitter = min(900.0, duration.total_seconds() / 100)
                 planned = center + timedelta(seconds=rng.uniform(-maximum_jitter, maximum_jitter))
                 planned = max(manifest.start, min(manifest.end, planned))
+                if order_only:
+                    planned = manifest.start
                 short_site = manifest.site_id.removeprefix("MIBO-SITE-")
                 observation_id = (
                     f"{manifest.wave_id}-{short_site}-{model['series_id']}-"
@@ -74,6 +78,9 @@ def create_schedule(
         "field_window_end": manifest.end.isoformat(),
         "rows": rows,
     }
+    if order_only:
+        core["randomization_method"] = "stratified-block-randomized-v1-rehearsal-order-only"
+        core["order_only_non_official_k1"] = True
     schedule = {**core, "schedule_sha256": artifact_hash(core)}
     write_immutable(manifest.schedule_path, canonical_json_bytes(schedule) + b"\n")
     return schedule
