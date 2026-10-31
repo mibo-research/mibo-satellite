@@ -3,6 +3,11 @@
 2026-10-31作成。現在は草案であり、承認済みプロトコル・最終ロック・実行許可ではありません。
 API送信、credential読込み、xAI、W01、Core-35の実行はこの準備では行いません。
 
+現在の進行状況：基本方針Aは人間の明示回答に基づき採用を記録しました。
+[decision-progress.yaml](decision-progress.yaml)を参照してください。次は
+[確認②：単独codingの品質確認方法](CODING-QA-02.md)です。基本方針の採用だけで
+以下の設計全体や他の承認が完了したとは扱いません。初期の判断一覧は雛形として保持します。
+
 ## 今回準備したもの
 
 - 新しい将来観測用の[変更案](../../protocol/amendments/EIBO-PA-003-four-provider-solo.draft.md)。
@@ -12,7 +17,7 @@ API送信、credential読込み、xAI、W01、Core-35の実行はこの準備で
 - [人間ガバナンス雛形](governance.template.yaml)と[順番に確認する判断一覧](approval-queue.yaml)。
   W0の承認は正式観測へ自動延長せず、AIが承認・FINAL化することもありません。
 
-## 最初の確認：基本方針
+## 確認①の提示内容（Aの採用を別記録に保存済み）
 
 **A（推奨）**：[基本方針案](scope-01.proposal.yaml)を採用する。
 W01とは別の新しい正式観測の基線を作り、識別子は `EIBO-F01` を候補とします。

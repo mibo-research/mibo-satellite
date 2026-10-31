@@ -1,0 +1,35 @@
+schema_version: "0.1"
+record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
+status: BASIC_SCOPE_ADOPTED_CODING_QA_PENDING
+current_step: 2
+next_decision_id: solo_coding_QA
+execution_permitted: false
+scope_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/scope-01.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: cf917b081ca8e6e1c3413ff096632f216b9adf6d5a6b22ffa490bb0470957aaf
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/01-scope-adoption.json
+  receipt_file_sha256: 02037d68bdc184d0ccc4b3221cb6d86c07cde5360615aad5832bd88c54cb88c4
+  receipt_sha256: 9ff70bb68522bda38ed03d18eb9356ee81ffc5ad71a6ce9a4f3bd4633ffdae5f
+  original_proposal_kept_unchanged: true
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
+other_decisions:
+  coding_QA: PENDING
+  replication_and_primary_coding_workload: PENDING
+  financial_or_request_budget: PENDING
+  official_provider_profiles_and_exact_models: PENDING
+  named_protocol_owner_final_freeze: PENDING
+  provider_terms_review: PENDING
+  ethics_or_governance_determination: PENDING
+  observer_site_and_date: PENDING
+  final_runtime_lock: PENDING
+  API_execution: NOT_AUTHORIZED
+prohibitions:
+  xai_requests: true
+  W01_execution: true
+  W0_data_promotion: true
+  agent_governance_approval: true

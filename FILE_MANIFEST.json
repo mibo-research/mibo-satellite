@@ -125,14 +125,29 @@
     "sha256": "721a593df9e17198c3fc5e463bedf3668032de9c88f4b79b1a741b265c0beb1b"
   },
   {
+    "path": "eibo/operations/official-four-provider/CODING-QA-02.md",
+    "bytes": 4341,
+    "sha256": "7d0ccddb60cc5b80e956de1e72ed0096753815eacdbc8f17d243da4ca3ed91ce"
+  },
+  {
     "path": "eibo/operations/official-four-provider/README.md",
-    "bytes": 3275,
-    "sha256": "b6f318cec8ef1f099fa2d5fd494b23b57ec27b9e7b46ab4090f34152209c52bf"
+    "bytes": 3739,
+    "sha256": "78c38408ca0da94501441fd7366b27c6adf62adabbf8db66ddd238ff970a2c4c"
   },
   {
     "path": "eibo/operations/official-four-provider/approval-queue.yaml",
     "bytes": 1350,
     "sha256": "ff69628338a80440d293bc8dc668095a56b26b0f5a29f3828e09a81662b9ac24"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/coding-qa-02.proposal.yaml",
+    "bytes": 4188,
+    "sha256": "3d53f14ca8fe45b3b4171c5f334bdc2a7cc4173845f6a8a4c85890ba46fb1c09"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/decision-progress.yaml",
+    "bytes": 1458,
+    "sha256": "938812ea10e0c5023c9f8db0b5b23222f5440c4d035b79c385721dbafb4add18"
   },
   {
     "path": "eibo/operations/official-four-provider/governance.template.yaml",
@@ -481,8 +496,8 @@
   },
   {
     "path": "eibo/tests/test_official_preparation.py",
-    "bytes": 7696,
-    "sha256": "c3fc4197d27048f1227e4f004a7e5bbfa3e42fecf5da337839ea2ea69a86613d"
+    "bytes": 12683,
+    "sha256": "be41e205a228cc3d5ce41db2419d61b28dc54b363c684ca0d23a9400c88b3f7a"
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",

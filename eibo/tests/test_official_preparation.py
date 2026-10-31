@@ -167,3 +167,99 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
         assert record["human_attestation"] is False
         assert record["determination"] is record["decided_at"] is record["rationale"] is None
         assert not any(record["decided_by"].values())
+
+
+def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    assert progress["current_step"] == 2
+    assert progress["next_decision_id"] == "solo_coding_QA"
+    assert progress["execution_permitted"] is False
+    adopted = progress["scope_adoption"]
+    assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
+    assert adopted["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert adopted["agent_is_transcriber_not_approver"] is True
+    assert adopted["exact_human_message_time_assumed"] is False
+    assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
+    assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
+    assert progress["other_decisions"]["coding_QA"] == "PENDING"
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+    assert all(v in {"PENDING", "NOT_AUTHORIZED"} for v in progress["other_decisions"].values())
+    assert all(progress["prohibitions"].values())
+
+
+def test_coding_qa_proposal_is_not_adopted_or_runnable() -> None:
+    proposal = load_yaml(PACK / "coding-qa-02.proposal.yaml")
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert not any(proposal["other_authority"].values())
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "coding-qa-02.proposal.yaml")
+
+
+def test_repeat_audit_preserves_a_preregistered_masked_same_human_comparison() -> None:
+    proposal = load_yaml(PACK / "coding-qa-02.proposal.yaml")
+    audit = proposal["proposed_repeat_audit"]
+    assert audit["target_observations_per_series_item"] == 1
+    assert audit["series"] == ["M01", "M02", "M03", "M05"]
+    assert audit["target_selected_count"] == 4 * audit["item_count"] == 280
+    assert audit["minimum_days_after_first_pass_lock"] == 7
+    assert audit["selection_rule_and_seed_locked_before_wave_execution"] is True
+    for field in (
+        "sample_locked_before_primary_coding",
+        "previous_codes_hidden",
+        "same_human_coder",
+        "new_blind_identifiers_and_random_order",
+        "same_Frozen_anchors_and_coding_fields",
+        "both_passes_preserved_with_timestamps_and_hashes",
+    ):
+        assert audit[field] is True
+    assert audit["seed"] is None
+    assert (
+        audit["visible_response_text_modified"] is audit["recoding_may_call_provider_API"] is False
+    )
+
+
+def test_audit_missing_nr_and_disagreement_cannot_be_selectively_replaced() -> None:
+    proposal = load_yaml(PACK / "coding-qa-02.proposal.yaml")
+    audit, review = proposal["proposed_repeat_audit"], proposal["review"]
+    assert audit["exclude_or_reselect_based_on_response_or_score"] is False
+    assert audit["technical_missing_remains_missing_no_replacement"] is True
+    assert audit["NR_outcomes_preserved_not_forced_to_zero"] is True
+    assert review["unresolved_flags_block_coding_QA_procedure_closeout"] is True
+    for field in (
+        "automatically_choose_higher_or_average_scores",
+        "first_pass_score_overwritten",
+        "correction_selection_based_on_provider_or_desired_result",
+        "post_review_agreement_may_replace_original_agreement_report",
+    ):
+        assert review[field] is False
+
+
+def test_single_coder_audit_claims_neither_validity_nor_two_rater_reliability() -> None:
+    proposal = load_yaml(PACK / "coding-qa-02.proposal.yaml")
+    assert proposal["primary_coding"]["coder_count"] == 1
+    assert proposal["primary_coding"]["coder_type"] == "HUMAN"
+    assert proposal["primary_coding"]["AI_secondary_enabled"] is False
+    assert proposal["primary_coding"]["automated_primary_scoring"] is False
+    assert proposal["reporting"]["precision_or_power_guaranteed_by_280"] is False
+    assert proposal["reporting"]["aggregate_agreement_pass_threshold"] is None
+    for field in (
+        "memory_or_identity_recognition_eliminated",
+        "independent_second_rater_created",
+        "two_human_inter_rater_reliability_claimed",
+        "coding_validity_or_correctness_guaranteed",
+        "legacy_150_or_200_response_two_coder_pilot_satisfied",
+        "agreement_results_already_observed",
+        "observed_reliability_claimed",
+    ):
+        assert proposal["limits"][field] is False
+    assert proposal["automated_checks"]["may_assign_or_change_substantive_scores"] is False
+    assert proposal["automated_checks"]["may_claim_coding_correctness"] is False
+
+
+def test_audit_example_does_not_approve_replication_or_workload() -> None:
+    proposal = load_yaml(PACK / "coding-qa-02.proposal.yaml")
+    example = proposal["example_only_not_a_volume_approval"]
+    assert example["primary_records"] == 4 * 70 * example["if_primary_replication_k"]
+    assert example["selected_audit_records"] == 280
+    assert example["maximum_first_plus_repeat_coding_records"] == 3080
+    assert proposal["other_authority"]["primary_replication_count_or_workload_approved"] is False
