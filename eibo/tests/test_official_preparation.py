@@ -172,8 +172,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 7
-    assert progress["next_decision_id"] == "protocol_owner_responsibility_and_separate_final_freeze"
+    assert progress["current_step"] == 8
+    assert progress["next_decision_id"] == "terms_use_and_publication_policy_with_unresolved_holds"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -831,3 +831,146 @@ def test_owner_proposal_and_budget_receipt_do_not_make_any_future_wave_runnable(
     assert load_yaml(PACK / "decision-progress.yaml")["execution_permitted"] is False
     with pytest.raises(ValidationError, match="invalid Wave Manifest"):
         load_manifest(PACK / "protocol-owner-07.proposal.yaml")
+
+
+def test_human_owner_role_adoption_does_not_approve_protocol_or_terms() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    role = progress["protocol_owner_role_adoption"]
+    assert role["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert role["protocol_and_operations_responsible_actor"] == "CURRENT_CHAT_USER"
+    assert role["final_complete_protocol_approver_actor"] == "CURRENT_CHAT_USER"
+    assert role["responsible_human_count"] == 1
+    assert role["agent_is_transcriber_not_approver"] is True
+    assert role["original_proposal_kept_unchanged"] is True
+    assert role["proposal_sha256"] == sha256_file(ROOT / role["proposal_path"])
+    assert role["proposal_sha256"] == (
+        "0c6fbc4d19afc38822f3ab0bcb91bed7abcebbf46a955627ac23991069de0876"
+    )
+    for field in (
+        "current_affiliation_or_institutional_authority_inferred",
+        "complete_protocol_final_approval_or_freeze_inferred",
+        "final_human_governance_records_complete",
+        "terms_ethics_dates_or_API_authority_inferred",
+        "exact_human_message_time_assumed",
+    ):
+        assert role[field] is False
+    assert progress["other_decisions"]["provider_terms_review"] == "PENDING"
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+
+
+def test_public_terms_sources_do_not_clear_any_provider_or_invent_account_contracts() -> None:
+    proposal = load_yaml(PACK / "terms-review-08.proposal.yaml")
+    providers = proposal["providers"]
+    assert set(providers) == {"M01", "M02", "M03", "M05"}
+    expected = load_yaml(PACK / "decision-progress.yaml")["provider_policy_adoption"][
+        "initial_candidates"
+    ]
+    for sid, provider in providers.items():
+        assert provider["requested_candidate"] == expected[sid]
+        assert provider["gate"] == "BLOCKED_PENDING_SCOPE_SPECIFIC_HUMAN_TERMS_DETERMINATION"
+        assert provider["unresolved"]
+        assert provider["sources"]
+        assert all(row["url"].startswith("https://") for row in provider["sources"])
+    source = proposal["source_method"]
+    assert source["source_facts_are_separate_from_reviewer_inferences"] is True
+    assert source["update_and_actual_applicability_review_required_before_each_wave"] is True
+    assert source["authenticated_account_contracts_or_orders_inspected"] is False
+    assert source["page_bytes_or_contract_snapshot_hash_claimed"] is False
+    assert source["retrieval_date_equals_applicable_effective_date"] is False
+
+
+def test_future_dated_policies_cannot_be_treated_as_current_terms_on_review_date() -> None:
+    proposal = load_yaml(PACK / "terms-review-08.proposal.yaml")
+    review_date = proposal["reviewed_on_jst"]
+    future_sources = []
+    for provider in proposal["providers"].values():
+        for source in provider["sources"]:
+            effective = source.get("displayed_effective_date")
+            if effective and effective > review_date:
+                future_sources.append(source)
+                assert source["treated_as_current_on_review_date"] is False
+    assert {row["displayed_effective_date"] for row in future_sources} == {
+        "2026-11-12",
+        "2026-11-20",
+    }
+    anthropic = proposal["providers"]["M02"]
+    assert anthropic["applicable_current_AUP_version_verified"] is False
+    assert any(
+        row["url"].endswith("/usage-policies/revisions/2025-10-29/")
+        for row in proposal["providers"]["M01"]["sources"]
+    )
+
+
+def test_frozen_item_aup_flags_are_not_rewrites_exclusions_or_research_exemptions() -> None:
+    proposal = load_yaml(PACK / "terms-review-08.proposal.yaml")
+    screen = proposal["Frozen_battery_policy_screen"]
+    assert sha256_file(ROOT / screen["source_path"]) == screen["source_sha256"]
+    battery = load_battery(ROOT / screen["source_path"])
+    assert screen["items_read"] == len(battery.items) == 70
+    assert set(screen["example_ids_for_further_human_AUP_review"]) <= {
+        item.item_id for item in battery.items
+    }
+    assert screen["flagged_IDs_are_not_exhaustive_or_a_finding_of_illegality"] is True
+    assert screen["research_purpose_alone_grants_policy_exception"] is False
+    assert screen["all_70_items_human_AUP_review_complete"] is False
+    assert screen["prompts_or_scoring_anchors_copied_paraphrased_or_changed"] is False
+    assert proposal["providers"]["M05"]["scientific_AUP_exception_assumed_automatic"] is False
+    text = (PACK / "TERMS-REVIEW-08.md").read_text(encoding="utf-8")
+    assert not any(item.prompt in text for item in battery.items)
+
+
+def test_private_storage_or_owner_acceptance_never_releases_terms_or_design_hold() -> None:
+    proposal = load_yaml(PACK / "terms-review-08.proposal.yaml")
+    holds = proposal["execution_holds"]
+    assert holds["unresolved_scope_terms_action"] == "NO_OFFICIAL_WAVE_START"
+    for field in (
+        "single_provider_hold_may_silently_reduce_four_provider_design",
+        "private_archive_alone_resolves_contract_restrictions",
+        "raw_deletion_or_replacement_is_used_to_hide_permission_gap",
+        "prior_W0_terms_approval_is_new_scope_approval",
+        "owner_role_acceptance_releases_terms_hold",
+        "following_ethics_question_releases_terms_hold",
+    ):
+        assert holds[field] is False
+    use = proposal["proposed_use_policy"]
+    assert use["first_party_API_four_series_only"] == ["M01", "M02", "M03", "M05"]
+    assert "ONLY_AFTER_RIGHTS_AND_RETENTION_CONFIRMED" in use["raw_archive_policy"]
+    assert use["retention_or_reproduction_conflict_action"].startswith("BLOCK_BEFORE_LAUNCH")
+    assert use["Google_paid_billing_project_status_must_be_confirmed_before_launch"] is True
+    assert proposal["providers"]["M03"]["paid_billing_project_verified"] is False
+    assert proposal["providers"]["M03"]["Google_Search_grounding_enabled_or_assumed"] is False
+    assert proposal["providers"]["M01"]["store_false_equals_zero_provider_retention"] is False
+    for field in (
+        "real_student_personal_data_or_real_student_grading_decisions",
+        "actual_schoolwork_submission_or_competing_model_training",
+        "researcher_safety_bypass_or_prompt_injection_or_rate_limit_evasion",
+        "Frozen_prompt_rewrite_append_or_item_deletion_to_obtain_permission",
+        "selected_items_or_fewer_providers_may_replace_adopted_design",
+        "refusal_block_or_undesirable_response_retryable",
+        "researcher_additional_disclosure_instruction_in_Frozen_request",
+        "open_full_response_dataset_or_raw_in_git_authorized",
+        "automatic_output_publication_authorized",
+        "claimed_provider_or_institutional_endorsement",
+        "provider_output_ownership_equals_all_third_party_rights_or_publication_permission",
+        "account_or_billing_settings_change_authorized",
+        "historical_raw_or_prior_W0_governance_changed_by_review",
+    ):
+        assert use[field] is False
+
+
+def test_conditional_terms_proposal_never_accepts_contracts_sends_messages_or_finalizes_gates() -> (
+    None
+):
+    proposal = load_yaml(PACK / "terms-review-08.proposal.yaml")
+    approval = proposal["approval_scope"]
+    assert approval["independent_ethics_question_may_follow_without_releasing_terms_hold"] is True
+    assert all(
+        value is False
+        for key, value in approval.items()
+        if key != "independent_ethics_question_may_follow_without_releasing_terms_hold"
+    )
+    assert not any(proposal["remaining_gates"].values())
+    assert proposal["agent_may_finalize_human_governance_records"] is False
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "terms-review-08.proposal.yaml")

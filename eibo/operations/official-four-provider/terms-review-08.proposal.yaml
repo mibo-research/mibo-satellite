@@ -1,0 +1,122 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-TERMS-REVIEW-08
+version: "0.1"
+record_type: PUBLIC_SOURCE_PRELIMINARY_TERMS_REVIEW_AND_POLICY_PROPOSAL_NOT_LEGAL_CLEARANCE
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_POLICY_ADOPTION_WITH_UNRESOLVED_TERMS
+approved: false
+execution_permitted: false
+reviewed_on_jst: "2026-11-01"
+recommended_option: A
+options:
+  A: ADOPT_CONDITIONAL_RESEARCH_ARCHIVE_AND_PUBLICATION_POLICY_KEEP_HOLDS_AND_PROCEED_TO_ETHICS
+  B: DEFER_POLICY_ADOPTION_AND_NEXT_CONFIRMATION_UNTIL_CONTRACT_QUESTIONS_ARE_RESOLVED
+approval_scope:
+  legal_opinion_or_contract_eligibility_determination: false
+  final_terms_review_record_or_provider_permission: false
+  acceptance_of_provider_contract_on_behalf_of_customer: false
+  authority_to_contact_providers_or_send_email: false
+  authority_to_send_authenticated_metadata_or_generation: false
+  scientific_protocol_freeze_or_launch: false
+  independent_ethics_question_may_follow_without_releasing_terms_hold: true
+proposed_use_policy:
+  first_party_API_four_series_only: [M01, M02, M03, M05]
+  research_observation_only_not_student_facing_service: true
+  real_student_personal_data_or_real_student_grading_decisions: false
+  actual_schoolwork_submission_or_competing_model_training: false
+  researcher_safety_bypass_or_prompt_injection_or_rate_limit_evasion: false
+  Frozen_prompt_rewrite_append_or_item_deletion_to_obtain_permission: false
+  selected_items_or_fewer_providers_may_replace_adopted_design: false
+  refusal_block_or_undesirable_response_retryable: false
+  researcher_additional_disclosure_instruction_in_Frozen_request: false
+  raw_archive_policy: RESTRICTED_PRIVATE_IMMUTABLE_ARCHIVE_ONLY_AFTER_RIGHTS_AND_RETENTION_CONFIRMED
+  coding_export_policy: RESTRICTED_SAME_HUMAN_MASKED_DERIVATIVE_RAW_UNCHANGED
+  open_full_response_dataset_or_raw_in_git_authorized: false
+  publication_policy: AGGREGATES_METHODS_AND_SEPARATELY_HUMAN_REVIEWED_MINIMAL_QUOTES_WITH_RIGHTS_AND_ATTRIBUTION
+  automatic_output_publication_authorized: false
+  claimed_provider_or_institutional_endorsement: false
+  provider_output_ownership_equals_all_third_party_rights_or_publication_permission: false
+  provider_retention_or_training_opt_in_claimed_absent_without_account_verification: false
+  Google_paid_billing_project_status_must_be_confirmed_before_launch: true
+  account_or_billing_settings_change_authorized: false
+  retention_or_reproduction_conflict_action: BLOCK_BEFORE_LAUNCH_REQUIRE_LAWFUL_ARCHIVE_PLAN_NO_SILENT_CHANGE
+  historical_raw_or_prior_W0_governance_changed_by_review: false
+source_method:
+  source_type: FIRST_PARTY_PUBLIC_CONTRACTS_POLICIES_AND_API_DOCUMENTATION
+  authenticated_account_contracts_or_orders_inspected: false
+  page_bytes_or_contract_snapshot_hash_claimed: false
+  retrieval_date_equals_applicable_effective_date: false
+  source_facts_are_separate_from_reviewer_inferences: true
+  update_and_actual_applicability_review_required_before_each_wave: true
+providers:
+  M01:
+    requested_candidate: gpt-5.6-sol
+    gate: BLOCKED_PENDING_SCOPE_SPECIFIC_HUMAN_TERMS_DETERMINATION
+    sources:
+      - {url: "https://openai.com/policies/services-agreement/", displayed_effective_date: "2026-01-01", sections: ["3.3", "4", "10"]}
+      - {url: "https://openai.com/policies/service-terms/", displayed_updated_date: "2026-10-16", sections: ["1. API"]}
+      - {url: "https://openai.com/policies/sharing-publication-policy/", displayed_updated_date: "2022-11-14", sections: ["Research", "Social media, livestreaming, and demonstrations"]}
+      - {url: "https://developers.openai.com/api/docs/guides/your-data", sections: ["Abuse monitoring", "Responses"]}
+      - {url: "https://openai.com/policies/usage-policies/revisions/2025-10-29/", displayed_effective_date: "2025-10-29"}
+      - {url: "https://openai.com/policies/usage-policies/", displayed_effective_date: "2026-11-20", treated_as_current_on_review_date: false}
+    documented_signal: PUBLICATION_POLICY_WELCOMES_API_RESEARCH_NOT_AUTOMATIC_SCOPE_CLEARANCE
+    unresolved: [ACTUAL_ACCOUNT_CONTRACT_AND_AUTHORITY, ITEM_LEVEL_AUP_AND_SAFETY_EVALUATION_SCOPE, PUBLICATION_AND_ATTRIBUTION_SCOPE, PRESTART_EFFECTIVE_POLICY_VERSION]
+    store_false_equals_zero_provider_retention: false
+  M02:
+    requested_candidate: claude-opus-5
+    gate: BLOCKED_PENDING_SCOPE_SPECIFIC_HUMAN_TERMS_DETERMINATION
+    sources:
+      - {url: "https://www.anthropic.com/legal/commercial-terms", displayed_effective_date: "2025-06-17", sections: ["B", "D", "G"]}
+      - {url: "https://www.anthropic.com/legal/service-specific-terms", displayed_effective_date: "2026-08-31", sections: ["E", "F", "G"]}
+      - {url: "https://www.anthropic.com/legal/aup", displayed_effective_date: "2026-11-12", observed_language: Korean, treated_as_current_on_review_date: false}
+    documented_signal: COMMERCIAL_OUTPUT_OWNERSHIP_SUBJECT_TO_LAW_AND_RESTRICTIONS
+    applicable_current_AUP_version_verified: false
+    unresolved: [ACTUAL_ACCOUNT_CONTRACT_AND_AUTHORITY, CURRENT_ENGLISH_OR_APPLICABLE_AUP_VERSION, ITEM_LEVEL_AUP_SCOPE, DATA_OPT_IN_OR_MODEL_SPECIFIC_TERMS, ARCHIVE_AND_PUBLICATION_SCOPE]
+  M03:
+    requested_candidate: gemini-3.6-flash
+    gate: BLOCKED_PENDING_SCOPE_SPECIFIC_HUMAN_TERMS_DETERMINATION
+    sources:
+      - {url: "https://ai.google.dev/gemini-api/terms?hl=en", displayed_effective_date: "2026-03-23", sections: ["Use Restrictions", "Use of Generated Content", "Unpaid Services", "Paid Services"]}
+      - {url: "https://developers.google.com/terms", displayed_modified_date: "2021-11-09", sections: ["5(e)", "8(b)"]}
+      - {url: "https://policies.google.com/terms/generative-ai/use-policy", displayed_modified_date: "2024-12-17"}
+    documented_signal: PAID_AND_UNPAID_DATA_USE_DIFFER_NOT_A_PERMANENT_ARCHIVE_CLEARANCE
+    paid_billing_project_verified: false
+    Google_Search_grounding_enabled_or_assumed: false
+    unresolved: [ACTUAL_ACCOUNT_CONTRACT_AND_AUTHORITY, PAID_PROJECT_DATA_PROCESSING_STATUS, GENERAL_CONTENT_COPY_AND_RETENTION_CLAUSES_VS_GENERATED_OUTPUT_RIGHTS, ITEM_LEVEL_AUP_SCOPE, ARCHIVE_EXPORT_AND_PUBLICATION_SCOPE]
+  M05:
+    requested_candidate: perplexity/sonar
+    API_surface: https://api.perplexity.ai/v1/agent
+    gate: BLOCKED_PENDING_SCOPE_SPECIFIC_HUMAN_TERMS_DETERMINATION
+    sources:
+      - {url: "https://www.perplexity.ai/en-GB/hub/legal/perplexity-api-terms-of-service", displayed_updated_date: "2026-01-23", sections: ["2.1", "2.3", "2.5", "2.6", "5"]}
+      - {url: "https://www.perplexity.ai/en-GB/hub/legal/aup", displayed_updated_date: "2025-07-08", sections: ["2", "3", "5"]}
+    documented_signal: API_SCOPE_AND_AUP_REQUIRE_SPECIFIC_RESEARCH_ARCHIVE_AND_PUBLICATION_REVIEW
+    API_terms_for_current_account_and_agent_surface_confirmed: false
+    scientific_AUP_exception_assumed_automatic: false
+    unresolved: [ACTUAL_CUSTOMER_ENTITY_AND_CONTRACT_FOR_AGENT_API, RIGHT_TO_LONG_TERM_PRIVATE_ARCHIVE_AND_MASKED_EXPORT, COMPARATIVE_PUBLICATION_AND_SEARCH_CONTENT_RIGHTS, ITEM_LEVEL_AUP_AND_SCIENTIFIC_EXCEPTION_IF_REQUIRED]
+Frozen_battery_policy_screen:
+  source_path: battery/ebb-ja-v1.0.yaml
+  source_sha256: 5475d4c0edd651ae4fbc6e79c42642433fa7e0c27dba616a972236d35517cd4e
+  items_read: 70
+  example_ids_for_further_human_AUP_review: [E2-02, E2-03, E2-08, E6-04, E6-09]
+  flagged_IDs_are_not_exhaustive_or_a_finding_of_illegality: true
+  research_purpose_alone_grants_policy_exception: false
+  all_70_items_human_AUP_review_complete: false
+  prompts_or_scoring_anchors_copied_paraphrased_or_changed: false
+execution_holds:
+  unresolved_scope_terms_action: NO_OFFICIAL_WAVE_START
+  single_provider_hold_may_silently_reduce_four_provider_design: false
+  private_archive_alone_resolves_contract_restrictions: false
+  raw_deletion_or_replacement_is_used_to_hide_permission_gap: false
+  prior_W0_terms_approval_is_new_scope_approval: false
+  owner_role_acceptance_releases_terms_hold: false
+  following_ethics_question_releases_terms_hold: false
+  extra_contact_contract_acceptance_or_live_requests_require_separate_authority: true
+remaining_gates:
+  human_terms_policy_adoption_recorded: false
+  actual_contracts_and_provider_clarifications_resolved: false
+  human_scope_specific_FINAL_terms_record_complete: false
+  ethics_or_institutional_determination_complete: false
+  complete_protocol_approved_and_frozen: false
+  dates_operational_locks_and_launch_authority_complete: false
+  future_official_execution_ready: false
+agent_may_finalize_human_governance_records: false

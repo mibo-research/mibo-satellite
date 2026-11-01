@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: INITIAL_SCOPE_POLICIES_AND_SINGLE_WAVE_BUDGET_ADOPTED_GOVERNANCE_PENDING
-current_step: 7
-next_decision_id: protocol_owner_responsibility_and_separate_final_freeze
+status: INITIAL_POLICIES_BUDGET_AND_HUMAN_OWNER_ROLE_ADOPTED_TERMS_REVIEW_PENDING
+current_step: 8
+next_decision_id: terms_use_and_publication_policy_with_unresolved_holds
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -122,6 +122,26 @@ budget_limits_adoption:
   maximum_researcher_HTTP_attempts_total: 3092
   safe_cost_bound_and_budget_controller_verified: false
   dates_governance_freeze_or_API_authority_inferred: false
+  original_proposal_kept_unchanged: true
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
+protocol_owner_role_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_SOLE_PROTOCOL_OPERATIONS_OWNER_AND_FINAL_APPROVER_ROLE_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/protocol-owner-07.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: 0c6fbc4d19afc38822f3ab0bcb91bed7abcebbf46a955627ac23991069de0876
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/07-protocol-owner-role-adoption.json
+  receipt_file_sha256: bac0fe143909c2f3a53c8160a46cbb6bd17d1a41d67c38aa946c80f79a1a439a
+  receipt_sha256: 5ba825ad8da187f91c5fd8529acf32246a3755701ada57256c097a530a56b51f
+  responsible_human_count: 1
+  protocol_and_operations_responsible_actor: CURRENT_CHAT_USER
+  final_complete_protocol_approver_actor: CURRENT_CHAT_USER
+  current_affiliation_or_institutional_authority_inferred: false
+  complete_protocol_final_approval_or_freeze_inferred: false
+  final_human_governance_records_complete: false
+  terms_ethics_dates_or_API_authority_inferred: false
   original_proposal_kept_unchanged: true
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
