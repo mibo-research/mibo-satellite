@@ -173,7 +173,9 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
     assert progress["current_step"] == 9
-    assert progress["next_decision_id"] == "current_research_host_and_nonreview_authority_basis"
+    assert (
+        progress["next_decision_id"] == "institutional_determination_metadata_and_scope_reference"
+    )
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -1201,3 +1203,54 @@ def test_human_B_supplement_does_not_copy_frozen_prompts_or_release_terms_holds(
     progress = load_yaml(PACK / "decision-progress.yaml")
     assert progress["conditional_terms_policy_adoption"]["unresolved_terms_hold_maintained"] is True
     assert all(progress["prohibitions"].values())
+
+
+def test_existing_institutional_judgment_report_is_received_without_selecting_outcome() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    report = progress["institutional_determination_report"]
+    assert report["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert report["report_received_verbatim"] == "機関による承認・審査不要の判断あり。"
+    assert report["existing_institutional_determination_reported"] is True
+    assert report["verification_status"] == "REPORTED_DETAILS_PENDING"
+    assert report["agent_is_transcriber_not_approver"] is True
+    assert report["proposal_sha256"] == sha256_file(ROOT / report["proposal_path"])
+    assert len(report["receipt_sha256"]) == len(report["receipt_file_sha256"]) == 64
+    assert report["determination_category_chosen_by_agent"] is False
+    assert report["previous_personal_judgment_replaced"] is False
+    assert progress["ethics_B_personal_judgment"]["declared_personal_determination"] == (
+        "NOT_HUMAN_SUBJECTS"
+    )
+
+
+def test_reported_institutional_judgment_does_not_invent_its_metadata_or_scope() -> None:
+    report = load_yaml(PACK / "decision-progress.yaml")["institutional_determination_report"]
+    for field in (
+        "institution_name",
+        "determination_category",
+        "institutional_decision_date",
+        "decision_maker_or_office",
+        "covered_plan_version_or_hash",
+        "evidence_reference",
+        "conditions_or_expiry_if_applicable",
+    ):
+        assert report[field] is None
+    assert report["institutional_metadata_and_scope_coverage_verified"] is False
+    assert report["exact_institutional_or_human_message_timestamp_assumed"] is False
+    assert report["new_institutional_review_or_contact_required_by_agent"] is False
+
+
+def test_institutional_report_keeps_gates_pending_and_does_not_authorize_contacts_or_api() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    report = progress["institutional_determination_report"]
+    assert report["FINAL_ethics_or_governance_record_complete"] is False
+    assert report["contact_dates_freeze_or_API_authority_inferred"] is False
+    assert report["unresolved_terms_hold_maintained"] is True
+    assert progress["other_decisions"]["ethics_or_governance_determination"] == "PENDING"
+    assert progress["other_decisions"]["provider_terms_review"] == "PENDING"
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+    assert progress["execution_permitted"] is False
+    assert all(progress["prohibitions"].values())
+    for record in load_yaml(PACK / "governance.template.yaml")["records"].values():
+        assert record["status"] == "PENDING"
+        assert record["determination"] is record["decided_at"] is None
+        assert record["human_attestation"] is False

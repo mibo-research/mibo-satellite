@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: HUMAN_B_NONHUMAN_SUBJECTS_JUDGMENT_RECORDED_INSTITUTIONAL_BASIS_PENDING
+status: EXISTING_INSTITUTIONAL_DETERMINATION_REPORTED_DETAILS_AND_SCOPE_PENDING
 current_step: 9
-next_decision_id: current_research_host_and_nonreview_authority_basis
+next_decision_id: institutional_determination_metadata_and_scope_reference
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -191,6 +191,36 @@ ethics_B_personal_judgment:
   contact_dates_freeze_or_API_authority_inferred: false
   original_proposal_kept_unchanged: true
   exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
+institutional_determination_report:
+  decision: HUMAN_REPORT_OF_EXISTING_INSTITUTIONAL_DETERMINATION_DETAILS_PENDING
+  actor_attribution: CURRENT_CHAT_USER
+  report_received_verbatim: "機関による承認・審査不要の判断あり。"
+  proposal_path: operations/official-four-provider/ethics-governance-09.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: b24ee128827e0e1674c77e5861804f7a6e26edf7f4d8472b1fa07d8a4f17d98a
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/09b-institutional-determination-reported.partial.json
+  receipt_file_sha256: c3bd1b13e7314945b153d5231dd39a2e262beb3841efb1553faaa969049c1b9a
+  receipt_sha256: d6a8bb06e0892c22e32123d8272f9d38bf5cda8924df9ed3090760728e7a5183
+  date_context_jst: "2026-11-02"
+  existing_institutional_determination_reported: true
+  verification_status: REPORTED_DETAILS_PENDING
+  institution_name: null
+  determination_category: null
+  institutional_decision_date: null
+  decision_maker_or_office: null
+  covered_plan_version_or_hash: null
+  evidence_reference: null
+  conditions_or_expiry_if_applicable: null
+  institutional_metadata_and_scope_coverage_verified: false
+  determination_category_chosen_by_agent: false
+  previous_personal_judgment_replaced: false
+  new_institutional_review_or_contact_required_by_agent: false
+  FINAL_ethics_or_governance_record_complete: false
+  unresolved_terms_hold_maintained: true
+  contact_dates_freeze_or_API_authority_inferred: false
+  exact_institutional_or_human_message_timestamp_assumed: false
   agent_is_transcriber_not_approver: true
 confirmation_sequence:
   initial_queue_is_historical_template_not_current_progress: true

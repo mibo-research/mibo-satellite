@@ -141,8 +141,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/ETHICS-09-HUMAN-JUDGMENT.md",
-    "bytes": 3136,
-    "sha256": "02d0ec05bd713b02f7c9aa16530762c0ab1100aa32ca3f3c09eba7f99094ac42"
+    "bytes": 4544,
+    "sha256": "2fa983ba1d5fae9bafd2783d11989dd0d8bb78f0487e11ac1f8e30a04d023823"
   },
   {
     "path": "eibo/operations/official-four-provider/ETHICS-GOVERNANCE-09.md",
@@ -161,8 +161,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/README.md",
-    "bytes": 5149,
-    "sha256": "80f7ad32b7805a360d9f05ff24e71011e6b2c18bf460df4a38f0401241da579c"
+    "bytes": 5306,
+    "sha256": "c1edfc39ca57e78e9ce1160e2f5a6367468691279bca19d95852ec9772ff82b7"
   },
   {
     "path": "eibo/operations/official-four-provider/REPLICATION-03.md",
@@ -196,8 +196,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/decision-progress.yaml",
-    "bytes": 11179,
-    "sha256": "18aa40ef4a1e8ab28e352217478aa5d265b9347ec354f439da6fa33d85f16395"
+    "bytes": 12795,
+    "sha256": "66d08b4ea8649ebf8f4e0a0c704a67214ab6eb97633c13dd0d2ac8e2b03ee9ba"
   },
   {
     "path": "eibo/operations/official-four-provider/ethics-governance-09.proposal.yaml",
@@ -571,8 +571,8 @@
   },
   {
     "path": "eibo/tests/test_official_preparation.py",
-    "bytes": 63618,
-    "sha256": "2038e0e48b13ddf1dc3bd676127bf02aa5480b52ac722627cac2b807a413b6c9"
+    "bytes": 66443,
+    "sha256": "67d5abc84c4707202f0082070000ca1213ed8b2fe7e7f1f10c8055d191bdef19"
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",
