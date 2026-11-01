@@ -171,8 +171,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 4
-    assert progress["next_decision_id"] == "cadence_and_synchronized_window_feasibility"
+    assert progress["current_step"] == 5
+    assert progress["next_decision_id"] == "official_provider_profiles_and_model_selection_policy"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -181,7 +181,7 @@ def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     assert adopted["exact_human_message_time_assumed"] is False
     assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
     assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
-    assert progress["other_decisions"]["cadence_and_observation_window"] == "PENDING"
+    assert progress["other_decisions"]["official_provider_profiles_and_exact_models"] == "PENDING"
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
     assert all(v in {"PENDING", "NOT_AUTHORIZED"} for v in progress["other_decisions"].values())
     assert all(progress["prohibitions"].values())
@@ -276,7 +276,7 @@ def test_qa_method_adoption_is_attributed_separately_from_later_replication_adop
     assert adopted["minimum_days_after_first_pass_lock"] == 7
     assert adopted["exact_human_message_time_assumed"] is False
     assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
-    assert progress["other_decisions"]["cadence_and_observation_window"] == "PENDING"
+    assert progress["other_decisions"]["official_provider_profiles_and_exact_models"] == "PENDING"
     assert progress["execution_permitted"] is False
 
 
@@ -353,7 +353,7 @@ def test_replication_adoption_does_not_infer_cadence_dates_money_or_api_authorit
     assert adopted["maximum_first_plus_repeat_coding_target"] == 3080
     assert adopted["completed_or_rateable_responses_claimed"] is False
     assert adopted["concrete_dates_or_financial_or_API_authority_inferred"] is False
-    assert progress["other_decisions"]["cadence_and_observation_window"] == "PENDING"
+    assert progress["other_decisions"]["official_provider_profiles_and_exact_models"] == "PENDING"
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
 
 
@@ -416,3 +416,108 @@ def test_frequency_policy_is_not_a_coding_deadline_automation_or_launch_permissi
     assert proposal["capacity_gate"]["new_live_capacity_experiments_authorized"] is False
     with pytest.raises(ValidationError, match="invalid Wave Manifest"):
         load_manifest(PACK / "cadence-window-04.proposal.yaml")
+
+
+def test_contextual_yes_adopts_only_the_immediately_preceding_cadence_policy() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    adopted = progress["cadence_window_adoption"]
+    assert adopted["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert adopted["agent_is_transcriber_not_approver"] is True
+    assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
+    assert adopted["interval_calendar_months"] == 3
+    assert adopted["target_hours"] == adopted["planned_schedule_span_hours"] == 18
+    assert adopted["hard_hours"] == 24
+    assert adopted["capacity_and_scheduler_support_verified"] is False
+    assert adopted["concrete_dates_or_financial_or_API_authority_inferred"] is False
+    assert adopted["exact_human_message_time_assumed"] is False
+    assert progress["other_decisions"]["official_provider_profiles_and_exact_models"] == "PENDING"
+    assert progress["execution_permitted"] is False
+
+
+def test_initial_provider_candidates_preserve_w0_identity_without_creating_locks() -> None:
+    proposal = load_yaml(PACK / "provider-policy-05.proposal.yaml")
+    candidates = {row["series_id"]: row for row in proposal["initial_candidates"]}
+    assert {sid: row["candidate_exact_id"] for sid, row in candidates.items()} == {
+        "M01": "gpt-5.6-sol",
+        "M02": "claude-opus-5",
+        "M03": "gemini-3.6-flash",
+        "M05": "perplexity/sonar",
+    }
+    assert {sid: row["environment"] for sid, row in candidates.items()} == {
+        "M01": "CLOSED",
+        "M02": "CLOSED",
+        "M03": "CLOSED",
+        "M05": "NATIVE",
+    }
+    assert all(row["output_cap_value"] == 8192 for row in candidates.values())
+    assert "M04" not in candidates
+    policy = proposal["selection_policy"]
+    assert policy["exact_ids_are_per_wave_runtime_values_not_scientific_manifest_fields"] is True
+    assert policy["future_waves_require_fresh_human_model_resolution"] is True
+    assert policy["initial_candidates_are_permanent_or_annual_model_locks"] is False
+    assert policy["latest_or_more_capable_models_selected_automatically"] is False
+    assert policy["unavailable_model_substituted_automatically"] is False
+    assert policy["account_access_or_current_live_identity_assumed"] is False
+
+
+def test_claude_candidate_retains_lineage_and_shared_budget_limits_without_override() -> None:
+    proposal = load_yaml(PACK / "provider-policy-05.proposal.yaml")
+    claude = next(row for row in proposal["initial_candidates"] if row["series_id"] == "M02")
+    assert claude["permanent_mibo_lineage_id"] == "MIBO-SL-002"
+    assert claude["permanent_mibo_lineage_label"] == "Claude"
+    assert claude["output_cap_parameter"] == "max_tokens"
+    assert claude["thinking_shares_max_tokens_budget"] is True
+    assert claude["serving_infrastructure_behavioral_variation_possible"] is True
+    assert claude["effort_or_thinking_override_requested"] is False
+    assert claude["automatic_family_or_tier_switch_permitted"] is False
+
+
+def test_m05_official_surface_is_proposed_separately_without_relabelling_w0() -> None:
+    proposal = load_yaml(PACK / "provider-policy-05.proposal.yaml")
+    m05 = next(row for row in proposal["initial_candidates"] if row["series_id"] == "M05")
+    assert m05["endpoint"] == "https://api.perplexity.ai/v1/agent"
+    assert m05["allowed_tools"] == [{"type": "web_search"}]
+    assert m05["search_invocation_forced_by_researcher"] is False
+    assert m05["W0_only_profile_relabelled_or_reused_as_official"] is False
+    assert m05["new_scoped_official_profile_and_hash_required"] is True
+    assert m05["official_CLOSED_eligibility_claimed"] is False
+    assert m05["legacy_Sonar_behavioral_equivalence_claimed"] is False
+    omitted = proposal["M05_omitted_fields_policy"]
+    assert {"models", "effort", "profile", "instructions", "previous_response_id"} <= set(
+        omitted["fields"]
+    )
+    assert omitted["legacy_disable_search_sent"] is False
+    assert omitted["third_party_router_or_legacy_Sonar_fallback_allowed"] is False
+    assert omitted["additional_official_no_search_diagnostic_proposed"] is False
+
+
+def test_provider_proposal_is_guidance_not_api_configuration_or_credential_authority() -> None:
+    proposal = load_yaml(PACK / "provider-policy-05.proposal.yaml")
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert not any(proposal["remaining_operational_gates"].values())
+    assert not any(proposal["other_authority"].values())
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "provider-policy-05.proposal.yaml")
+
+
+def test_common_candidate_conditions_do_not_override_native_behavior_or_retry_science() -> None:
+    common = load_yaml(PACK / "provider-policy-05.proposal.yaml")["common_request_policy"]
+    assert common["first_party_provider_API_only"] is True
+    assert common["independent_exact_Frozen_prompt_single_user_turn"] is True
+    for field in (
+        "researcher_system_developer_or_extra_instruction",
+        "previous_response_or_conversation_linkage",
+        "history_files_RAG_or_memory_supplied",
+        "tools_or_search_in_CLOSED",
+        "optional_sampling_or_reasoning_or_effort_overrides",
+        "forced_language_or_structured_output",
+        "streaming",
+        "background_or_automatic_continuation_or_tool_loop_by_researcher",
+        "sdk_auto_retries_or_auto_model_switching",
+        "visible_8192_token_budget_guaranteed",
+        "truncation_refusal_or_poor_answer_retryable",
+        "provider_controlled_system_layers_claimed_absent",
+        "provider_internal_serving_routes_or_regions_claimed_transparent",
+        "consumer_UI_equivalence_assumed_or_required",
+    ):
+        assert common[field] is False

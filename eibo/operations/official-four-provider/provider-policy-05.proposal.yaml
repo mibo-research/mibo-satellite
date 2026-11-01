@@ -1,0 +1,123 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-PROVIDER-POLICY-05
+version: "0.1"
+record_type: MODEL_SELECTION_AND_API_POLICY_PROPOSAL_NOT_A_RUNTIME_PROFILE_OR_MODEL_LOCK
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_ADOPTION
+approved: false
+execution_permitted: false
+recommended_option: A
+options:
+  A: INITIAL_W0_CANDIDATE_CONTINUITY_AND_EXPLICIT_NEW_OFFICIAL_API_PROFILE_POLICY
+  B: REVIEW_CANDIDATES_OR_API_CONDITIONS_BEFORE_ADOPTION
+selection_policy:
+  initial_candidate_basis: HISTORICAL_W0_AND_R1_CONTINUITY_NOT_CURRENT_NEWEST_MODEL_COMPARISON
+  permanent_registry_changed: false
+  exact_ids_are_per_wave_runtime_values_not_scientific_manifest_fields: true
+  initial_candidates_are_permanent_or_annual_model_locks: false
+  future_waves_require_fresh_human_model_resolution: true
+  latest_or_more_capable_models_selected_automatically: false
+  unavailable_model_substituted_automatically: false
+  first_party_catalog_or_model_get_and_returned_identity_verification_required: true
+  differing_identity_mapping_must_be_approved_and_locked_before_wave: true
+  identity_mismatch_action: PRESERVE_RESPONSE_FAIL_CLOSED_NO_REPLACEMENT
+  new_model_or_control_changes_require_explicit_prospective_decision: true
+  account_access_or_current_live_identity_assumed: false
+initial_candidates:
+  - series_id: M01
+    provider: openai
+    candidate_exact_id: gpt-5.6-sol
+    environment: CLOSED
+    API_surface: RESPONSES
+    endpoint: https://api.openai.com/v1/responses
+    output_cap_parameter: max_output_tokens
+    output_cap_value: 8192
+    historical_explicit_storage_toggle: {store: false}
+    documented_behavioral_immutability_claimed: false
+    source: https://developers.openai.com/api/docs/models/gpt-5.6-sol
+  - series_id: M02
+    provider: anthropic
+    permanent_mibo_lineage_id: MIBO-SL-002
+    permanent_mibo_lineage_label: Claude
+    candidate_exact_id: claude-opus-5
+    environment: CLOSED
+    API_surface: MESSAGES
+    endpoint: https://api.anthropic.com/v1/messages
+    output_cap_parameter: max_tokens
+    output_cap_value: 8192
+    public_model_page_status: ACTIVE_LEGACY_NOT_NEWEST_OPUS
+    canonical_id_semantics: PROVIDER_DOCUMENTED_PINNED_SNAPSHOT
+    serving_infrastructure_behavioral_variation_possible: true
+    effort_or_thinking_override_requested: false
+    thinking_shares_max_tokens_budget: true
+    automatic_family_or_tier_switch_permitted: false
+    source: https://platform.claude.com/docs/en/models/opus-5/overview
+  - series_id: M03
+    provider: gemini
+    candidate_exact_id: gemini-3.6-flash
+    environment: CLOSED
+    API_surface: GENERATE_CONTENT_DIRECT_REST
+    endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent
+    output_cap_parameter: generationConfig.maxOutputTokens
+    output_cap_value: 8192
+    public_model_page_status: PREVIOUS_GENERATION_LISTED_FOR_PRODUCTION_NOT_NEWEST_FLASH
+    modelVersion_capture_required: true
+    stable_id_equals_behavioral_immutability_claimed: false
+    source: https://ai.google.dev/gemini-api/docs/models/gemini-3.6-flash
+  - series_id: M05
+    provider: perplexity
+    candidate_exact_id: perplexity/sonar
+    environment: NATIVE
+    API_surface: FIRST_PARTY_AGENT_API_NEW_OFFICIAL_PROFILE_PROPOSED
+    endpoint: https://api.perplexity.ai/v1/agent
+    output_cap_parameter: max_output_tokens
+    output_cap_value: 8192
+    allowed_tools: [{type: web_search}]
+    search_invocation_forced_by_researcher: false
+    native_options_beyond_web_search_proposed: false
+    official_CLOSED_eligibility_claimed: false
+    legacy_Sonar_behavioral_equivalence_claimed: false
+    W0_only_profile_relabelled_or_reused_as_official: false
+    new_scoped_official_profile_and_hash_required: true
+    source: https://docs.perplexity.ai/docs/agent-api/models
+common_request_policy:
+  first_party_provider_API_only: true
+  independent_exact_Frozen_prompt_single_user_turn: true
+  researcher_system_developer_or_extra_instruction: false
+  previous_response_or_conversation_linkage: false
+  history_files_RAG_or_memory_supplied: false
+  tools_or_search_in_CLOSED: false
+  optional_sampling_or_reasoning_or_effort_overrides: false
+  forced_language_or_structured_output: false
+  streaming: false
+  background_or_automatic_continuation_or_tool_loop_by_researcher: false
+  sdk_auto_retries_or_auto_model_switching: false
+  nominal_provider_output_cap: 8192
+  visible_8192_token_budget_guaranteed: false
+  truncation_refusal_or_poor_answer_retryable: false
+  provider_controlled_system_layers_claimed_absent: false
+  provider_internal_serving_routes_or_regions_claimed_transparent: false
+  consumer_UI_equivalence_assumed_or_required: false
+M05_omitted_fields_policy:
+  fields: [models, effort, profile, instructions, language_preference, previous_response_id, reasoning, files, skills, connectors, max_steps]
+  legacy_disable_search_sent: false
+  third_party_router_or_legacy_Sonar_fallback_allowed: false
+  additional_official_no_search_diagnostic_proposed: false
+remaining_operational_gates:
+  public_documentation_review_is_account_or_live_verification: false
+  account_access_quota_and_current_exact_metadata_verified: false
+  final_provider_request_profile_and_payload_audit_locked: false
+  final_model_lock_created: false
+  capacity_for_700_generations_per_provider_in_window_verified: false
+  terms_or_governance_review_completed_for_this_official_scope: false
+other_authority:
+  credential_read_reuse_creation_or_write_authorized: false
+  account_billing_or_tier_changes_authorized: false
+  authenticated_model_metadata_GET_authorized: false
+  ordinary_generation_or_live_qualification_authorized: false
+  financial_or_request_budget_approved: false
+  concrete_dates_or_scientific_freeze_approved: false
+  final_runtime_lock_approved: false
+  xai_execution_authorized: false
+  W01_execution_authorized: false
+  agent_approval_permitted: false
+public_documentation_review_date_jst: "2026-11-01"

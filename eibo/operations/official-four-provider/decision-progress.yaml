@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: SCOPE_QA_AND_K10_WORKLOAD_ADOPTED_CADENCE_WINDOW_PENDING
-current_step: 4
-next_decision_id: cadence_and_synchronized_window_feasibility
+status: SCOPE_QA_K10_AND_CADENCE_WINDOW_ADOPTED_PROVIDER_POLICY_PENDING
+current_step: 5
+next_decision_id: official_provider_profiles_and_model_selection_policy
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -54,8 +54,26 @@ replication_adoption:
   concrete_dates_or_financial_or_API_authority_inferred: false
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
+cadence_window_adoption:
+  decision: EXPLICIT_HUMAN_CONTEXTUAL_YES_TO_OPTION_A_3_MONTHS_TARGET18_HARD24_POLICY_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/cadence-window-04.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: 84e483b3fdc2dfaada620ac10eef24b2394e91059802759675c43f0dbacfbea9
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/04-cadence-window-adoption.json
+  receipt_file_sha256: 04b1412ae1b2db74ffe37bf73c389c4731d5c59cc675e86c9ee83e91341ecb85
+  receipt_sha256: 71979bedc7bfeb47916017cc1180be27cf54b59d2265198d1cec7760287c640d
+  interval_calendar_months: 3
+  target_hours: 18
+  planned_schedule_span_hours: 18
+  hard_hours: 24
+  capacity_and_scheduler_support_verified: false
+  concrete_dates_or_financial_or_API_authority_inferred: false
+  original_proposal_kept_unchanged: true
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
 other_decisions:
-  cadence_and_observation_window: PENDING
   financial_or_request_budget: PENDING
   official_provider_profiles_and_exact_models: PENDING
   named_protocol_owner_final_freeze: PENDING
