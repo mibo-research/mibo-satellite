@@ -1,0 +1,91 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-PROTOCOL-OWNER-07
+version: "0.1"
+record_type: PROTOCOL_OWNER_ROLE_AND_FINAL_REVIEW_PROCESS_PROPOSAL_NOT_GOVERNANCE_DETERMINATION
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_ADOPTION
+approved: false
+execution_permitted: false
+recommended_option: A
+options:
+  A: SOLE_HUMAN_OWNER_CONTINUITY_AND_SEPARATE_FINAL_VERSION_REVIEW
+  B: DEFER_ROLE_ACCEPTANCE_OR_REVISE_RESPONSIBILITY_BEFORE_ADOPTION
+scope:
+  proposed_baseline_id: EIBO-F01
+  prospective_four_provider_solo_plan_only: true
+  legacy_W01_or_W0_governance_reapproved_by_this_proposal: false
+  original_Frozen_artifacts_or_historical_raw_modified: false
+owner_role_proposal:
+  responsible_human_count: 1
+  candidate_human_name_from_prior_record: Kento Sasano
+  candidate_current_chat_role: CURRENT_CHAT_USER_SUBJECT_TO_EXPLICIT_ACCEPTANCE
+  proposed_role: EIBO_PROTOCOL_OWNER_AND_ACCOUNTABLE_HUMAN_OPERATOR
+  continuing_human_primary_coder_count: 1
+  requires_explicit_current_scope_human_acceptance: true
+  old_W0_or_operating_attestation_is_new_scope_approval: false
+  affiliation_transferred_as_current_or_institutional_authority: false
+  responsibilities:
+    - REVIEW_AND_DECIDE_NEW_PROTOCOL_SCIENTIFIC_CONTENT_AND_LIMITATIONS
+    - ENSURE_SCOPE_SPECIFIC_TERMS_AND_ETHICS_OR_GOVERNANCE_DETERMINATIONS
+    - OVERSEE_OBSERVATION_INVARIANTS_RAW_PRESERVATION_AND_DEVIATIONS
+    - RETAIN_HUMAN_PRIMARY_CODING_AND_ADOPTED_REPEAT_AUDIT_RESPONSIBILITY
+    - REVIEW_BUDGET_CAPACITY_QC_AND_FINAL_RESULTS_WITHOUT_REPAIRING_RESPONSES
+    - ISSUE_OR_WITHHOLD_SEPARATE_FINAL_PROTOCOL_AND_LAUNCH_DECISIONS
+  agent_role: PREPARE_DOCUMENTS_IMPLEMENT_AND_TEST_SOFTWARE_ARCHIVE_AND_REPORT_ONLY
+  agent_may_make_human_governance_or_primary_coding_decisions: false
+final_approval_process_proposal:
+  this_role_choice_is_final_protocol_approval_or_freeze: false
+  complete_prospective_protocol_text_and_version_presented_before_final_decision: true
+  exact_scientific_packet_file_hashes_required_for_final_decision: true
+  adopted_decision_receipts_must_be_reconciled_without_rewriting_old_proposals: true
+  pending_scientific_methods_cannot_be_approved_by_generic_role_acceptance: true
+  exact_models_schedule_seed_site_and_execution_dates_are_separate_runtime_values: true
+  scope_specific_terms_and_ethics_records_required_before_launch: true
+  institutional_review_applicability_requires_explicit_human_determination: true
+  affiliation_or_personal_owner_acceptance_is_institutional_approval: false
+  NOT_APPLICABLE_or_NOT_HUMAN_SUBJECTS_auto_assumed: false
+  final_human_record_requires: [status, determination, decided_by_name_and_role, actual_decision_time_with_timezone, rationale, evidence_references, scope_version_and_hash]
+  missing_human_fields_or_required_institutional_steps_action: BLOCK
+  final_record_requires_explicit_human_attribution_and_attestation: true
+  agent_may_fill_decision_fields_or_set_FINAL_or_human_attestation: false
+  agent_transcription_receipt_is_a_FINAL_governance_record: false
+  current_recording_timestamp_is_human_decision_timestamp: false
+  historical_W0_record_or_budget_approval_may_complete_governance: false
+  post_freeze_change_rule: PRESERVE_PRIOR_VERSION_NEW_PROSPECTIVE_VERSION_AND_EXPLICIT_REVIEW_NO_SILENT_EDIT
+  final_protocol_approval_is_launch_authority: false
+  separate_explicit_launch_after_all_operational_gates_required: true
+next_separate_confirmations:
+  provider_terms_review_for_official_scope: PENDING
+  ethics_or_governance_determination_for_official_scope: PENDING
+  observer_site_and_dates: PENDING
+  complete_protocol_final_review_and_human_records: PENDING
+  tested_operational_locks_and_launch_authority: PENDING
+prior_records_reference_only:
+  - path: operations/operating-model-attestation.yaml
+    sha256: f2bc0702d122e3b94346179d0805ae066219d94b055bc675e1dbe562594d0591
+  - path: waves/W0/governance/records/protocol-owner.yaml
+    sha256: 1f69cfb3a2e683c1b1cf651ceb554a6fc985e7a8155d66bdf8df4759d6fd0ac4
+  - path: waves/W0/governance/README.md
+    sha256: 463e0eca03043345867f2e294e475e350c5118a2bac34ae7d86d8b5b4733bf98
+untouched_new_scope_governance_template:
+  path: operations/official-four-provider/governance.template.yaml
+  sha256: b7eaf958fc0db15edb93cd1fecb5e29f6771bf3fb7a95162a0e9033d69510a41
+  record_statuses_remain: PENDING
+  human_attestations_remain: false
+remaining_gates:
+  owner_role_acceptance_for_new_scope_recorded: false
+  named_final_protocol_owner_governance_record_complete: false
+  terms_review_complete: false
+  ethics_or_governance_determination_complete: false
+  new_scientific_protocol_complete_and_frozen: false
+  cost_bound_capacity_and_runtime_locks_verified: false
+  dates_and_launch_authority_approved: false
+  future_official_execution_ready: false
+other_authority:
+  credential_access_or_authenticated_provider_calls_authorized: false
+  budget_policy_is_purchase_topup_or_launch_permission: false
+  concrete_dates_or_automation_authorized: false
+  W0_data_promotion_authorized: false
+  xai_execution_authorized: false
+  W01_execution_authorized: false
+  agent_governance_approval_permitted: false
+prepared_on_jst: "2026-11-01"

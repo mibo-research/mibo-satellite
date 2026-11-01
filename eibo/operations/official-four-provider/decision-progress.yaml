@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: SCOPE_QA_K10_CADENCE_AND_PROVIDER_POLICY_ADOPTED_BUDGET_PENDING
-current_step: 6
-next_decision_id: financial_request_retry_and_time_ceilings
+status: INITIAL_SCOPE_POLICIES_AND_SINGLE_WAVE_BUDGET_ADOPTED_GOVERNANCE_PENDING
+current_step: 7
+next_decision_id: protocol_owner_responsibility_and_separate_final_freeze
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -96,12 +96,41 @@ provider_policy_adoption:
   original_proposal_kept_unchanged: true
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
+budget_limits_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_USD500_SINGLE_INITIAL_WAVE_AND_BOUNDED_ATTEMPTS_POLICY_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/budget-limits-06.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: e51a951ee8ea9e3e332f5e7f7084f27aa9afeb19d13d45118589da0d9a504f08
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/06-budget-limits-adoption.json
+  receipt_file_sha256: 1ff305900cdcec930f25ff4d7c3dc43d0c6c3dc8f63cb69005f83680b8b51c24
+  receipt_sha256: 8abc8dfa7f4b1bc89280de58c2a66d4c0c23933464df0572f7185b047dbf42a1
+  number_of_waves_covered: 1
+  currency: USD
+  API_charge_ceiling: "500.00"
+  warning_at_committed_charge: "400.00"
+  tax_currency_conversion_and_card_fees_excluded: true
+  primary_observation_cells: 2800
+  maximum_extra_technical_attempts_total: 280
+  maximum_extra_technical_attempts_per_series: 70
+  maximum_attempts_per_cell_including_first: 2
+  maximum_generation_POST_attempts_total: 3080
+  maximum_generation_POST_attempts_per_series: 770
+  maximum_metadata_GET_attempts_total: 12
+  maximum_metadata_GET_attempts_per_series: 3
+  maximum_researcher_HTTP_attempts_total: 3092
+  safe_cost_bound_and_budget_controller_verified: false
+  dates_governance_freeze_or_API_authority_inferred: false
+  original_proposal_kept_unchanged: true
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
 confirmation_sequence:
   initial_queue_is_historical_template_not_current_progress: true
   budget_question_moved_before_governance_at_explicit_human_request: true
   governance_checks_skipped_or_approved: false
 other_decisions:
-  financial_or_request_budget: PENDING
+  budget_enforcement_and_safe_cost_bound: PENDING
   exact_model_and_provider_profile_runtime_locks: PENDING
   named_protocol_owner_final_freeze: PENDING
   provider_terms_review: PENDING

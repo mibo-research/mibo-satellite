@@ -172,8 +172,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 6
-    assert progress["next_decision_id"] == "financial_request_retry_and_time_ceilings"
+    assert progress["current_step"] == 7
+    assert progress["next_decision_id"] == "protocol_owner_responsibility_and_separate_final_freeze"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -556,7 +556,7 @@ def test_provider_policy_adoption_is_human_attributed_not_an_exact_runtime_lock(
     sequence = progress["confirmation_sequence"]
     assert sequence["budget_question_moved_before_governance_at_explicit_human_request"] is True
     assert sequence["governance_checks_skipped_or_approved"] is False
-    assert progress["other_decisions"]["financial_or_request_budget"] == "PENDING"
+    assert progress["other_decisions"]["budget_enforcement_and_safe_cost_bound"] == "PENDING"
 
 
 def test_budget_proposal_is_one_initial_wave_not_annual_spending_or_launch_authority() -> None:
@@ -705,3 +705,129 @@ def test_budget_early_stop_does_not_change_window_or_replace_primary_missing_cel
         "this_proposal_guarantees_2800_responses_or_window_feasibility",
     ):
         assert timing[field] is False
+
+
+def test_budget_adoption_is_one_wave_policy_not_governance_or_dispatch_permission() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    adopted = progress["budget_limits_adoption"]
+    proposal = load_yaml(ROOT / adopted["proposal_path"])
+    assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
+    assert adopted["proposal_sha256"] == (
+        "e51a951ee8ea9e3e332f5e7f7084f27aa9afeb19d13d45118589da0d9a504f08"
+    )
+    assert adopted["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert adopted["agent_is_transcriber_not_approver"] is True
+    assert adopted["exact_human_message_time_assumed"] is False
+    assert adopted["original_proposal_kept_unchanged"] is True
+    assert len(adopted["receipt_sha256"]) == len(adopted["receipt_file_sha256"]) == 64
+    assert adopted["number_of_waves_covered"] == 1
+    assert adopted["currency"] == "USD"
+    assert (
+        adopted["API_charge_ceiling"]
+        == proposal["financial_policy"]["proposed_API_charge_ceiling"]
+        == "500.00"
+    )
+    assert adopted["warning_at_committed_charge"] == "400.00"
+    assert adopted["tax_currency_conversion_and_card_fees_excluded"] is True
+    assert adopted["primary_observation_cells"] == 2800
+    for field in (
+        "maximum_extra_technical_attempts_total",
+        "maximum_extra_technical_attempts_per_series",
+        "maximum_attempts_per_cell_including_first",
+        "maximum_generation_POST_attempts_total",
+        "maximum_generation_POST_attempts_per_series",
+        "maximum_metadata_GET_attempts_total",
+        "maximum_metadata_GET_attempts_per_series",
+        "maximum_researcher_HTTP_attempts_total",
+    ):
+        assert adopted[field] == proposal["request_policy"][field]
+    assert adopted["safe_cost_bound_and_budget_controller_verified"] is False
+    assert adopted["dates_governance_freeze_or_API_authority_inferred"] is False
+    assert progress["other_decisions"]["named_protocol_owner_final_freeze"] == "PENDING"
+    assert progress["other_decisions"]["provider_terms_review"] == "PENDING"
+    assert progress["other_decisions"]["ethics_or_governance_determination"] == "PENDING"
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+
+
+def test_owner_role_proposal_requires_new_human_acceptance_not_inherited_w0_authority() -> None:
+    proposal = load_yaml(PACK / "protocol-owner-07.proposal.yaml")
+    role = proposal["owner_role_proposal"]
+    assert role["responsible_human_count"] == role["continuing_human_primary_coder_count"] == 1
+    assert role["requires_explicit_current_scope_human_acceptance"] is True
+    assert role["old_W0_or_operating_attestation_is_new_scope_approval"] is False
+    assert role["affiliation_transferred_as_current_or_institutional_authority"] is False
+    assert role["agent_may_make_human_governance_or_primary_coding_decisions"] is False
+    sources = proposal["prior_records_reference_only"]
+    for reference in sources:
+        assert sha256_file(ROOT / reference["path"]) == reference["sha256"]
+    owner_reference = next(
+        row for row in sources if row["path"].endswith("records/protocol-owner.yaml")
+    )
+    historical_owner = load_yaml(ROOT / owner_reference["path"])
+    assert role["candidate_human_name_from_prior_record"] == historical_owner["decided_by"]["name"]
+    assert proposal["scope"]["legacy_W01_or_W0_governance_reapproved_by_this_proposal"] is False
+    assert proposal["scope"]["original_Frozen_artifacts_or_historical_raw_modified"] is False
+
+
+def test_new_governance_template_stays_pending_and_agent_cannot_finalize_records() -> None:
+    proposal = load_yaml(PACK / "protocol-owner-07.proposal.yaml")
+    reference = proposal["untouched_new_scope_governance_template"]
+    assert sha256_file(ROOT / reference["path"]) == reference["sha256"]
+    assert reference["record_statuses_remain"] == "PENDING"
+    assert reference["human_attestations_remain"] is False
+    governance = load_yaml(ROOT / reference["path"])
+    for record in governance["records"].values():
+        assert record["status"] == "PENDING"
+        assert record["determination"] is record["decided_at"] is record["rationale"] is None
+        assert not any(record["decided_by"].values())
+        assert record["human_attestation"] is False
+    final = proposal["final_approval_process_proposal"]
+    assert final["agent_may_fill_decision_fields_or_set_FINAL_or_human_attestation"] is False
+    assert final["agent_transcription_receipt_is_a_FINAL_governance_record"] is False
+    assert final["current_recording_timestamp_is_human_decision_timestamp"] is False
+    assert final["historical_W0_record_or_budget_approval_may_complete_governance"] is False
+    assert final["missing_human_fields_or_required_institutional_steps_action"] == "BLOCK"
+    assert set(final["final_human_record_requires"]) == {
+        "status",
+        "determination",
+        "decided_by_name_and_role",
+        "actual_decision_time_with_timezone",
+        "rationale",
+        "evidence_references",
+        "scope_version_and_hash",
+    }
+
+
+def test_final_protocol_review_is_separate_from_role_terms_ethics_and_launch() -> None:
+    proposal = load_yaml(PACK / "protocol-owner-07.proposal.yaml")
+    final = proposal["final_approval_process_proposal"]
+    for field in (
+        "complete_prospective_protocol_text_and_version_presented_before_final_decision",
+        "exact_scientific_packet_file_hashes_required_for_final_decision",
+        "adopted_decision_receipts_must_be_reconciled_without_rewriting_old_proposals",
+        "pending_scientific_methods_cannot_be_approved_by_generic_role_acceptance",
+        "exact_models_schedule_seed_site_and_execution_dates_are_separate_runtime_values",
+        "scope_specific_terms_and_ethics_records_required_before_launch",
+        "institutional_review_applicability_requires_explicit_human_determination",
+        "separate_explicit_launch_after_all_operational_gates_required",
+    ):
+        assert final[field] is True
+    for field in (
+        "this_role_choice_is_final_protocol_approval_or_freeze",
+        "affiliation_or_personal_owner_acceptance_is_institutional_approval",
+        "NOT_APPLICABLE_or_NOT_HUMAN_SUBJECTS_auto_assumed",
+        "final_protocol_approval_is_launch_authority",
+    ):
+        assert final[field] is False
+    assert all(value == "PENDING" for value in proposal["next_separate_confirmations"].values())
+    assert "PRESERVE_PRIOR_VERSION" in final["post_freeze_change_rule"]
+
+
+def test_owner_proposal_and_budget_receipt_do_not_make_any_future_wave_runnable() -> None:
+    proposal = load_yaml(PACK / "protocol-owner-07.proposal.yaml")
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert not any(proposal["remaining_gates"].values())
+    assert not any(proposal["other_authority"].values())
+    assert load_yaml(PACK / "decision-progress.yaml")["execution_permitted"] is False
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "protocol-owner-07.proposal.yaml")
