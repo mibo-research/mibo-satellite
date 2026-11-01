@@ -173,10 +173,7 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
     assert progress["current_step"] == 9
-    assert (
-        progress["next_decision_id"]
-        == "institutional_ethics_review_requirement_confirmation_process"
-    )
+    assert progress["next_decision_id"] == "current_research_host_and_nonreview_authority_basis"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -1125,3 +1122,82 @@ def test_ethics_preparation_never_sends_contact_or_api_requests_or_changes_froze
     assert "STOP_AUTOMATIC_PUBLICATION" in risk["apparent_personal_data_or_rights_issue_action"]
     with pytest.raises(ValidationError, match="invalid Wave Manifest"):
         load_manifest(PACK / "ethics-governance-09.proposal.yaml")
+
+
+def test_human_B_nonhuman_subjects_judgment_is_recorded_without_rewriting_reason_or_choice() -> (
+    None
+):
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    judgment = progress["ethics_B_personal_judgment"]
+    assert judgment["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert judgment["selected_option"] == "B"
+    assert judgment["declared_personal_determination"] == "NOT_HUMAN_SUBJECTS"
+    assert judgment["rationale_received_verbatim"] == "人間対象研究ではないため。"
+    assert judgment["new_scope_personal_judgment_received"] is True
+    assert judgment["human_reason_supplemented_by_agent"] is False
+    assert judgment["option_A_external_inquiry_plan_adopted"] is False
+    assert judgment["date_context_jst"] == "2026-11-02"
+    assert judgment["exact_human_message_time_assumed"] is False
+    assert judgment["agent_is_transcriber_not_approver"] is True
+    assert judgment["original_proposal_kept_unchanged"] is True
+    assert judgment["proposal_sha256"] == sha256_file(ROOT / judgment["proposal_path"])
+    assert judgment["proposal_sha256"] == (
+        "b24ee128827e0e1674c77e5861804f7a6e26edf7f4d8472b1fa07d8a4f17d98a"
+    )
+    assert len(judgment["receipt_sha256"]) == len(judgment["receipt_file_sha256"]) == 64
+
+
+def test_personal_B_judgment_is_not_institutional_approval_or_completed_B_evidence() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    judgment = progress["ethics_B_personal_judgment"]
+    for field in (
+        "option_B_required_authority_and_evidence_complete",
+        "current_host_or_nonreview_rule_verified",
+        "personal_judgment_converted_to_institutional_approval_or_NOT_REQUIRED",
+        "FINAL_ethics_or_governance_record_complete",
+        "contact_dates_freeze_or_API_authority_inferred",
+    ):
+        assert judgment[field] is False
+    assert progress["current_step"] == 9
+    assert progress["other_decisions"]["ethics_or_governance_determination"] == "PENDING"
+    assert progress["other_decisions"]["provider_terms_review"] == "PENDING"
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+    assert progress["execution_permitted"] is False
+    assert judgment["unresolved_terms_hold_maintained"] is True
+    for record in load_yaml(PACK / "governance.template.yaml")["records"].values():
+        assert record["status"] == "PENDING"
+        assert record["determination"] is record["decided_at"] is None
+        assert not any(record["decided_by"].values())
+        assert record["human_attestation"] is False
+
+
+def test_B_judgment_does_not_invent_host_rules_or_remove_human_coding_from_scope() -> None:
+    proposal = load_yaml(PACK / "ethics-governance-09.proposal.yaml")
+    assert all(value is None for value in proposal["unfilled_human_fields"].values())
+    assert proposal["scope"]["primary_and_repeat_human_coding_records_in_design"] is True
+    assert proposal["scope"]["model_response_is_only_data_type_in_design"] is False
+    assert proposal["scope"]["human_coder_is_a_research_participant_determination"].startswith(
+        "UNDETERMINED"
+    )
+    assert (
+        proposal["confirmation_process_proposal"][
+            "external_inquiry_always_legally_mandatory_for_every_API_study_claimed"
+        ]
+        is False
+    )
+    assert not any(proposal["remaining_gates"].values())
+    assert not any(proposal["other_authority"].values())
+
+
+def test_human_B_supplement_does_not_copy_frozen_prompts_or_release_terms_holds() -> None:
+    text = (PACK / "ETHICS-09-HUMAN-JUDGMENT.md").read_text(encoding="utf-8")
+    battery = load_battery(ROOT / "battery/ebb-ja-v1.0.yaml")
+    assert not any(item.prompt in text for item in battery.items)
+    terms = load_yaml(PACK / "terms-review-08.proposal.yaml")
+    assert all(
+        row["gate"] == "BLOCKED_PENDING_SCOPE_SPECIFIC_HUMAN_TERMS_DETERMINATION"
+        for row in terms["providers"].values()
+    )
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    assert progress["conditional_terms_policy_adoption"]["unresolved_terms_hold_maintained"] is True
+    assert all(progress["prohibitions"].values())

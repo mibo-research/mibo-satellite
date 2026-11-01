@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: CONDITIONAL_TERMS_POLICY_ADOPTED_TERMS_HOLDS_REMAIN_ETHICS_CONFIRMATION_PENDING
+status: HUMAN_B_NONHUMAN_SUBJECTS_JUDGMENT_RECORDED_INSTITUTIONAL_BASIS_PENDING
 current_step: 9
-next_decision_id: institutional_ethics_review_requirement_confirmation_process
+next_decision_id: current_research_host_and_nonreview_authority_basis
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -163,6 +163,32 @@ conditional_terms_policy_adoption:
   provider_permission_or_contract_acceptance_inferred: false
   institutional_contact_or_email_authorized: false
   ethics_dates_freeze_or_API_authority_inferred: false
+  original_proposal_kept_unchanged: true
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
+ethics_B_personal_judgment:
+  decision: HUMAN_SELECTED_B_AND_DECLARED_NOT_HUMAN_SUBJECTS_INSTITUTIONAL_BASIS_PENDING
+  actor_attribution: CURRENT_CHAT_USER
+  selected_option: B
+  declared_personal_determination: NOT_HUMAN_SUBJECTS
+  rationale_received_verbatim: "人間対象研究ではないため。"
+  proposal_path: operations/official-four-provider/ethics-governance-09.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: b24ee128827e0e1674c77e5861804f7a6e26edf7f4d8472b1fa07d8a4f17d98a
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/09-human-nonhuman-subjects-judgment.partial.json
+  receipt_file_sha256: 2736afa0e6764f73c7165d619f8b9eaeb32571f4d022677ca2fa94ff0879d919
+  receipt_sha256: e27d96fe4ef55f518a89f3b9c1230a18a368f79f4c457098a43c586d72f17f42
+  date_context_jst: "2026-11-02"
+  new_scope_personal_judgment_received: true
+  human_reason_supplemented_by_agent: false
+  option_B_required_authority_and_evidence_complete: false
+  option_A_external_inquiry_plan_adopted: false
+  current_host_or_nonreview_rule_verified: false
+  personal_judgment_converted_to_institutional_approval_or_NOT_REQUIRED: false
+  FINAL_ethics_or_governance_record_complete: false
+  unresolved_terms_hold_maintained: true
+  contact_dates_freeze_or_API_authority_inferred: false
   original_proposal_kept_unchanged: true
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
