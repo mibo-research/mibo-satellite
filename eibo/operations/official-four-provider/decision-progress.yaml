@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: SCOPE_QA_K10_AND_CADENCE_WINDOW_ADOPTED_PROVIDER_POLICY_PENDING
-current_step: 5
-next_decision_id: official_provider_profiles_and_model_selection_policy
+status: SCOPE_QA_K10_CADENCE_AND_PROVIDER_POLICY_ADOPTED_BUDGET_PENDING
+current_step: 6
+next_decision_id: financial_request_retry_and_time_ceilings
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -73,9 +73,36 @@ cadence_window_adoption:
   original_proposal_kept_unchanged: true
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
+provider_policy_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_INITIAL_CANDIDATES_AND_API_POLICY_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/provider-policy-05.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: 63713184d9a585b46fb97054def76ba2232ecacf3069f56114d519e3fa99b20c
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/05-provider-policy-adoption.json
+  receipt_file_sha256: 62cd012385ed7be3a3a649309f4756f555e4de9caec137fe06c9f1432e88a091
+  receipt_sha256: 1eafb94e4396a54d0e8b536abea167f7f38e4f91d3bdaa8a0647c09888676c31
+  initial_candidates:
+    M01: gpt-5.6-sol
+    M02: claude-opus-5
+    M03: gemini-3.6-flash
+    M05: perplexity/sonar
+  M05_new_official_scope_profile_policy_adopted: true
+  fresh_per_wave_human_model_resolution_required: true
+  models_or_profiles_are_final_runtime_locks: false
+  account_access_metadata_or_payload_audit_verified: false
+  credential_financial_date_governance_or_API_authority_inferred: false
+  original_proposal_kept_unchanged: true
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
+confirmation_sequence:
+  initial_queue_is_historical_template_not_current_progress: true
+  budget_question_moved_before_governance_at_explicit_human_request: true
+  governance_checks_skipped_or_approved: false
 other_decisions:
   financial_or_request_budget: PENDING
-  official_provider_profiles_and_exact_models: PENDING
+  exact_model_and_provider_profile_runtime_locks: PENDING
   named_protocol_owner_final_freeze: PENDING
   provider_terms_review: PENDING
   ethics_or_governance_determination: PENDING

@@ -1,0 +1,157 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-BUDGET-LIMITS-06
+version: "0.1"
+record_type: SINGLE_INITIAL_WAVE_BUDGET_AND_ADMISSION_LIMIT_PROPOSAL_NOT_RUNTIME_AUTHORITY
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_ADOPTION
+approved: false
+execution_permitted: false
+recommended_option: A
+options:
+  A: USD500_SINGLE_INITIAL_WAVE_AND_BOUNDED_TECHNICAL_ATTEMPTS_POLICY
+  B: REVISE_FINANCIAL_CEILING_BEFORE_ADOPTION_WITHOUT_SILENT_SAMPLE_OR_PROFILE_CHANGES
+scope:
+  proposed_baseline_id: EIBO-F01
+  number_of_waves_covered: 1
+  future_quarterly_waves_or_annual_spending_authorized: false
+  series: [M01, M02, M03, M05]
+  xai_or_W01_or_Q3_included: false
+  prior_W0_costs_or_other_projects_charged_to_this_budget: false
+  primary_observation_cells: 2800
+  cells_per_series: 700
+  additional_qualification_or_scientific_generations: 0
+  additional_official_no_search_diagnostic: false
+  recoding_280_requires_new_API_generation: false
+financial_policy:
+  currency: USD
+  proposed_API_charge_ceiling: "500.00"
+  warning_at_committed_charge: "400.00"
+  includes: [input_tokens, output_and_billable_thinking_tokens, provider_search_and_internal_tool_charges, technical_attempts, possible_failed_or_ambiguous_attempt_charges, billable_metadata]
+  excludes: [tax, currency_conversion_and_card_fees, human_coding_time, electricity_and_storage]
+  invoice_total_or_JPY_ceiling_guaranteed: false
+  provider_account_hard_cap_or_realtime_billing_guaranteed: false
+  invoice_final_amount_guaranteed_by_this_proposal: false
+  automatic_topup_tier_upgrade_or_purchase_authorized: false
+  automatic_budget_increase_or_transfer_from_other_projects: false
+  cheaper_model_or_smaller_output_cap_or_sample_on_budget_exhaustion: false
+  annual_or_following_wave_budget_created: false
+  stop_before_next_send_if_cost_bound_unknown_or_would_exceed_ceiling: true
+  accounting_basis: SETTLED_CHARGES_PLUS_UNRECONCILED_CONSERVATIVE_RESERVATIONS_PLUS_ALL_IN_FLIGHT_RESERVATIONS
+  missing_usage_or_timeout_assumed_free: false
+  reserve_for_possible_provider_processing_and_failed_attempt_charges: true
+  price_cache_discount_or_free_tier_savings_assumed: false
+  before_launch_fresh_first_party_rate_card_and_safe_cost_bound_required: true
+  M05_internal_search_and_intermediate_tokens_safely_bounded: false
+  safe_reservation_and_admission_controller_implemented_and_tested: false
+  if_safe_cost_bound_unavailable: BLOCK_BEFORE_LAUNCH_REQUIRE_HUMAN_RESOLUTION_NO_PROFILE_CHANGE
+  already_in_flight_responses: PRESERVE_ALL_WITHOUT_SCIENTIFIC_REPLACEMENT_OR_CANCELLATION_FOR_QUALITY
+request_policy:
+  first_attempt_generation_target: 2800
+  maximum_extra_technical_attempts_total: 280
+  maximum_extra_technical_attempts_per_series: 70
+  maximum_generation_POST_attempts_total: 3080
+  maximum_generation_POST_attempts_per_series: 770
+  maximum_attempts_per_cell_including_first: 2
+  maximum_metadata_GET_attempts_total: 12
+  maximum_metadata_GET_attempts_per_series: 3
+  maximum_researcher_HTTP_attempts_total: 3092
+  metadata_counts_include_failed_attempts: true
+  generation_counts_include_429_failed_and_ambiguous_dispatches: true
+  admission_receipt_and_budget_reservation_before_dispatch: true
+  completed_refused_blocked_truncated_empty_or_poor_answers_consume_cell: true
+  internal_provider_tool_calls_are_covered_by_researcher_POST_count: false
+  internal_provider_tool_charges_must_be_accounted_separately: true
+  counting_API_calls_or_additional_network_calls_authorized: false
+  token_counting_or_new_endpoints_need_separate_approval: true
+  global_request_money_and_time_ceiling_all_must_pass: true
+  retry_capacity_may_be_used_for_extra_cells_or_replacements: false
+  one_provider_failure_may_replace_another_series: false
+  other_providers_may_continue_if_their_gates_and_all_shared_limits_pass: true
+  SDK_automatic_retries_or_continuations_or_fallback: false
+technical_retry_policy:
+  explicit_technical_failures_only: true
+  scientific_output_or_recoverable_final_response_precludes_retry: true
+  refusal_safety_block_hallucination_quality_empty_or_cap_stop_retryable: false
+  successful_response_with_missing_identity_or_metadata_retryable: false
+  identity_mismatch_or_profile_violation_retryable: false
+  ambiguous_after_send_timeout_or_connection_loss_auto_retryable: false
+  ambiguous_attempt_action: PRESERVE_RECEIPT_AND_EVIDENCE_HOLD_CELL_FOR_HUMAN_REVIEW_NO_AUTOMATIC_RESEND
+  invalid_credentials_model_unavailable_or_schema_error_action: STOP_AFFECTED_PROVIDER_NO_SUBSTITUTION
+  allowed_HTTP_statuses_if_no_scientific_response: [429, 500, 502, 503, 504]
+  minimum_technical_retry_delay_seconds: 120
+  honor_longer_retry_after_and_google_retryDelay: true
+  Google_minimum_generation_start_gap_seconds: 65
+  current_quota_verified_from_this_policy: false
+  attempt_ceiling_overrides_provider_suggestion_to_retry_again: true
+  all_attempts_receipts_and_original_raw_preserved: true
+time_and_missingness_policy:
+  target_hours: 18
+  planned_schedule_span_hours: 18
+  hard_hours: 24
+  one_shared_anchor_for_all_series: true
+  new_sends_or_retries_at_or_after_hard_deadline: false
+  early_stop_for_budget_or_attempts_must_be_reported_as_missing: true
+  missing_cells_may_be_filled_by_recovery_or_later_wave: false
+  late_responses_preserved_with_nonprimary_flag: true
+  smaller_success_only_subset_may_be_called_complete: false
+  actual_dates_or_execution_authority_set: false
+  this_proposal_guarantees_2800_responses_or_window_feasibility: false
+public_pricing_reference:
+  reviewed_on_jst: "2026-11-01"
+  mode: STANDARD_DEFAULT_DIRECT_FIRST_PARTY_NO_BATCH_OR_PAID_FAST_OVERRIDE
+  rates_USD_per_million_tokens:
+    M01:
+      candidate: gpt-5.6-sol
+      input: "4.00"
+      output: "20.00"
+      source: https://developers.openai.com/api/docs/models/gpt-5.6-sol
+      promotion_known_at_least_through: "2026-11-21"
+    M02:
+      candidate: claude-opus-5
+      input: "5.00"
+      output: "25.00"
+      source: https://platform.claude.com/docs/en/models/opus-5/overview
+    M03:
+      candidate: gemini-3.6-flash
+      input: "0.75"
+      output_including_thinking: "3.75"
+      source: https://ai.google.dev/gemini-api/docs/pricing
+      current_price_through: "2026-12-31"
+      published_2027_input: "1.50"
+      published_2027_output_including_thinking: "7.50"
+    M05:
+      candidate: perplexity/sonar
+      input: "0.25"
+      output: "2.50"
+      source: https://docs.perplexity.ai/docs/agent-api/models
+      standard_web_search_USD_per_invocation: "0.0025"
+      tool_source: https://docs.perplexity.ai/docs/getting-started/pricing
+      one_search_per_POST_assumed: false
+  illustrative_output_only_calculation:
+    record_type: ARITHMETIC_SCENARIO_NOT_ESTIMATE_OR_TOTAL_COST_UPPER_BOUND
+    generations_per_series: 700
+    billable_output_tokens_assumed_per_generation: 8192
+    primary_output_USD_by_series: {M01: "114.688", M02: "143.360", M03: "21.504", M05: "14.336"}
+    primary_output_USD_total: "293.888"
+    at_770_attempts_per_series_output_USD_total: "323.2768"
+    input_search_internal_intermediate_tokens_tax_and_fees_included: false
+    actual_usage_or_invoice_forecast_claimed: false
+    safe_total_bound_or_minimum_cost_claimed: false
+remaining_gates:
+  human_budget_adoption_recorded: false
+  safe_cost_bound_and_budget_enforcement_verified: false
+  official_profile_and_exact_model_runtime_locks_verified: false
+  full_wave_scheduler_and_capacity_tests_passed: false
+  current_account_quota_verified: false
+  scoped_governance_and_final_scientific_freeze_complete: false
+  site_dates_and_launch_authority_recorded: false
+  future_official_execution_ready: false
+other_authority:
+  credential_read_reuse_creation_or_write_authorized: false
+  authenticated_metadata_GET_or_generation_authorized: false
+  new_live_capacity_or_billable_qualification_tests_authorized: false
+  billing_account_settings_or_payment_authorized: false
+  concrete_dates_or_automation_authorized: false
+  scientific_freeze_or_governance_approval_inferred: false
+  xai_execution_authorized: false
+  W01_execution_authorized: false
+  agent_approval_permitted: false

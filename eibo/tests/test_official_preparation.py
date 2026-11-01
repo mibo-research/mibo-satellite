@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from decimal import Decimal
 from pathlib import Path
 
 import pytest
@@ -171,8 +172,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 5
-    assert progress["next_decision_id"] == "official_provider_profiles_and_model_selection_policy"
+    assert progress["current_step"] == 6
+    assert progress["next_decision_id"] == "financial_request_retry_and_time_ceilings"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -181,7 +182,9 @@ def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     assert adopted["exact_human_message_time_assumed"] is False
     assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
     assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
-    assert progress["other_decisions"]["official_provider_profiles_and_exact_models"] == "PENDING"
+    assert (
+        progress["other_decisions"]["exact_model_and_provider_profile_runtime_locks"] == "PENDING"
+    )
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
     assert all(v in {"PENDING", "NOT_AUTHORIZED"} for v in progress["other_decisions"].values())
     assert all(progress["prohibitions"].values())
@@ -276,7 +279,9 @@ def test_qa_method_adoption_is_attributed_separately_from_later_replication_adop
     assert adopted["minimum_days_after_first_pass_lock"] == 7
     assert adopted["exact_human_message_time_assumed"] is False
     assert len(adopted["receipt_file_sha256"]) == len(adopted["receipt_sha256"]) == 64
-    assert progress["other_decisions"]["official_provider_profiles_and_exact_models"] == "PENDING"
+    assert (
+        progress["other_decisions"]["exact_model_and_provider_profile_runtime_locks"] == "PENDING"
+    )
     assert progress["execution_permitted"] is False
 
 
@@ -353,7 +358,9 @@ def test_replication_adoption_does_not_infer_cadence_dates_money_or_api_authorit
     assert adopted["maximum_first_plus_repeat_coding_target"] == 3080
     assert adopted["completed_or_rateable_responses_claimed"] is False
     assert adopted["concrete_dates_or_financial_or_API_authority_inferred"] is False
-    assert progress["other_decisions"]["official_provider_profiles_and_exact_models"] == "PENDING"
+    assert (
+        progress["other_decisions"]["exact_model_and_provider_profile_runtime_locks"] == "PENDING"
+    )
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
 
 
@@ -430,7 +437,9 @@ def test_contextual_yes_adopts_only_the_immediately_preceding_cadence_policy() -
     assert adopted["capacity_and_scheduler_support_verified"] is False
     assert adopted["concrete_dates_or_financial_or_API_authority_inferred"] is False
     assert adopted["exact_human_message_time_assumed"] is False
-    assert progress["other_decisions"]["official_provider_profiles_and_exact_models"] == "PENDING"
+    assert (
+        progress["other_decisions"]["exact_model_and_provider_profile_runtime_locks"] == "PENDING"
+    )
     assert progress["execution_permitted"] is False
 
 
@@ -521,3 +530,178 @@ def test_common_candidate_conditions_do_not_override_native_behavior_or_retry_sc
         "consumer_UI_equivalence_assumed_or_required",
     ):
         assert common[field] is False
+
+
+def test_provider_policy_adoption_is_human_attributed_not_an_exact_runtime_lock() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    adopted = progress["provider_policy_adoption"]
+    assert adopted["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert adopted["agent_is_transcriber_not_approver"] is True
+    assert adopted["exact_human_message_time_assumed"] is False
+    assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
+    assert adopted["proposal_sha256"] == (
+        "63713184d9a585b46fb97054def76ba2232ecacf3069f56114d519e3fa99b20c"
+    )
+    assert len(adopted["receipt_sha256"]) == len(adopted["receipt_file_sha256"]) == 64
+    proposal = load_yaml(ROOT / adopted["proposal_path"])
+    assert adopted["initial_candidates"] == {
+        row["series_id"]: row["candidate_exact_id"] for row in proposal["initial_candidates"]
+    }
+    assert adopted["M05_new_official_scope_profile_policy_adopted"] is True
+    assert adopted["fresh_per_wave_human_model_resolution_required"] is True
+    assert adopted["original_proposal_kept_unchanged"] is True
+    assert adopted["models_or_profiles_are_final_runtime_locks"] is False
+    assert adopted["account_access_metadata_or_payload_audit_verified"] is False
+    assert adopted["credential_financial_date_governance_or_API_authority_inferred"] is False
+    sequence = progress["confirmation_sequence"]
+    assert sequence["budget_question_moved_before_governance_at_explicit_human_request"] is True
+    assert sequence["governance_checks_skipped_or_approved"] is False
+    assert progress["other_decisions"]["financial_or_request_budget"] == "PENDING"
+
+
+def test_budget_proposal_is_one_initial_wave_not_annual_spending_or_launch_authority() -> None:
+    proposal = load_yaml(PACK / "budget-limits-06.proposal.yaml")
+    scope = proposal["scope"]
+    assert scope["number_of_waves_covered"] == 1
+    assert scope["series"] == ["M01", "M02", "M03", "M05"]
+    assert scope["primary_observation_cells"] == 4 * scope["cells_per_series"] == 2800
+    for field in (
+        "future_quarterly_waves_or_annual_spending_authorized",
+        "xai_or_W01_or_Q3_included",
+        "additional_official_no_search_diagnostic",
+        "recoding_280_requires_new_API_generation",
+    ):
+        assert scope[field] is False
+    assert scope["additional_qualification_or_scientific_generations"] == 0
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert not any(proposal["remaining_gates"].values())
+    assert not any(proposal["other_authority"].values())
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "budget-limits-06.proposal.yaml")
+
+
+def test_budget_output_arithmetic_is_reproducible_not_a_total_invoice_bound() -> None:
+    proposal = load_yaml(PACK / "budget-limits-06.proposal.yaml")
+    prices = proposal["public_pricing_reference"]
+    calc = prices["illustrative_output_only_calculation"]
+    rates = prices["rates_USD_per_million_tokens"]
+    outputs = {}
+    for sid, row in rates.items():
+        rate = Decimal(row.get("output", row.get("output_including_thinking")))
+        outputs[sid] = Decimal(700) * Decimal(8192) * rate / Decimal(1_000_000)
+    assert outputs == {
+        sid: Decimal(amount) for sid, amount in calc["primary_output_USD_by_series"].items()
+    }
+    assert sum(outputs.values()) == Decimal(calc["primary_output_USD_total"]) == Decimal("293.888")
+    assert sum(outputs.values()) * Decimal("1.1") == Decimal(
+        calc["at_770_attempts_per_series_output_USD_total"]
+    )
+    for field in (
+        "input_search_internal_intermediate_tokens_tax_and_fees_included",
+        "actual_usage_or_invoice_forecast_claimed",
+        "safe_total_bound_or_minimum_cost_claimed",
+    ):
+        assert calc[field] is False
+    assert rates["M03"]["published_2027_output_including_thinking"] == "7.50"
+    assert rates["M05"]["standard_web_search_USD_per_invocation"] == "0.0025"
+    assert rates["M05"]["one_search_per_POST_assumed"] is False
+
+
+def test_money_gate_requires_unknown_cost_and_inflight_reservations_to_fail_closed() -> None:
+    money = load_yaml(PACK / "budget-limits-06.proposal.yaml")["financial_policy"]
+    assert money["currency"] == "USD"
+    assert Decimal(money["proposed_API_charge_ceiling"]) == Decimal("500")
+    assert Decimal(money["warning_at_committed_charge"]) == Decimal("400")
+    assert "UNRECONCILED" in money["accounting_basis"]
+    assert "ALL_IN_FLIGHT" in money["accounting_basis"]
+    assert money["stop_before_next_send_if_cost_bound_unknown_or_would_exceed_ceiling"] is True
+    assert money["reserve_for_possible_provider_processing_and_failed_attempt_charges"] is True
+    assert money["before_launch_fresh_first_party_rate_card_and_safe_cost_bound_required"] is True
+    for field in (
+        "invoice_total_or_JPY_ceiling_guaranteed",
+        "provider_account_hard_cap_or_realtime_billing_guaranteed",
+        "invoice_final_amount_guaranteed_by_this_proposal",
+        "automatic_topup_tier_upgrade_or_purchase_authorized",
+        "automatic_budget_increase_or_transfer_from_other_projects",
+        "cheaper_model_or_smaller_output_cap_or_sample_on_budget_exhaustion",
+        "missing_usage_or_timeout_assumed_free",
+        "price_cache_discount_or_free_tier_savings_assumed",
+        "M05_internal_search_and_intermediate_tokens_safely_bounded",
+        "safe_reservation_and_admission_controller_implemented_and_tested",
+    ):
+        assert money[field] is False
+    assert money["if_safe_cost_bound_unavailable"].startswith("BLOCK_BEFORE_LAUNCH")
+    assert {"provider_search_and_internal_tool_charges", "technical_attempts"} <= set(
+        money["includes"]
+    )
+    assert {"tax", "currency_conversion_and_card_fees"} <= set(money["excludes"])
+
+
+def test_request_ceilings_include_failures_but_cannot_buy_extra_observations() -> None:
+    request = load_yaml(PACK / "budget-limits-06.proposal.yaml")["request_policy"]
+    assert request["first_attempt_generation_target"] == 2800
+    assert request["maximum_attempts_per_cell_including_first"] == 2
+    assert request["maximum_extra_technical_attempts_total"] == 4 * 70 == 280
+    assert request["maximum_extra_technical_attempts_per_series"] == 70
+    assert request["maximum_generation_POST_attempts_total"] == 2800 + 280 == 4 * 770
+    assert request["maximum_generation_POST_attempts_per_series"] == 770
+    assert request["maximum_metadata_GET_attempts_total"] == 4 * 3 == 12
+    assert request["maximum_metadata_GET_attempts_per_series"] == 3
+    assert request["maximum_researcher_HTTP_attempts_total"] == 3080 + 12
+    for field in (
+        "metadata_counts_include_failed_attempts",
+        "generation_counts_include_429_failed_and_ambiguous_dispatches",
+        "admission_receipt_and_budget_reservation_before_dispatch",
+        "completed_refused_blocked_truncated_empty_or_poor_answers_consume_cell",
+        "internal_provider_tool_charges_must_be_accounted_separately",
+        "global_request_money_and_time_ceiling_all_must_pass",
+    ):
+        assert request[field] is True
+    for field in (
+        "internal_provider_tool_calls_are_covered_by_researcher_POST_count",
+        "counting_API_calls_or_additional_network_calls_authorized",
+        "retry_capacity_may_be_used_for_extra_cells_or_replacements",
+        "one_provider_failure_may_replace_another_series",
+        "SDK_automatic_retries_or_continuations_or_fallback",
+    ):
+        assert request[field] is False
+
+
+def test_bounded_technical_retries_never_retry_science_or_unknown_after_send_outcomes() -> None:
+    retry = load_yaml(PACK / "budget-limits-06.proposal.yaml")["technical_retry_policy"]
+    assert retry["explicit_technical_failures_only"] is True
+    assert retry["scientific_output_or_recoverable_final_response_precludes_retry"] is True
+    assert retry["allowed_HTTP_statuses_if_no_scientific_response"] == [429, 500, 502, 503, 504]
+    for field in (
+        "refusal_safety_block_hallucination_quality_empty_or_cap_stop_retryable",
+        "successful_response_with_missing_identity_or_metadata_retryable",
+        "identity_mismatch_or_profile_violation_retryable",
+        "ambiguous_after_send_timeout_or_connection_loss_auto_retryable",
+        "current_quota_verified_from_this_policy",
+    ):
+        assert retry[field] is False
+    assert "HOLD_CELL_FOR_HUMAN_REVIEW" in retry["ambiguous_attempt_action"]
+    assert retry["minimum_technical_retry_delay_seconds"] == 120
+    assert retry["Google_minimum_generation_start_gap_seconds"] == 65
+    assert retry["honor_longer_retry_after_and_google_retryDelay"] is True
+    assert retry["all_attempts_receipts_and_original_raw_preserved"] is True
+
+
+def test_budget_early_stop_does_not_change_window_or_replace_primary_missing_cells() -> None:
+    timing = load_yaml(PACK / "budget-limits-06.proposal.yaml")["time_and_missingness_policy"]
+    assert timing["target_hours"] == timing["planned_schedule_span_hours"] == 18
+    assert timing["hard_hours"] == 24
+    for field in (
+        "one_shared_anchor_for_all_series",
+        "early_stop_for_budget_or_attempts_must_be_reported_as_missing",
+        "late_responses_preserved_with_nonprimary_flag",
+    ):
+        assert timing[field] is True
+    for field in (
+        "new_sends_or_retries_at_or_after_hard_deadline",
+        "missing_cells_may_be_filled_by_recovery_or_later_wave",
+        "smaller_success_only_subset_may_be_called_complete",
+        "actual_dates_or_execution_authority_set",
+        "this_proposal_guarantees_2800_responses_or_window_feasibility",
+    ):
+        assert timing[field] is False

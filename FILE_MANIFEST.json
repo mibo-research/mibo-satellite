@@ -125,6 +125,11 @@
     "sha256": "721a593df9e17198c3fc5e463bedf3668032de9c88f4b79b1a741b265c0beb1b"
   },
   {
+    "path": "eibo/operations/official-four-provider/BUDGET-LIMITS-06.md",
+    "bytes": 7026,
+    "sha256": "31cf924c128c2bd2f621e2ba2fa198f77a6dd0670633dc08825b726433183a20"
+  },
+  {
     "path": "eibo/operations/official-four-provider/CADENCE-WINDOW-04.md",
     "bytes": 6062,
     "sha256": "a5006c73377baac80091a8d673cbd3e1e4e57c89e9b7ddc7a3d9a47b5505c8d1"
@@ -136,13 +141,13 @@
   },
   {
     "path": "eibo/operations/official-four-provider/PROVIDER-POLICY-05.md",
-    "bytes": 6733,
-    "sha256": "59bfc6838547ef1b2bf09ee82d6036cc495cf5821687a13e5bbbd5d3d24e8965"
+    "bytes": 7146,
+    "sha256": "cf0d3e90d4a4261f5292727a215a2277988c9d32be8ac579cd9bb1c91d5614da"
   },
   {
     "path": "eibo/operations/official-four-provider/README.md",
-    "bytes": 4167,
-    "sha256": "7d8709aeaf1a0632cd4b586458e228de58ee12c3757794f69e864474c97d1d3c"
+    "bytes": 4451,
+    "sha256": "527f8dec202d1871130b744eb3ca4f59f43031978f65e23cb5c7ca30a0d51a3f"
   },
   {
     "path": "eibo/operations/official-four-provider/REPLICATION-03.md",
@@ -153,6 +158,11 @@
     "path": "eibo/operations/official-four-provider/approval-queue.yaml",
     "bytes": 1350,
     "sha256": "ff69628338a80440d293bc8dc668095a56b26b0f5a29f3828e09a81662b9ac24"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/budget-limits-06.proposal.yaml",
+    "bytes": 8058,
+    "sha256": "e51a951ee8ea9e3e332f5e7f7084f27aa9afeb19d13d45118589da0d9a504f08"
   },
   {
     "path": "eibo/operations/official-four-provider/cadence-window-04.proposal.yaml",
@@ -166,8 +176,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/decision-progress.yaml",
-    "bytes": 4405,
-    "sha256": "77cf57d1efc8737413bae4387dcb4895b4c3a4ce8f24e2f022e7ad64ea1f40a9"
+    "bytes": 5790,
+    "sha256": "ae29c5c668dcaff26e7ef5c660d9a737b39e618048743ec573e4ac5bf5d5b1ea"
   },
   {
     "path": "eibo/operations/official-four-provider/governance.template.yaml",
@@ -526,8 +536,8 @@
   },
   {
     "path": "eibo/tests/test_official_preparation.py",
-    "bytes": 27203,
-    "sha256": "0887e0d772e034cae0406962111d1b2f07c4ee9b721752e4116895c8382df70b"
+    "bytes": 36941,
+    "sha256": "3bc4e5bccf882a95ea736e939fed4ab340f93a929375a015a914d0232cc617c4"
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",
