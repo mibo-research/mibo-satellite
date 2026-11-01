@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: INITIAL_POLICIES_BUDGET_AND_HUMAN_OWNER_ROLE_ADOPTED_TERMS_REVIEW_PENDING
-current_step: 8
-next_decision_id: terms_use_and_publication_policy_with_unresolved_holds
+status: CONDITIONAL_TERMS_POLICY_ADOPTED_TERMS_HOLDS_REMAIN_ETHICS_CONFIRMATION_PENDING
+current_step: 9
+next_decision_id: institutional_ethics_review_requirement_confirmation_process
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -142,6 +142,27 @@ protocol_owner_role_adoption:
   complete_protocol_final_approval_or_freeze_inferred: false
   final_human_governance_records_complete: false
   terms_ethics_dates_or_API_authority_inferred: false
+  original_proposal_kept_unchanged: true
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
+conditional_terms_policy_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_CONDITIONAL_USE_ARCHIVE_PUBLICATION_POLICY_KEEP_UNRESOLVED_TERMS_HOLDS
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/terms-review-08.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: cd4afa717ebcdbabef917d5cc2ad3bbdfa1b0fae6a91a89c0a21ae276cfeed1e
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/08-conditional-terms-policy-adoption.json
+  receipt_file_sha256: c3e1aeccab59089aa3d21b68d032717c7b438c5d27afce048d13d10495862aeb
+  receipt_sha256: 7b369f5c8696a4cd5fa617a12129862daab93b02e309bdd27040aefe081b3bc6
+  conditional_use_archive_and_publication_policy_adopted: true
+  unresolved_terms_hold_maintained: true
+  next_independent_ethics_question_authorized: true
+  all_four_providers_terms_cleared: false
+  FINAL_terms_review_record_complete: false
+  provider_permission_or_contract_acceptance_inferred: false
+  institutional_contact_or_email_authorized: false
+  ethics_dates_freeze_or_API_authority_inferred: false
   original_proposal_kept_unchanged: true
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true

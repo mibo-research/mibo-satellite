@@ -1,0 +1,119 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-ETHICS-GOVERNANCE-09
+version: "0.1"
+record_type: PRESTART_ETHICS_APPLICABILITY_CONFIRMATION_PROPOSAL_NOT_EXEMPTION_OR_INSTITUTIONAL_APPROVAL
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_CHOICE
+approved: false
+execution_permitted: false
+prepared_on_jst: "2026-11-01"
+recommended_option: A
+options:
+  A: CONFIRM_APPLICABLE_INSTITUTION_AND_PRESTART_REVIEW_REQUIREMENT_WITH_DOCUMENTED_BASIS
+  B: PROVIDE_EXISTING_NEW_SCOPE_SPECIFIC_DETERMINATION_AND_AUTHORITY_EVIDENCE_FOR_VALIDATION
+scope:
+  proposed_baseline_id: EIBO-F01
+  first_party_API_series: [M01, M02, M03, M05]
+  primary_observations: 2800
+  human_primary_coders: 1
+  selected_repeat_coding_records: 280
+  minimum_repeat_delay_days_after_first_pass_lock: 7
+  new_human_participant_recruitment_intervention_or_survey_planned: false
+  actual_student_records_or_real_grading_decisions_planned: false
+  primary_and_repeat_human_coding_records_in_design: true
+  model_response_is_only_data_type_in_design: false
+  human_coder_is_a_research_participant_determination: UNDETERMINED_NOT_AUTOMATICALLY_YES_OR_NO
+  incidental_search_derived_personal_or_rights_sensitive_content_possible: true
+  institutional_coverage_of_this_scope_verified: false
+confirmation_process_proposal:
+  A_is_a_requirement_confirmation_plan_not_a_nonhuman_subjects_decision: true
+  confirm_current_affiliation_project_host_and_applicable_rules_before_selecting_office: true
+  prior_affiliations_or_public_pages_establish_current_eligibility: false
+  external_inquiry_always_legally_mandatory_for_every_API_study_claimed: false
+  where_applicability_uncertain_seek_appropriate_human_or_office_clarification: true
+  actual_inquiry_recipient_content_and_sending_authority_require_separate_confirmation: true
+  scope_to_disclose_for_applicability_review:
+    - FOUR_PROVIDER_API_RESPONSE_OBSERVATION_NOT_STUDENT_SERVICE
+    - HUMAN_PRIMARY_AND_280_DELAYED_REPEAT_JUDGMENTS_WITH_PROVENANCE
+    - NO_RECRUITMENT_OR_REAL_STUDENT_RECORDS_AS_CURRENT_DESIGN_CONSTRAINT
+    - RAW_RETENTION_ACCESS_CONTROL_MASKED_EXPORT_AND_PUBLICATION
+    - INCIDENTAL_PERSONAL_DATA_OR_THIRD_PARTY_CONTENT_PLAN
+    - PROVIDER_TERMS_HOLDS_AND_FINAL_PROTOCOL_VERSION_STATUS
+  if_institution_requires_review_or_other_steps: COMPLETE_AND_RECORD_REQUIRED_EVIDENCE_BEFORE_LAUNCH
+  if_review_not_required_or_out_of_scope: RECORD_ATTRIBUTED_SCOPE_SPECIFIC_DETERMINATION_RATIONALE_AND_APPLICABLE_AUTHORITY
+  applicable_rules_may_allow_attributed_responsible_human_determination: true
+  agent_may_decide_whether_that_route_applies: false
+  membership_or_solo_owner_acceptance_equals_institutional_approval: false
+  silence_or_no_reply_equals_exemption: false
+  personal_NOT_HUMAN_SUBJECTS_equals_institutional_NOT_REQUIRED: false
+  sole_human_coder_automatically_requires_or_exempts_ethics_review: false
+  ethics_outcome_overrides_terms_or_runtime_holds: false
+  AI_may_fill_determination_or_set_FINAL_or_human_attestation: false
+  actual_human_decision_timestamp_may_be_invented_from_recording_time: false
+existing_judgment_B_requirements:
+  old_W0_record_is_sufficient: false
+  exact_new_scope_version_and_hash_required: true
+  decision_maker_name_role_authority_and_actual_time_with_timezone_required: true
+  determination_rationale_and_evidence_references_required: true
+  required_institutional_steps_completed_or_documented_not_required: true
+  reference_number_or_office_reply_if_applicable_required: true
+  appropriate_method_and_scope_must_match_current_plan: true
+  evidence_provided_by_this_preparation: false
+unfilled_human_fields:
+  current_affiliation_or_independent_research_basis: null
+  responsible_project_host_and_applicable_rules: null
+  appropriate_ethics_or_governance_office: null
+  new_scope_determination: null
+  decided_by_name_role_and_authority: null
+  actual_decided_at_with_timezone: null
+  rationale_and_evidence_reference: null
+  required_institutional_result_or_basis_for_nonreview: null
+risk_and_preservation_policy:
+  unsupported_blanket_no_human_related_data_claim: false
+  introduce_student_identifiers_or_new_participants_without_new_review: false
+  Frozen_prompts_or_anchors_reworded_or_extra_payload_disclosure_added: false
+  governance_or_coder_identity_added_to_model_request: false
+  human_judgment_records_treated_as_provider_generated_output: false
+  apparent_personal_data_or_rights_issue_action: RESTRICT_ACCESS_STOP_AUTOMATIC_PUBLICATION_AND_SEEK_AUTHORIZED_HUMAN_REVIEW
+  adverse_refusal_or_safety_outcome_removed_or_regenerated: false
+  retention_rights_or_institutional_condition_conflict_action: RESOLVE_LAWFUL_ARCHIVE_PLAN_BEFORE_LAUNCH_DO_NOT_SILENTLY_CHANGE_DESIGN
+  historical_raw_or_prior_governance_modified_by_this_plan: false
+  approved_scope_changes_require_new_version_and_review: true
+prior_ethics_record_reference_only:
+  path: waves/W0/governance/records/ethics-or-governance-determination.yaml
+  sha256: 9732e975d08adfbced9db4d2c0662f5c8290aa5184788820b5b76a21de0e1fb7
+  historical_determination: NOT_HUMAN_SUBJECTS
+  reapplied_or_relabelled_as_new_official_approval: false
+public_sources_reference_only:
+  reviewed_on_jst: "2026-11-01"
+  current_affiliation_or_right_to_apply_verified: false
+  source_page_bytes_or_contract_snapshot_hash_claimed: false
+  sources:
+    - url: https://www.ethics.orsd.okayama-u.ac.jp/
+      relevance: PUBLIC_GUIDANCE_TO_CONFIRM_ROUTE_AND_CONSULT_IF_UNCERTAIN_NOT_EIBO_CLEARANCE
+    - url: https://www.okayama-u.ac.jp/shokisoku/reiki_honbun/u352RG00000134.html
+      relevance: NONMEDICAL_HUMAN_RESEARCH_DEFINITION_AND_PRESTART_REVIEW_PROCESS_NOT_APPLICABILITY_FINDING
+    - url: https://www.students.keio.ac.jp/sfc/other/research-ethics/
+      displayed_updated_date: "2026-05-11"
+      relevance: SFC_PUBLISHED_PROCEDURE_AND_ELIGIBILITY_NOT_RI_MEMBER_ELIGIBILITY_OR_EIBO_DECISION
+    - url: https://www.sfc.keio.ac.jp/doc/e6cd4ebcd4e0b55c6e99f134ea7bd0fe6b4b4ca5.pdf
+      displayed_latest_amendment_date: "2020-09-16"
+      relevance: PUBLISHED_SFC_RULES_NOT_ASSUMED_TO_COVER_CURRENT_OWNER_OR_NEW_SCOPE
+remaining_gates:
+  human_choice_of_ethics_confirmation_route_recorded: false
+  current_host_eligibility_and_review_route_confirmed: false
+  scope_specific_human_ethics_or_governance_determination_complete: false
+  required_institutional_evidence_or_documented_nonreview_basis_complete: false
+  unresolved_provider_terms_holds_cleared: false
+  complete_scientific_protocol_frozen: false
+  cost_capacity_operational_locks_dates_and_launch_authority_complete: false
+  future_official_execution_ready: false
+other_authority:
+  provider_API_or_authenticated_metadata_authorized: false
+  credential_access_or_account_changes_authorized: false
+  institutional_contact_email_or_form_submission_authorized: false
+  new_human_subject_data_collection_authorized: false
+  concrete_dates_or_automation_authorized: false
+  W0_data_promotion_authorized: false
+  xai_execution_authorized: false
+  W01_execution_authorized: false
+  agent_governance_approval_permitted: false

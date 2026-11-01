@@ -172,8 +172,11 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 8
-    assert progress["next_decision_id"] == "terms_use_and_publication_policy_with_unresolved_holds"
+    assert progress["current_step"] == 9
+    assert (
+        progress["next_decision_id"]
+        == "institutional_ethics_review_requirement_confirmation_process"
+    )
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -974,3 +977,151 @@ def test_conditional_terms_proposal_never_accepts_contracts_sends_messages_or_fi
     assert proposal["approved"] is proposal["execution_permitted"] is False
     with pytest.raises(ValidationError, match="invalid Wave Manifest"):
         load_manifest(PACK / "terms-review-08.proposal.yaml")
+
+
+def test_adopting_conditional_terms_preserves_all_unresolved_provider_and_ethics_holds() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    adopted = progress["conditional_terms_policy_adoption"]
+    assert adopted["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert adopted["agent_is_transcriber_not_approver"] is True
+    assert adopted["original_proposal_kept_unchanged"] is True
+    assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
+    assert adopted["proposal_sha256"] == (
+        "cd4afa717ebcdbabef917d5cc2ad3bbdfa1b0fae6a91a89c0a21ae276cfeed1e"
+    )
+    for field in (
+        "conditional_use_archive_and_publication_policy_adopted",
+        "unresolved_terms_hold_maintained",
+        "next_independent_ethics_question_authorized",
+    ):
+        assert adopted[field] is True
+    for field in (
+        "all_four_providers_terms_cleared",
+        "FINAL_terms_review_record_complete",
+        "provider_permission_or_contract_acceptance_inferred",
+        "institutional_contact_or_email_authorized",
+        "ethics_dates_freeze_or_API_authority_inferred",
+        "exact_human_message_time_assumed",
+    ):
+        assert adopted[field] is False
+    assert progress["other_decisions"]["provider_terms_review"] == "PENDING"
+    assert progress["other_decisions"]["ethics_or_governance_determination"] == "PENDING"
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+
+
+def test_ethics_review_discloses_human_coding_without_automatically_classifying_subjects() -> None:
+    proposal = load_yaml(PACK / "ethics-governance-09.proposal.yaml")
+    scope = proposal["scope"]
+    assert scope["first_party_API_series"] == ["M01", "M02", "M03", "M05"]
+    assert scope["primary_observations"] == 2800
+    assert scope["human_primary_coders"] == 1
+    assert scope["selected_repeat_coding_records"] == 280
+    assert scope["minimum_repeat_delay_days_after_first_pass_lock"] == 7
+    assert scope["primary_and_repeat_human_coding_records_in_design"] is True
+    assert scope["model_response_is_only_data_type_in_design"] is False
+    assert scope["new_human_participant_recruitment_intervention_or_survey_planned"] is False
+    assert scope["actual_student_records_or_real_grading_decisions_planned"] is False
+    assert scope["human_coder_is_a_research_participant_determination"].startswith("UNDETERMINED")
+    assert scope["institutional_coverage_of_this_scope_verified"] is False
+    process = proposal["confirmation_process_proposal"]
+    assert process["sole_human_coder_automatically_requires_or_exempts_ethics_review"] is False
+    assert process["personal_NOT_HUMAN_SUBJECTS_equals_institutional_NOT_REQUIRED"] is False
+    assert process["A_is_a_requirement_confirmation_plan_not_a_nonhuman_subjects_decision"] is True
+
+
+def test_prior_w0_nonhuman_subjects_judgment_is_preserved_not_extended_to_new_scope() -> None:
+    proposal = load_yaml(PACK / "ethics-governance-09.proposal.yaml")
+    prior = proposal["prior_ethics_record_reference_only"]
+    assert sha256_file(ROOT / prior["path"]) == prior["sha256"]
+    record = load_yaml(ROOT / prior["path"])
+    assert record["status"] == "FINAL"
+    assert record["decided_by"]["actor_type"] == "HUMAN"
+    assert record["determination"] == prior["historical_determination"] == "NOT_HUMAN_SUBJECTS"
+    assert prior["reapplied_or_relabelled_as_new_official_approval"] is False
+    for record in load_yaml(PACK / "governance.template.yaml")["records"].values():
+        assert record["status"] == "PENDING"
+        assert record["determination"] is None
+        assert record["human_attestation"] is False
+
+
+def test_ethics_applicability_and_office_selection_remain_unfilled_without_current_authority() -> (
+    None
+):
+    proposal = load_yaml(PACK / "ethics-governance-09.proposal.yaml")
+    assert all(value is None for value in proposal["unfilled_human_fields"].values())
+    public = proposal["public_sources_reference_only"]
+    assert public["current_affiliation_or_right_to_apply_verified"] is False
+    assert public["source_page_bytes_or_contract_snapshot_hash_claimed"] is False
+    assert len(public["sources"]) == 4
+    process = proposal["confirmation_process_proposal"]
+    assert (
+        process[
+            "confirm_current_affiliation_project_host_and_applicable_rules_before_selecting_office"
+        ]
+        is True
+    )
+    assert (
+        process["where_applicability_uncertain_seek_appropriate_human_or_office_clarification"]
+        is True
+    )
+    for field in (
+        "prior_affiliations_or_public_pages_establish_current_eligibility",
+        "external_inquiry_always_legally_mandatory_for_every_API_study_claimed",
+        "agent_may_decide_whether_that_route_applies",
+        "membership_or_solo_owner_acceptance_equals_institutional_approval",
+        "silence_or_no_reply_equals_exemption",
+    ):
+        assert process[field] is False
+    assert process["applicable_rules_may_allow_attributed_responsible_human_determination"] is True
+    assert process["if_institution_requires_review_or_other_steps"].endswith("BEFORE_LAUNCH")
+
+
+def test_existing_new_scope_ethics_evidence_requires_authority_time_and_relevant_scope() -> None:
+    proposal = load_yaml(PACK / "ethics-governance-09.proposal.yaml")
+    evidence = proposal["existing_judgment_B_requirements"]
+    assert evidence["old_W0_record_is_sufficient"] is False
+    assert evidence["evidence_provided_by_this_preparation"] is False
+    for field in (
+        "exact_new_scope_version_and_hash_required",
+        "decision_maker_name_role_authority_and_actual_time_with_timezone_required",
+        "determination_rationale_and_evidence_references_required",
+        "required_institutional_steps_completed_or_documented_not_required",
+        "reference_number_or_office_reply_if_applicable_required",
+        "appropriate_method_and_scope_must_match_current_plan",
+    ):
+        assert evidence[field] is True
+    process = proposal["confirmation_process_proposal"]
+    assert process["AI_may_fill_determination_or_set_FINAL_or_human_attestation"] is False
+    assert process["actual_human_decision_timestamp_may_be_invented_from_recording_time"] is False
+
+
+def test_ethics_preparation_never_sends_contact_or_api_requests_or_changes_frozen_payloads() -> (
+    None
+):
+    proposal = load_yaml(PACK / "ethics-governance-09.proposal.yaml")
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert not any(proposal["remaining_gates"].values())
+    assert not any(proposal["other_authority"].values())
+    process = proposal["confirmation_process_proposal"]
+    assert process["ethics_outcome_overrides_terms_or_runtime_holds"] is False
+    assert (
+        process[
+            "actual_inquiry_recipient_content_and_sending_authority_require_separate_confirmation"
+        ]
+        is True
+    )
+    risk = proposal["risk_and_preservation_policy"]
+    for field in (
+        "unsupported_blanket_no_human_related_data_claim",
+        "introduce_student_identifiers_or_new_participants_without_new_review",
+        "Frozen_prompts_or_anchors_reworded_or_extra_payload_disclosure_added",
+        "governance_or_coder_identity_added_to_model_request",
+        "human_judgment_records_treated_as_provider_generated_output",
+        "adverse_refusal_or_safety_outcome_removed_or_regenerated",
+        "historical_raw_or_prior_governance_modified_by_this_plan",
+    ):
+        assert risk[field] is False
+    assert risk["approved_scope_changes_require_new_version_and_review"] is True
+    assert "STOP_AUTOMATIC_PUBLICATION" in risk["apparent_personal_data_or_rights_issue_action"]
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "ethics-governance-09.proposal.yaml")

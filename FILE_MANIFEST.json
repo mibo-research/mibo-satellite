@@ -140,6 +140,11 @@
     "sha256": "95cdd5c91b844f68d5b1a5ccdbc331aae8372ef73d2ca8014750f0acf4480492"
   },
   {
+    "path": "eibo/operations/official-four-provider/ETHICS-GOVERNANCE-09.md",
+    "bytes": 5825,
+    "sha256": "90ce83b6f11223c55c61b3ed567dfd9072d41cda258fce57b41cf209b8d2eb1f"
+  },
+  {
     "path": "eibo/operations/official-four-provider/PROTOCOL-OWNER-07.md",
     "bytes": 4772,
     "sha256": "e264185e5772f1125a267c06a60ec7caa6c21cffb645e2983365d9616ff236ea"
@@ -151,8 +156,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/README.md",
-    "bytes": 4816,
-    "sha256": "94fa7f1195126b02d77afc05b671c91e7cf6e7c388e480b5d2198f6aa1c1556a"
+    "bytes": 4946,
+    "sha256": "f8de344fedf2c9bc57fe6935db7a2dadda7787d82351b7f5ef342aa63bf9d461"
   },
   {
     "path": "eibo/operations/official-four-provider/REPLICATION-03.md",
@@ -161,8 +166,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/TERMS-REVIEW-08.md",
-    "bytes": 7088,
-    "sha256": "f29b98626cc937b13c1e77a61626f541ded22ab0fb55b729e6774e0dbf19bf23"
+    "bytes": 7572,
+    "sha256": "500d331d5bb611fceb14c78e6ffae1293a8f0fa146667ca71d6350ff40bab0e9"
   },
   {
     "path": "eibo/operations/official-four-provider/approval-queue.yaml",
@@ -186,8 +191,13 @@
   },
   {
     "path": "eibo/operations/official-four-provider/decision-progress.yaml",
-    "bytes": 8492,
-    "sha256": "41f23fd037c1267247c05134acd3028b04dd1f802f9cac2249a75d191d8fba72"
+    "bytes": 9734,
+    "sha256": "d504adb7e51a87ec97274d93a9b61647059e5766e8fc7a57de39ed8b60101667"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/ethics-governance-09.proposal.yaml",
+    "bytes": 6996,
+    "sha256": "b24ee128827e0e1674c77e5861804f7a6e26edf7f4d8472b1fa07d8a4f17d98a"
   },
   {
     "path": "eibo/operations/official-four-provider/governance.template.yaml",
@@ -556,8 +566,8 @@
   },
   {
     "path": "eibo/tests/test_official_preparation.py",
-    "bytes": 51716,
-    "sha256": "57bf4bf61e9c6a4e84506e0d5fb699d25a07cfe85a2b52807c7e7fd0ef8c3d6d"
+    "bytes": 59534,
+    "sha256": "cc045d81690b144117d386e407b7c073dddadac6284e52b37bb6e3e29143815d"
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",
