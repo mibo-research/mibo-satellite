@@ -1,0 +1,72 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-OBSERVER-SITE-10
+version: "0.1"
+record_type: PROSPECTIVE_OBSERVER_SITE_POLICY_PROPOSAL_NOT_A_SITE_LOCK_OR_LAUNCH
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_CHOICE
+approved: false
+execution_permitted: false
+prepared_on_jst: "2026-11-02"
+recommended_option: A
+options:
+  A:
+    label: SAME_LOCAL_W0_SITE_IN_JAPAN
+    proposed_country: JP
+    same_PC_place_and_ordinary_connection_as_W0_proposed: true
+    AC_power_required_for_future_execution: true
+    historical_site_label_candidate_only: MIBO-SITE-JP01
+    prior_W0_declaration_is_new_scope_site_approval: false
+  B:
+    label: DIFFERENT_PC_PLACE_OR_CONNECTION_TO_BE_DECLARED_BEFORE_LOCK
+    new_site_details: null
+    prior_site_label_may_be_silently_reused: false
+    requires_scoped_site_and_environment_assessment_before_launch: true
+privacy_and_interpretation:
+  exact_address_GPS_MAC_IP_or_credentials_requested_for_this_choice: false
+  past_affiliation_or_machine_language_proves_current_location: false
+  public_IP_geolocation_equals_observer_site_proof: false
+  provider_internal_compute_or_search_region_guaranteed_JP: false
+  historical_site_label_is_device_or_network_verification: false
+  ordinary_dynamic_IP_change_alone_automatically_creates_new_site: false
+  consumer_UI_equivalence_assumed_or_required: false
+future_environment_controls:
+  evidence_root_candidate: 'C:\Users\offic\EIBO-W0-Evidence'
+  persistent_storage_and_write_check_required_before_execution: true
+  first_party_provider_endpoint_and_no_third_party_model_router_required: true
+  researcher_added_VPN_or_proxy_rerouting_proposed: false
+  ordinary_connection_configuration_must_be_understood_without_silent_changes: true
+  AC_state_guard_process_and_environment_preflight_required_before_execution: true
+  full_18h_target_24h_hard_window_sleep_guard_support_verified: false
+  power_plan_display_lock_lid_update_or_battery_protection_changes_authorized: false
+  guard_start_credential_read_or_network_probe_authorized_now: false
+  actual_current_country_PC_connection_AC_or_guard_verified: false
+  site_or_material_environment_change_during_wave_action: HOLD_NEW_SENDS_PRESERVE_IN_FLIGHT_AND_RAW_RECORD_DEVIATION_HUMAN_REVIEW_NO_SILENT_RESTART
+time_and_authority:
+  concrete_date_time_or_timezone_offset_selected: false
+  next_question_is_separate_datetime_choice: true
+  display_timezone: Asia/Tokyo
+  canonical_clock: UTC
+  adopted_target_hours: 18
+  adopted_planned_span_hours: 18
+  adopted_hard_hours: 24
+  new_observation_window_or_dates_created: false
+  automation_or_calendar_schedule_created: false
+  earliest_possible_launch_equals_site_policy_adoption: false
+  actual_runtime_site_lock_created: false
+  models_schedule_or_manifest_lock_created: false
+governance_and_other_holds:
+  further_governance_document_requests_stopped: true
+  unverified_details_remain_unverified: true
+  human_report_of_institutional_judgment_rejected_or_removed: false
+  terms_or_governance_holds_cleared_by_site_choice: false
+  incomplete_cost_capacity_or_runtime_support_waived: false
+  full_four_provider_wave_is_ready_or_feasibility_guaranteed: false
+  Frozen_artifacts_prompts_anchors_or_historical_raw_changed: false
+  final_protocol_approval_or_execution_permission_inferred: false
+prohibitions:
+  live_provider_API_and_authenticated_metadata: true
+  credential_access_or_account_changes: true
+  institutional_or_provider_contact: true
+  xai_requests: true
+  W01_execution: true
+  merge: true
+  agent_approval: true

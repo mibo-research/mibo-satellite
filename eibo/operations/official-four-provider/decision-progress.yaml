@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: EXISTING_INSTITUTIONAL_DETERMINATION_REPORTED_DETAILS_AND_SCOPE_PENDING
-current_step: 9
-next_decision_id: institutional_determination_metadata_and_scope_reference
+status: PROCEED_TO_SITE_TIME_WITH_GOVERNANCE_DETAILS_UNVERIFIED_NO_MORE_DOCUMENT_REQUESTS
+current_step: 10
+next_decision_id: observer_site_environment_policy
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -221,6 +221,29 @@ institutional_determination_report:
   unresolved_terms_hold_maintained: true
   contact_dates_freeze_or_API_authority_inferred: false
   exact_institutional_or_human_message_timestamp_assumed: false
+  agent_is_transcriber_not_approver: true
+governance_followup_direction:
+  decision: EXPLICIT_HUMAN_PROCEED_TO_SITE_TIME_KEEP_UNVERIFIED_GOVERNANCE_AND_ALL_EXECUTION_HOLDS
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/ethics-governance-09.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: b24ee128827e0e1674c77e5861804f7a6e26edf7f4d8472b1fa07d8a4f17d98a
+  reference_is_prior_context_not_ethics_proposal_adoption: true
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/10-site-time-preparation-direction.json
+  receipt_file_sha256: 97594fc4c153d663d759771c7f2a893e283283b30e81f7d3d66e715da792407b
+  receipt_sha256: 69e51f035dcfba53a73e242c4ab28eb6609dcd21735c8bc3ea631fcd0739cec4
+  date_context_jst: "2026-11-02"
+  site_and_time_options_preparation_authorized: true
+  further_governance_document_requests_stopped: true
+  unverified_governance_details_retained_without_inference: true
+  institutional_details_or_terms_holds_cleared: false
+  FINAL_human_governance_records_complete: false
+  site_option_adopted_or_actual_site_locked: false
+  concrete_date_or_field_window_approved: false
+  automatic_start_or_calendar_schedule_authorized: false
+  contact_credentials_freeze_or_API_authority_inferred: false
+  exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
 confirmation_sequence:
   initial_queue_is_historical_template_not_current_progress: true

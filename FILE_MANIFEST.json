@@ -141,13 +141,18 @@
   },
   {
     "path": "eibo/operations/official-four-provider/ETHICS-09-HUMAN-JUDGMENT.md",
-    "bytes": 4544,
-    "sha256": "2fa983ba1d5fae9bafd2783d11989dd0d8bb78f0487e11ac1f8e30a04d023823"
+    "bytes": 5242,
+    "sha256": "8519279ed037fbe07007dfc07c80d5cdadbdb2095f694d32823642345608bd2e"
   },
   {
     "path": "eibo/operations/official-four-provider/ETHICS-GOVERNANCE-09.md",
     "bytes": 6353,
     "sha256": "59a37f4fdb2e7252bba2a9de4e744f492824deaff0b4fce8da6f5398fb312f4d"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/OBSERVER-SITE-10.md",
+    "bytes": 3529,
+    "sha256": "8ea53eff6261bbe01a2ae611f27e0cedc34a00a768af8b3b5aa6bc0325620db7"
   },
   {
     "path": "eibo/operations/official-four-provider/PROTOCOL-OWNER-07.md",
@@ -161,8 +166,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/README.md",
-    "bytes": 5306,
-    "sha256": "c1edfc39ca57e78e9ce1160e2f5a6367468691279bca19d95852ec9772ff82b7"
+    "bytes": 5654,
+    "sha256": "ee6ea8d26777661b3fd528151da5162d01dfefaf16d38c870b836fc018af0a77"
   },
   {
     "path": "eibo/operations/official-four-provider/REPLICATION-03.md",
@@ -196,8 +201,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/decision-progress.yaml",
-    "bytes": 12795,
-    "sha256": "66d08b4ea8649ebf8f4e0a0c704a67214ab6eb97633c13dd0d2ac8e2b03ee9ba"
+    "bytes": 14142,
+    "sha256": "0bc1768c225696ff31c59b93ee2cfa9d34827ccd44f4df475a0b175773280084"
   },
   {
     "path": "eibo/operations/official-four-provider/ethics-governance-09.proposal.yaml",
@@ -208,6 +213,11 @@
     "path": "eibo/operations/official-four-provider/governance.template.yaml",
     "bytes": 984,
     "sha256": "b7eaf958fc0db15edb93cd1fecb5e29f6771bf3fb7a95162a0e9033d69510a41"
+  },
+  {
+    "path": "eibo/operations/official-four-provider/observer-site-10.proposal.yaml",
+    "bytes": 3496,
+    "sha256": "c7aedc7bee8dbc59ad78d782fa0ebe54c854a736c045adf1fdc9709d92d66e5e"
   },
   {
     "path": "eibo/operations/official-four-provider/protocol-owner-07.proposal.yaml",
@@ -571,8 +581,8 @@
   },
   {
     "path": "eibo/tests/test_official_preparation.py",
-    "bytes": 66443,
-    "sha256": "67d5abc84c4707202f0082070000ca1213ed8b2fe7e7f1f10c8055d191bdef19"
+    "bytes": 72544,
+    "sha256": "c5f657b4ae8234c32d99626a9c1242f99cbccfedb32549b5b7d8869181293dd1"
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",

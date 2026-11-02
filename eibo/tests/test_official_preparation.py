@@ -172,10 +172,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 9
-    assert (
-        progress["next_decision_id"] == "institutional_determination_metadata_and_scope_reference"
-    )
+    assert progress["current_step"] == 10
+    assert progress["next_decision_id"] == "observer_site_environment_policy"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -1160,7 +1158,7 @@ def test_personal_B_judgment_is_not_institutional_approval_or_completed_B_eviden
         "contact_dates_freeze_or_API_authority_inferred",
     ):
         assert judgment[field] is False
-    assert progress["current_step"] == 9
+    assert progress["current_step"] == 10
     assert progress["other_decisions"]["ethics_or_governance_determination"] == "PENDING"
     assert progress["other_decisions"]["provider_terms_review"] == "PENDING"
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
@@ -1254,3 +1252,128 @@ def test_institutional_report_keeps_gates_pending_and_does_not_authorize_contact
         assert record["status"] == "PENDING"
         assert record["determination"] is record["decided_at"] is None
         assert record["human_attestation"] is False
+
+
+def test_human_direction_stops_document_requests_but_preserves_unverified_governance() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    direction = progress["governance_followup_direction"]
+    assert direction["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert direction["agent_is_transcriber_not_approver"] is True
+    assert direction["proposal_sha256"] == sha256_file(ROOT / direction["proposal_path"])
+    assert direction["reference_is_prior_context_not_ethics_proposal_adoption"] is True
+    for field in (
+        "site_and_time_options_preparation_authorized",
+        "further_governance_document_requests_stopped",
+        "unverified_governance_details_retained_without_inference",
+    ):
+        assert direction[field] is True
+    for field in (
+        "institutional_details_or_terms_holds_cleared",
+        "FINAL_human_governance_records_complete",
+        "site_option_adopted_or_actual_site_locked",
+        "concrete_date_or_field_window_approved",
+        "automatic_start_or_calendar_schedule_authorized",
+        "contact_credentials_freeze_or_API_authority_inferred",
+    ):
+        assert direction[field] is False
+    report = progress["institutional_determination_report"]
+    assert report["existing_institutional_determination_reported"] is True
+    assert report["institution_name"] is report["determination_category"] is None
+    assert report["verification_status"] == "REPORTED_DETAILS_PENDING"
+    assert progress["other_decisions"]["ethics_or_governance_determination"] == "PENDING"
+    assert progress["other_decisions"]["provider_terms_review"] == "PENDING"
+
+
+def test_observer_site_options_require_new_choice_and_never_silently_reuse_old_site() -> None:
+    proposal = load_yaml(PACK / "observer-site-10.proposal.yaml")
+    assert proposal["recommended_option"] == "A"
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    option = proposal["options"]["A"]
+    assert option["proposed_country"] == "JP"
+    assert option["same_PC_place_and_ordinary_connection_as_W0_proposed"] is True
+    assert option["AC_power_required_for_future_execution"] is True
+    assert option["historical_site_label_candidate_only"] == "MIBO-SITE-JP01"
+    assert option["prior_W0_declaration_is_new_scope_site_approval"] is False
+    alternative = proposal["options"]["B"]
+    assert alternative["new_site_details"] is None
+    assert alternative["prior_site_label_may_be_silently_reused"] is False
+    assert alternative["requires_scoped_site_and_environment_assessment_before_launch"] is True
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(PACK / "observer-site-10.proposal.yaml")
+
+
+def test_observer_site_does_not_request_private_location_identifiers_or_claim_serving_region() -> (
+    None
+):
+    proposal = load_yaml(PACK / "observer-site-10.proposal.yaml")
+    assert not any(proposal["privacy_and_interpretation"].values())
+    holds = proposal["governance_and_other_holds"]
+    assert holds["further_governance_document_requests_stopped"] is True
+    assert holds["unverified_details_remain_unverified"] is True
+    for field in (
+        "human_report_of_institutional_judgment_rejected_or_removed",
+        "terms_or_governance_holds_cleared_by_site_choice",
+        "incomplete_cost_capacity_or_runtime_support_waived",
+        "full_four_provider_wave_is_ready_or_feasibility_guaranteed",
+        "Frozen_artifacts_prompts_anchors_or_historical_raw_changed",
+        "final_protocol_approval_or_execution_permission_inferred",
+    ):
+        assert holds[field] is False
+
+
+def test_site_environment_requirements_do_not_start_guard_probe_network_or_read_credentials() -> (
+    None
+):
+    proposal = load_yaml(PACK / "observer-site-10.proposal.yaml")
+    environment = proposal["future_environment_controls"]
+    assert environment["evidence_root_candidate"] == r"C:\Users\offic\EIBO-W0-Evidence"
+    assert environment["persistent_storage_and_write_check_required_before_execution"] is True
+    assert (
+        environment["first_party_provider_endpoint_and_no_third_party_model_router_required"]
+        is True
+    )
+    assert (
+        environment["AC_state_guard_process_and_environment_preflight_required_before_execution"]
+        is True
+    )
+    for field in (
+        "researcher_added_VPN_or_proxy_rerouting_proposed",
+        "full_18h_target_24h_hard_window_sleep_guard_support_verified",
+        "power_plan_display_lock_lid_update_or_battery_protection_changes_authorized",
+        "guard_start_credential_read_or_network_probe_authorized_now",
+        "actual_current_country_PC_connection_AC_or_guard_verified",
+    ):
+        assert environment[field] is False
+    assert (
+        "PRESERVE_IN_FLIGHT_AND_RAW"
+        in environment["site_or_material_environment_change_during_wave_action"]
+    )
+    assert all(proposal["prohibitions"].values())
+
+
+def test_site_choice_leaves_dates_automation_and_final_runtime_locks_unfilled() -> None:
+    proposal = load_yaml(PACK / "observer-site-10.proposal.yaml")
+    timing = proposal["time_and_authority"]
+    assert timing["next_question_is_separate_datetime_choice"] is True
+    assert timing["display_timezone"] == "Asia/Tokyo"
+    assert timing["canonical_clock"] == "UTC"
+    assert timing["adopted_target_hours"] == timing["adopted_planned_span_hours"] == 18
+    assert timing["adopted_hard_hours"] == 24
+    for field in (
+        "concrete_date_time_or_timezone_offset_selected",
+        "new_observation_window_or_dates_created",
+        "automation_or_calendar_schedule_created",
+        "earliest_possible_launch_equals_site_policy_adoption",
+        "actual_runtime_site_lock_created",
+        "models_schedule_or_manifest_lock_created",
+    ):
+        assert timing[field] is False
+    runtime = load_yaml(PACK / "runtime-lock.template.yaml")
+    assert (
+        runtime["observer_site_lock"]
+        is runtime["schedule_path"]
+        is runtime["model_lock_path"]
+        is None
+    )
+    assert runtime["field_window"]["start"] is runtime["field_window"]["end"] is None
+    assert runtime["explicit_launch_authority"] is None
