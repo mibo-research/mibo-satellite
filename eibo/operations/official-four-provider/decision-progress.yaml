@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: SITE_POLICY_ADOPTED_DATETIME_CHOICE_PENDING_EXECUTION_HELD
-current_step: 11
-next_decision_id: first_observation_datetime_policy
+status: DATETIME_POLICY_ADOPTED_OFFLINE_CAPACITY_CHOICE_PENDING_EXECUTION_HELD
+current_step: 12
+next_decision_id: offline_full_wave_capacity_verification
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -262,6 +262,29 @@ observer_site_policy_adoption:
   actual_site_environment_verified_or_locked: false
   concrete_date_or_field_window_approved: false
   calendar_automation_or_automatic_start_authorized: false
+  institutional_details_or_terms_holds_cleared: false
+  API_execution_authorized: false
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
+first_observation_datetime_policy_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_CHOOSE_WEEKDAY_0900_JST_AFTER_READINESS_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/observation-datetime-11.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: 7895f913694d75cb8cc91f6fa9fa8fc331c822dc43f2b39135458cef3b1d8b87
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/11-observation-datetime-adoption.json
+  receipt_file_sha256: bcd5844c2c22ac692615e0c08faec5a125d632a172a61bfc480032850bba79f9
+  receipt_sha256: e337574e98e0d5a196a206933dac9bae250110b31ac38aa105c1c7de743bd26b
+  date_context_jst: "2026-11-05"
+  preferred_start_jst: "09:00"
+  weekday_only: true
+  choose_date_only_after_readiness: true
+  confirmed_start: null
+  tentative_option_B_adopted: false
+  calendar_automation_or_automatic_start_authorized: false
+  further_governance_document_requests_stopped: true
+  unverified_governance_details_retained_without_inference: true
   institutional_details_or_terms_holds_cleared: false
   API_execution_authorized: false
   exact_human_message_time_assumed: false

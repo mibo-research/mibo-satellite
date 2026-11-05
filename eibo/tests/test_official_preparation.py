@@ -173,8 +173,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 11
-    assert progress["next_decision_id"] == "first_observation_datetime_policy"
+    assert progress["current_step"] == 12
+    assert progress["next_decision_id"] == "offline_full_wave_capacity_verification"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -1448,3 +1448,73 @@ def test_tentative_datetime_uses_one_anchor_and_adopted_jst_utc_window() -> None
     assert candidate["if_gates_unmet_or_candidate_passes"].startswith(
         "DO_NOT_START_NO_AUTOMATIC_RESCHEDULE"
     )
+
+
+def test_datetime_adoption_records_policy_without_date_reservation_or_authority() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    date_policy = progress["first_observation_datetime_policy_adoption"]
+    assert date_policy["decision"] == (
+        "EXPLICIT_HUMAN_OPTION_A_CHOOSE_WEEKDAY_0900_JST_AFTER_READINESS_ONLY"
+    )
+    assert date_policy["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert date_policy["proposal_sha256"] == sha256_file(ROOT / date_policy["proposal_path"])
+    assert len(date_policy["receipt_file_sha256"]) == len(date_policy["receipt_sha256"]) == 64
+    assert date_policy["weekday_only"] is date_policy["choose_date_only_after_readiness"] is True
+    assert date_policy["preferred_start_jst"] == "09:00"
+    assert date_policy["confirmed_start"] is None
+    for field in (
+        "tentative_option_B_adopted",
+        "calendar_automation_or_automatic_start_authorized",
+        "institutional_details_or_terms_holds_cleared",
+        "API_execution_authorized",
+        "exact_human_message_time_assumed",
+    ):
+        assert date_policy[field] is False
+    assert date_policy["further_governance_document_requests_stopped"] is True
+    assert date_policy["unverified_governance_details_retained_without_inference"] is True
+    assert date_policy["agent_is_transcriber_not_approver"] is True
+    assert progress["other_decisions"]["observer_site_and_date"] == "PENDING"
+
+
+def test_offline_capacity_proposal_keeps_full_scope_without_live_execution() -> None:
+    path = PACK / "offline-capacity-12.proposal.yaml"
+    proposal = load_yaml(path)
+    assert proposal["recommended_option"] == "A"
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert "OFFLINE" in proposal["options"]["A"]
+    assert proposal["options"]["B"] == "DEFER_OFFLINE_VERIFICATION_KEEP_CAPACITY_GATE_BLOCKED"
+    scope = proposal["fixed_scope"]
+    assert scope["series"] == ["M01", "M02", "M03", "M05"]
+    assert scope["primary_cells"] == len(scope["series"]) * scope["items"] * 10 == 2800
+    assert scope["replications_per_item_series"] == 10
+    assert scope["same_anchor_for_all_series"] is True
+    assert scope["planned_span_and_target_hours"] == 18
+    assert scope["hard_deadline_hours"] == 24
+    assert scope["Google_minimum_start_gap_seconds_including_retries"] == 65
+    assert scope["minimum_technical_retry_wait_seconds"] == 120
+    assert scope["honor_longer_provider_retry_advice"] is True
+    assert all(proposal["prohibitions"].values())
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(path)
+
+
+def test_offline_capacity_proposal_does_not_claim_a_pass_or_clear_live_gates() -> None:
+    proposal = load_yaml(PACK / "offline-capacity-12.proposal.yaml")
+    checks = proposal["checks_proposed"]
+    assert checks["mock_transport_with_no_outbound_network_and_separate_synthetic_archive"]
+    assert checks["exercise_intended_implementation_paths_or_report_missing_coverage"]
+    assert checks["fault_cases_check_safe_stops_and_missingness_not_guaranteed_completion"]
+    assert checks["no_scientific_outcome_retry_or_substitution"]
+    assert checks["late_response_preserved_nonprimary_and_no_start_at_or_after_hard_deadline"]
+    assert len(proposal["unverified_after_offline_test"]) == 5
+    status = proposal["authority_and_status"]
+    for field in (
+        "verification_performed_or_passed",
+        "synthetic_records_are_official_longitudinal_data",
+        "actual_date_confirmed_or_automation_reserved",
+        "runtime_locks_created",
+    ):
+        assert status[field] is False
+    assert status["unverified_governance_details_and_terms_retained"] is True
+    assert status["further_governance_document_requests_stopped"] is True
+    assert status["date_selection_and_launch_authority_remain_separate"] is True

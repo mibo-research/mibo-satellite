@@ -1,0 +1,56 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-OFFLINE-CAPACITY-12
+version: "0.1"
+record_type: OFFLINE_CAPACITY_VERIFICATION_PROPOSAL_NOT_RUN_EVIDENCE_OR_AUTHORITY
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_CHOICE
+approved: false
+execution_permitted: false
+wave_id_candidate: EIBO-F01
+recommended_option: A
+options:
+  A: VERIFY_FULL_VOLUME_OFFLINE_WITH_SYNTHETIC_OUTCOMES_AND_VIRTUAL_CLOCK
+  B: DEFER_OFFLINE_VERIFICATION_KEEP_CAPACITY_GATE_BLOCKED
+fixed_scope:
+  series: [M01, M02, M03, M05]
+  items: 70
+  replications_per_item_series: 10
+  primary_cells: 2800
+  same_anchor_for_all_series: true
+  planned_span_and_target_hours: 18
+  hard_deadline_hours: 24
+  Google_minimum_start_gap_seconds_including_retries: 65
+  minimum_technical_retry_wait_seconds: 120
+  honor_longer_provider_retry_advice: true
+  no_live_W0_rehearsal_or_legacy_W01: true
+checks_proposed:
+  mock_transport_with_no_outbound_network_and_separate_synthetic_archive: true
+  exercise_intended_implementation_paths_or_report_missing_coverage: true
+  unique_full_scope_temporally_distributed_cells_and_repeatable_schedule: true
+  baseline_mock_completion_by_target_under_documented_assumptions: true
+  fault_cases_check_safe_stops_and_missingness_not_guaranteed_completion: true
+  enforce_adopted_retry_request_time_and_budget_limits: true
+  unknown_cost_bound_or_ambiguous_send_blocks_automatic_dispatch_or_resend: true
+  no_scientific_outcome_retry_or_substitution: true
+  late_response_preserved_nonprimary_and_no_start_at_or_after_hard_deadline: true
+  immutable_synthetic_archive_hash_QC_and_no_duplicate_completed_cell: true
+unverified_after_offline_test:
+  - CURRENT_ACCOUNT_QUOTA_AND_REAL_PROVIDER_LATENCY
+  - LIVE_PRICES_AND_SAFE_COST_BOUND_INCLUDING_M05_INTERNAL_CHARGES
+  - ACTUAL_SITE_AC_GUARD_AND_PERSISTENT_STORAGE_CAPACITY
+  - SCOPED_TERMS_GOVERNANCE_AND_FINAL_PROTOCOL_APPROVAL
+  - FINAL_MODEL_PROFILE_SITE_SCHEDULE_AND_RUNTIME_LOCKS
+authority_and_status:
+  verification_performed_or_passed: false
+  synthetic_records_are_official_longitudinal_data: false
+  further_governance_document_requests_stopped: true
+  unverified_governance_details_and_terms_retained: true
+  actual_date_confirmed_or_automation_reserved: false
+  runtime_locks_created: false
+  date_selection_and_launch_authority_remain_separate: true
+prohibitions:
+  provider_API_and_credential_access: true
+  xai_requests: true
+  W01_execution: true
+  Frozen_or_historical_raw_changes: true
+  agent_approval: true
+  merge: true
