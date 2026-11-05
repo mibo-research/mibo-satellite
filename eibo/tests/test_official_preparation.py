@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 
@@ -172,8 +173,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 10
-    assert progress["next_decision_id"] == "observer_site_environment_policy"
+    assert progress["current_step"] == 11
+    assert progress["next_decision_id"] == "first_observation_datetime_policy"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -1158,7 +1159,6 @@ def test_personal_B_judgment_is_not_institutional_approval_or_completed_B_eviden
         "contact_dates_freeze_or_API_authority_inferred",
     ):
         assert judgment[field] is False
-    assert progress["current_step"] == 10
     assert progress["other_decisions"]["ethics_or_governance_determination"] == "PENDING"
     assert progress["other_decisions"]["provider_terms_review"] == "PENDING"
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
@@ -1377,3 +1377,74 @@ def test_site_choice_leaves_dates_automation_and_final_runtime_locks_unfilled() 
     )
     assert runtime["field_window"]["start"] is runtime["field_window"]["end"] is None
     assert runtime["explicit_launch_authority"] is None
+
+
+def test_adopted_site_policy_is_bound_to_the_proposal_but_not_a_runtime_lock() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    site = progress["observer_site_policy_adoption"]
+    assert site["decision"] == "EXPLICIT_HUMAN_OPTION_A_SAME_LOCAL_W0_SITE_POLICY_ONLY"
+    assert site["actor_attribution"] == "CURRENT_CHAT_USER"
+    assert site["agent_is_transcriber_not_approver"] is True
+    assert site["proposal_sha256"] == sha256_file(ROOT / site["proposal_path"])
+    assert len(site["receipt_file_sha256"]) == len(site["receipt_sha256"]) == 64
+    assert site["country_policy"] == "JP"
+    assert site["same_W0_PC_place_and_ordinary_connection"] is True
+    assert site["AC_power_required_for_future_execution"] is True
+    for field in (
+        "actual_site_environment_verified_or_locked",
+        "concrete_date_or_field_window_approved",
+        "calendar_automation_or_automatic_start_authorized",
+        "institutional_details_or_terms_holds_cleared",
+        "API_execution_authorized",
+        "exact_human_message_time_assumed",
+    ):
+        assert site[field] is False
+    assert progress["other_decisions"]["observer_site_and_date"] == "PENDING"
+
+
+def test_datetime_proposal_is_not_schedule_or_authority_and_preserves_holds() -> None:
+    path = PACK / "observation-datetime-11.proposal.yaml"
+    proposal = load_yaml(path)
+    assert proposal["approved"] is proposal["execution_permitted"] is False
+    assert proposal["wave_id_candidate"] == "EIBO-F01"
+    assert proposal["scope"]["series"] == ["M01", "M02", "M03", "M05"]
+    assert proposal["recommended_option"] == "A"
+    assert proposal["options"]["A"]["date_candidate"] is None
+    assert proposal["options"]["A"]["automatic_start_on_readiness"] is False
+    assert proposal["timing_policy"]["confirmed_start"] is None
+    assert (
+        proposal["timing_policy"]["final_datetime_and_launch_require_separate_human_confirmation"]
+        is True
+    )
+    holds = proposal["holds"]
+    assert holds["further_governance_document_requests_stopped"] is True
+    assert holds["unverified_governance_details_and_terms_retained"] is True
+    assert holds["existing_readiness_and_final_lock_gates_maintained"] is True
+    assert holds["automatic_start_calendar_reservation_or_runtime_lock_created"] is False
+    assert all(proposal["prohibitions"].values())
+    with pytest.raises(ValidationError, match="invalid Wave Manifest"):
+        load_manifest(path)
+
+
+def test_tentative_datetime_uses_one_anchor_and_adopted_jst_utc_window() -> None:
+    proposal = load_yaml(PACK / "observation-datetime-11.proposal.yaml")
+    timing = proposal["timing_policy"]
+    candidate = proposal["options"]["B"]
+    start = datetime.fromisoformat(candidate["start_candidate_jst"])
+    target = datetime.fromisoformat(candidate["target_candidate_jst"])
+    end = datetime.fromisoformat(candidate["hard_deadline_candidate_jst"])
+    assert start.weekday() == 2 and candidate["weekday"] == "Wednesday"
+    assert start.utcoffset() == timedelta(hours=9)
+    assert start.strftime("%H:%M") == proposal["options"]["A"]["preferred_start_jst"]
+    assert timing["same_anchor_for_all_series"] is True
+    assert timing["recurrence_interval_calendar_months"] == 3
+    assert timing["future_wave_dates_or_automatic_recurrence_created"] is False
+    assert target - start == timedelta(hours=timing["target_hours"]) == timedelta(hours=18)
+    assert end - start == timedelta(hours=timing["hard_hours"]) == timedelta(hours=24)
+    assert timing["planned_span_hours"] == timing["target_hours"]
+    for field, stamp in (("start", start), ("target", target), ("hard_deadline", end)):
+        assert stamp.astimezone(UTC) == datetime.fromisoformat(candidate[f"{field}_candidate_utc"])
+    assert candidate["operator_availability_or_full_wave_feasibility_verified"] is False
+    assert candidate["if_gates_unmet_or_candidate_passes"].startswith(
+        "DO_NOT_START_NO_AUTOMATIC_RESCHEDULE"
+    )

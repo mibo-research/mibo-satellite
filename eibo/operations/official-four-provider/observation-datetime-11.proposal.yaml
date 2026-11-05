@@ -1,0 +1,55 @@
+schema_version: "0.1-draft"
+proposal_id: EIBO-4P-SOLO-OBSERVATION-DATETIME-11
+version: "0.1"
+record_type: FIRST_OBSERVATION_DATETIME_PROPOSAL_NOT_A_SCHEDULE_OR_LAUNCH
+status: PROPOSED_PENDING_EXPLICIT_HUMAN_CHOICE
+approved: false
+execution_permitted: false
+prepared_on_jst: "2026-11-05"
+wave_id_candidate: EIBO-F01
+recommended_option: A
+scope:
+  series: [M01, M02, M03, M05]
+  observer_site_policy_adopted: SAME_LOCAL_W0_SITE_IN_JAPAN
+  actual_site_environment_verified_or_locked: false
+options:
+  A:
+    label: SELECT_WEEKDAY_0900_JST_SEPARATELY_AFTER_READINESS
+    preferred_start_jst: "09:00"
+    date_candidate: null
+    automatic_start_on_readiness: false
+  B:
+    label: TENTATIVE_DATE_CANDIDATE_NOT_RESERVED_OR_CONFIRMED
+    weekday: Wednesday
+    start_candidate_jst: "2026-12-02T09:00:00+09:00"
+    target_candidate_jst: "2026-12-03T03:00:00+09:00"
+    hard_deadline_candidate_jst: "2026-12-03T09:00:00+09:00"
+    start_candidate_utc: "2026-12-02T00:00:00Z"
+    target_candidate_utc: "2026-12-02T18:00:00Z"
+    hard_deadline_candidate_utc: "2026-12-03T00:00:00Z"
+    operator_availability_or_full_wave_feasibility_verified: false
+    if_gates_unmet_or_candidate_passes: DO_NOT_START_NO_AUTOMATIC_RESCHEDULE_SEEK_NEW_DATETIME_CONFIRMATION
+timing_policy:
+  display_timezone: Asia/Tokyo
+  canonical_clock: UTC
+  same_anchor_for_all_series: true
+  target_hours: 18
+  planned_span_hours: 18
+  hard_hours: 24
+  recurrence_interval_calendar_months: 3
+  future_wave_dates_or_automatic_recurrence_created: false
+  confirmed_start: null
+  final_datetime_and_launch_require_separate_human_confirmation: true
+holds:
+  further_governance_document_requests_stopped: true
+  unverified_governance_details_and_terms_retained: true
+  existing_readiness_and_final_lock_gates_maintained: true
+  whole_wave_capacity_and_18h_24h_execution_environment_verified: false
+  automatic_start_calendar_reservation_or_runtime_lock_created: false
+prohibitions:
+  provider_API_and_credential_access: true
+  xai_requests: true
+  W01_execution: true
+  Frozen_or_historical_raw_changes: true
+  agent_approval: true
+  merge: true

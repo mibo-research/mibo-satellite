@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: PROCEED_TO_SITE_TIME_WITH_GOVERNANCE_DETAILS_UNVERIFIED_NO_MORE_DOCUMENT_REQUESTS
-current_step: 10
-next_decision_id: observer_site_environment_policy
+status: SITE_POLICY_ADOPTED_DATETIME_CHOICE_PENDING_EXECUTION_HELD
+current_step: 11
+next_decision_id: first_observation_datetime_policy
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -243,6 +243,27 @@ governance_followup_direction:
   concrete_date_or_field_window_approved: false
   automatic_start_or_calendar_schedule_authorized: false
   contact_credentials_freeze_or_API_authority_inferred: false
+  exact_human_message_time_assumed: false
+  agent_is_transcriber_not_approver: true
+observer_site_policy_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_SAME_LOCAL_W0_SITE_POLICY_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/observer-site-10.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: c7aedc7bee8dbc59ad78d782fa0ebe54c854a736c045adf1fdc9709d92d66e5e
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/10-observer-site-adoption.json
+  receipt_file_sha256: f6ccff52879b634c55d48d119db7696e7a38fb021197648af81583c5b3a5c7c2
+  receipt_sha256: 582c9fee9cff0529fbfff6d8fef62f01b2740f518c80f5ba82e83f610dece92a
+  date_context_jst: "2026-11-05"
+  country_policy: JP
+  same_W0_PC_place_and_ordinary_connection: true
+  AC_power_required_for_future_execution: true
+  actual_site_environment_verified_or_locked: false
+  concrete_date_or_field_window_approved: false
+  calendar_automation_or_automatic_start_authorized: false
+  institutional_details_or_terms_holds_cleared: false
+  API_execution_authorized: false
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
 confirmation_sequence:
