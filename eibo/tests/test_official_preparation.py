@@ -173,8 +173,10 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 12
-    assert progress["next_decision_id"] == "resolve_offline_scheduler_and_runtime_gaps"
+    assert progress["current_step"] == 13
+    assert (
+        progress["next_decision_id"] == "integrate_and_verify_prospective_runtime_safety_controls"
+    )
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -1550,3 +1552,36 @@ def test_completed_offline_verification_does_not_waive_target_or_live_gates() ->
     assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
     assert progress["other_decisions"]["observer_site_and_date"] == "PENDING"
     assert load_yaml(PACK / "runtime-lock.template.yaml")["capacity_dry_run_evidence"] is None
+
+
+def test_retimed_mock_pass_keeps_old_result_and_live_holds() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    before = progress["offline_capacity_verification_result"]
+    direction = progress["offline_retiming_direction"]
+    after = progress["offline_retiming_result"]
+    assert direction["context_proposal_sha256"] == sha256_file(
+        ROOT / direction["context_proposal_path"]
+    )
+    assert direction["further_governance_document_requests_stopped"] is True
+    assert direction["unverified_governance_details_retained_without_inference"] is True
+    assert direction["API_execution_authorized"] is False
+    assert before["mock_18h_target_passed"] is False
+    assert after["reference_report_file_sha256"] == before["report_file_sha256"]
+    assert after["report_path"] != before["report_path"]
+    assert after["mock_QC_passed"] is after["mock_18h_target_passed"] is True
+    assert after["series"] == ["M01", "M02", "M03", "M05"]
+    assert after["synthetic_observations"] == after["observed_by_18h"] == 2800
+    assert after["replications"] == 10
+    assert (after["target_hours"], after["hard_hours"]) == (18, 24)
+    assert after["minimum_Google_start_gap_seconds"] == 65
+    assert after["last_round_center_elapsed_minutes"] == 9 * 108
+    assert after["target_margin_seconds"] == pytest.approx(
+        18 * 3600 - after["last_response_elapsed_seconds"]
+    )
+    assert after["randomized_order_and_request_response_hashes_unchanged"] is True
+    script = (ROOT / after["fixture_script_path"]).read_bytes()
+    assert sha256_bytes(script.replace(b"\r\n", b"\n")) == after["fixture_script_canonical_sha256"]
+    assert after["provider_network_attempts"] == 0
+    assert after["official_longitudinal_data"] is False
+    assert after["production_capacity_gate_cleared"] is False
+    assert after["FUTURE_OFFICIAL_EXECUTION_READY"] is progress["execution_permitted"] is False

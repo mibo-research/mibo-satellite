@@ -170,6 +170,11 @@
     "sha256": "c57b05ff36421b2a16455da87f80b62994ca59735db2039c1b99d0f1eaa52568"
   },
   {
+    "path": "eibo/operations/official-four-provider/OFFLINE-CAPACITY-13-RESULT.md",
+    "bytes": 2523,
+    "sha256": "a5d4a8326ef2f96154d4e4d69a33cd759ddac70406996b116d02d2a2859adef5"
+  },
+  {
     "path": "eibo/operations/official-four-provider/PROTOCOL-OWNER-07.md",
     "bytes": 4772,
     "sha256": "e264185e5772f1125a267c06a60ec7caa6c21cffb645e2983365d9616ff236ea"
@@ -181,8 +186,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/README.md",
-    "bytes": 6123,
-    "sha256": "18d09b3158517ab6e0bb413b0e573b5ca19db876d6c31411ad44ae86c32773b2"
+    "bytes": 6336,
+    "sha256": "5d464fa153a793a05ae2b1b83a76c3998302f238517492d0608e56ae19122eb1"
   },
   {
     "path": "eibo/operations/official-four-provider/REPLICATION-03.md",
@@ -216,8 +221,8 @@
   },
   {
     "path": "eibo/operations/official-four-provider/decision-progress.yaml",
-    "bytes": 18344,
-    "sha256": "9e5d33b3ab3b8ac89812adebcf940e15c7cf6e493a5cda2d96aa0f4115e4adb7"
+    "bytes": 20651,
+    "sha256": "199f3f9b73fa0121f40ee831916431361a80508b679865d03491b2751a92a7e2"
   },
   {
     "path": "eibo/operations/official-four-provider/ethics-governance-09.proposal.yaml",
@@ -585,6 +590,11 @@
     "sha256": "51a615e094b7823ac05b04ec08e4a34811eaefcfa89f5f2545b57ac81c0701e7"
   },
   {
+    "path": "eibo/tests/offline_capacity13.py",
+    "bytes": 9513,
+    "sha256": "0ba44eafeec385230006e9aeb8f50030078cdac6cdd209df4b9f7f30348bbbe0"
+  },
+  {
     "path": "eibo/tests/test_adapters.py",
     "bytes": 6976,
     "sha256": "b2949b60746b1759cb3279371292f715e5ba4295670efc9f23eda9e0de6c808e"
@@ -611,8 +621,13 @@
   },
   {
     "path": "eibo/tests/test_official_preparation.py",
-    "bytes": 82243,
-    "sha256": "72babed2dbf4433f5a56e6986a8535182bd60d29c5323813f786f1e94acd7e72"
+    "bytes": 84187,
+    "sha256": "04ccc0bcd06f22ff6238d125ffa5b5b3c15afb36370e9a5d09fd13260a38aef2"
+  },
+  {
+    "path": "eibo/tests/test_offline_capacity13.py",
+    "bytes": 2906,
+    "sha256": "f640ed213348699c4c357de33d3cf3c56e8882b564a5caa227c01e7acafa0049"
   },
   {
     "path": "eibo/tests/test_operational_preflight.py",

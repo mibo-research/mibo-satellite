@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: OFFLINE_VERIFICATION_RECORDED_18H_TARGET_NOT_MET_EXECUTION_HELD
-current_step: 12
-next_decision_id: resolve_offline_scheduler_and_runtime_gaps
+status: RETIMED_SYNTHETIC_18H_TARGET_MET_PRODUCTION_EXECUTION_HELD
+current_step: 13
+next_decision_id: integrate_and_verify_prospective_runtime_safety_controls
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -319,6 +319,49 @@ offline_capacity_verification_result:
   mock_QC_passed: true
   mock_18h_target_passed: false
   mock_all_responses_within_24h: true
+  official_longitudinal_data: false
+  provider_network_attempts: 0
+  production_capacity_gate_cleared: false
+  FUTURE_OFFICIAL_EXECUTION_READY: false
+offline_retiming_direction:
+  decision: RETIME_LATE_ROUNDS_AND_REVERIFY_ALL_2800_SYNTHETIC_CELLS_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  context_proposal_path: operations/official-four-provider/offline-capacity-12.proposal.yaml
+  context_proposal_sha256: a63db23f5cbf58590a66731e655443053a0266df8ac9239d9f36c689a639eb18
+  reference_report_file_sha256: 8942332be6d3e65bdd2fc8208fb1adee3305b9f609c4710be8a5ea816d0683df
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/13-offline-retiming-direction.json
+  receipt_file_sha256: 7f7494bc887486950b2bc607fedb396370a9bbceb4412d210d391b235c367904
+  receipt_sha256: 2ffcf56eda645112d368b61ab59c2143683f3d165dfeff324072771cfa7bda4e
+  further_governance_document_requests_stopped: true
+  unverified_governance_details_retained_without_inference: true
+  API_execution_authorized: false
+  agent_is_transcriber_not_approver: true
+offline_retiming_result:
+  record_type: SYNTHETIC_RETIMING_EVIDENCE_NOT_A_RUNTIME_LOCK
+  status: FULL_VOLUME_SYNTHETIC_QC_AND_18H_TARGET_PASSED
+  report_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  report_path: preparations/EIBO-4P-SOLO-001/offline-capacity/run-02/report.json
+  report_file_sha256: c71fb4e2aefb218076953c72c3a8d48c889f536a130e2a9dfde78d27dc5d3072
+  archive_checksums_file_sha256: 0d21f8445955bd13328c99b75cf08b332b479134199dedfa29c3535113a5eab6
+  fixture_script_path: tests/offline_capacity13.py
+  fixture_script_canonical_sha256: 0ba44eafeec385230006e9aeb8f50030078cdac6cdd209df4b9f7f30348bbbe0
+  reference_report_file_sha256: 8942332be6d3e65bdd2fc8208fb1adee3305b9f609c4710be8a5ea816d0683df
+  series: [M01, M02, M03, M05]
+  synthetic_observations: 2800
+  observed_by_18h: 2800
+  replications: 10
+  target_hours: 18
+  hard_hours: 24
+  minimum_Google_start_gap_seconds: 65
+  round_center_spacing_minutes: 108
+  last_round_center_elapsed_minutes: 972
+  last_response_elapsed_seconds: 62164.651207
+  target_margin_seconds: 2635.348793
+  mock_latency_seconds_per_serial_attempt: 1
+  randomized_order_and_request_response_hashes_unchanged: true
+  mock_QC_passed: true
+  mock_18h_target_passed: true
   official_longitudinal_data: false
   provider_network_attempts: 0
   production_capacity_gate_cleared: false
