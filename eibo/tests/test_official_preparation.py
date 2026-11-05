@@ -8,7 +8,7 @@ import pytest
 
 from eibo.artifacts import load_battery, load_manifest, load_scientific_artifact_registry, load_yaml
 from eibo.errors import ValidationError
-from eibo.util import sha256_file
+from eibo.util import sha256_bytes, sha256_file
 
 ROOT = Path(__file__).parents[1]
 PACK = ROOT / "operations/official-four-provider"
@@ -174,7 +174,7 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
     assert progress["current_step"] == 12
-    assert progress["next_decision_id"] == "offline_full_wave_capacity_verification"
+    assert progress["next_decision_id"] == "resolve_offline_scheduler_and_runtime_gaps"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -1518,3 +1518,35 @@ def test_offline_capacity_proposal_does_not_claim_a_pass_or_clear_live_gates() -
     assert status["unverified_governance_details_and_terms_retained"] is True
     assert status["further_governance_document_requests_stopped"] is True
     assert status["date_selection_and_launch_authority_remain_separate"] is True
+
+
+def test_completed_offline_verification_does_not_waive_target_or_live_gates() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    adopted = progress["offline_capacity_verification_adoption"]
+    result = progress["offline_capacity_verification_result"]
+    assert adopted["proposal_sha256"] == sha256_file(ROOT / adopted["proposal_path"])
+    assert adopted["offline_verification_authorized"] is True
+    assert adopted["API_execution_authorized"] is False
+    assert adopted["further_governance_document_requests_stopped"] is True
+    assert adopted["unverified_governance_details_retained_without_inference"] is True
+    assert result["status"] == "FULL_VOLUME_QC_PASSED_18H_TARGET_FAILED"
+    assert len(result["report_file_sha256"]) == 64
+    assert len(result["archive_checksums_file_sha256"]) == 64
+    script = (ROOT / result["fixture_script_path"]).read_bytes()
+    assert sha256_bytes(script.replace(b"\r\n", b"\n")) == result["fixture_script_canonical_sha256"]
+    assert result["synthetic_observations"] == 2800
+    assert result["observed_by_18h"] == 2557 < result["synthetic_observations"]
+    assert 18 * 3600 < result["last_response_elapsed_seconds"] < 24 * 3600
+    assert result["mock_QC_passed"] is result["mock_all_responses_within_24h"] is True
+    assert result["provider_network_attempts"] == 0
+    for field in (
+        "mock_18h_target_passed",
+        "official_longitudinal_data",
+        "production_capacity_gate_cleared",
+        "FUTURE_OFFICIAL_EXECUTION_READY",
+    ):
+        assert result[field] is False
+    assert progress["execution_permitted"] is False
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+    assert progress["other_decisions"]["observer_site_and_date"] == "PENDING"
+    assert load_yaml(PACK / "runtime-lock.template.yaml")["capacity_dry_run_evidence"] is None

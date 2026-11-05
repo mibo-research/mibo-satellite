@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: DATETIME_POLICY_ADOPTED_OFFLINE_CAPACITY_CHOICE_PENDING_EXECUTION_HELD
+status: OFFLINE_VERIFICATION_RECORDED_18H_TARGET_NOT_MET_EXECUTION_HELD
 current_step: 12
-next_decision_id: offline_full_wave_capacity_verification
+next_decision_id: resolve_offline_scheduler_and_runtime_gaps
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -289,6 +289,40 @@ first_observation_datetime_policy_adoption:
   API_execution_authorized: false
   exact_human_message_time_assumed: false
   agent_is_transcriber_not_approver: true
+offline_capacity_verification_adoption:
+  decision: EXPLICIT_HUMAN_OPTION_A_RUN_FULL_SCOPE_OFFLINE_VERIFICATION_ONLY
+  actor_attribution: CURRENT_CHAT_USER
+  proposal_path: operations/official-four-provider/offline-capacity-12.proposal.yaml
+  proposal_version: "0.1"
+  proposal_sha256: a63db23f5cbf58590a66731e655443053a0266df8ac9239d9f36c689a639eb18
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/12-offline-capacity-adoption.json
+  receipt_file_sha256: a78d86969eeae1c30a995e07ed931132040bda7eb23090b3a596d35c618c0c48
+  receipt_sha256: c542b3cbbe3317cddf10b1306853ea528780038137e65f6910d8b7a6e29f2f16
+  offline_verification_authorized: true
+  further_governance_document_requests_stopped: true
+  unverified_governance_details_retained_without_inference: true
+  API_execution_authorized: false
+  agent_is_transcriber_not_approver: true
+offline_capacity_verification_result:
+  record_type: SYNTHETIC_ENGINEERING_EVIDENCE_NOT_A_RUNTIME_LOCK
+  status: FULL_VOLUME_QC_PASSED_18H_TARGET_FAILED
+  report_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  report_path: preparations/EIBO-4P-SOLO-001/offline-capacity/run-01/report.json
+  report_file_sha256: 8942332be6d3e65bdd2fc8208fb1adee3305b9f609c4710be8a5ea816d0683df
+  archive_checksums_file_sha256: 0970ffaf7c2b2370890c92e01b67d6e43129e9386c1ce61e676b371ff00cad57
+  fixture_script_path: tests/offline_capacity12.py
+  fixture_script_canonical_sha256: 51a615e094b7823ac05b04ec08e4a34811eaefcfa89f5f2545b57ac81c0701e7
+  synthetic_observations: 2800
+  observed_by_18h: 2557
+  last_response_elapsed_seconds: 68644.651207
+  mock_QC_passed: true
+  mock_18h_target_passed: false
+  mock_all_responses_within_24h: true
+  official_longitudinal_data: false
+  provider_network_attempts: 0
+  production_capacity_gate_cleared: false
+  FUTURE_OFFICIAL_EXECUTION_READY: false
 confirmation_sequence:
   initial_queue_is_historical_template_not_current_progress: true
   budget_question_moved_before_governance_at_explicit_human_request: true
