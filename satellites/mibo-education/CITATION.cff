@@ -15,3 +15,15 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.22047001"
     description: "Published Zenodo DOI for the v1.0 protocol package"
+references:
+  - type: article
+    title: "Watching AI Become an Educator: MIBO-Education and the Longitudinal Observation of Pedagogical Drift"
+    authors:
+      - family-names: "Sasano"
+        given-names: "Kento"
+        orcid: "https://orcid.org/0009-0009-3853-8029"
+    doi: "10.2139/ssrn.7330038"
+    url: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7330038"
+    year: 2026
+    date-released: "2026-08-25"
+    scope: "Founding and methods preprint for the study design. Cite the top-level Zenodo DOI when reusing the frozen protocol materials."

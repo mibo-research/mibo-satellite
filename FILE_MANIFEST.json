@@ -96,8 +96,8 @@
   },
   {
     "path": "satellites/mibo-education/CITATION.cff",
-    "bytes": 700,
-    "sha256": "f73f92fddd30d14a6ca2320ce8a36c2f3cfd0bd0d0048fa24d2cf8a8569895fb"
+    "bytes": 1261,
+    "sha256": "f877095e123896f63d57711825b073505e98be4e43295e7a4d79a8c3f83f8808"
   },
   {
     "path": "satellites/mibo-education/LICENSE_PROTOCOL.md",
@@ -111,8 +111,8 @@
   },
   {
     "path": "satellites/mibo-education/README.md",
-    "bytes": 7074,
-    "sha256": "0667eb7e902d1a9abfcc2541f3ef863dfe925882141dfd8469d7e07bc0ba1c13"
+    "bytes": 7561,
+    "sha256": "832d01b3d7e5c01483c09da2e45f7764acee786c6a92b9eb22122114d82b5000"
   },
   {
     "path": "satellites/mibo-education/battery/ebb-ja-v1.0.prompt-lock.json",

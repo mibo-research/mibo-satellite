@@ -15,6 +15,12 @@ The protocol package is published on Zenodo, and the DOI resolves to the public 
 
 MIBO-Education inherits MIBO’s persistent service-series identity, synchronized Waves, independent replication, immutable raw records, prospective amendment, and re-observability principles. Education-specific instruments, observation conditions, provider adapters, and coding remain isolated here.
 
+## Founding and methods preprint
+
+Kento Sasano’s *Watching AI Become an Educator: MIBO-Education and the Longitudinal Observation of Pedagogical Drift* was posted on SSRN on 25 August 2026 under CC BY 4.0. [SSRN abstract 7330038](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7330038)
+
+Cite the SSRN preprint for the study design and methods. Cite the Zenodo DOI above for the frozen protocol materials. [Preprint DOI 10.2139/ssrn.7330038](https://doi.org/10.2139/ssrn.7330038)
+
 ## Status
 
 | Gate | Current state | Reason |
