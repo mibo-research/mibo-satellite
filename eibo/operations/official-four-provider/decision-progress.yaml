@@ -1,8 +1,8 @@
 schema_version: "0.1"
 record_type: NON_EXECUTABLE_DECISION_PROGRESS_NOT_A_GOVERNANCE_APPROVAL
-status: RETIMED_SYNTHETIC_18H_TARGET_MET_PRODUCTION_EXECUTION_HELD
-current_step: 13
-next_decision_id: integrate_and_verify_prospective_runtime_safety_controls
+status: PROSPECTIVE_RUNTIME_CONTROLS_OFFLINE_VERIFIED_LIVE_EXECUTION_HELD
+current_step: 14
+next_decision_id: validate_remaining_environment_and_cost_evidence
 execution_permitted: false
 scope_adoption:
   decision: EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY
@@ -365,6 +365,42 @@ offline_retiming_result:
   official_longitudinal_data: false
   provider_network_attempts: 0
   production_capacity_gate_cleared: false
+  FUTURE_OFFICIAL_EXECUTION_READY: false
+prospective_runtime_direction:
+  decision: INTEGRATE_CUTOFF_LATE_AMBIGUITY_AND_BUDGET_CONTROLS_REVERIFY_OFFLINE
+  actor_attribution: CURRENT_CHAT_USER
+  context_proposal_path: operations/official-four-provider/budget-limits-06.proposal.yaml
+  context_proposal_sha256: e51a951ee8ea9e3e332f5e7f7084f27aa9afeb19d13d45118589da0d9a504f08
+  reference_report_file_sha256: c71fb4e2aefb218076953c72c3a8d48c889f536a130e2a9dfde78d27dc5d3072
+  receipt_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  receipt_path: preparations/EIBO-4P-SOLO-001/decisions/14-prospective-runtime-direction.json
+  receipt_file_sha256: 25cc93dac6288b85404aa753290c4fbcce3305cf405210b2136e4c25fcd7baff
+  receipt_sha256: 92ec1d244bfa45ff7f9236cbbe79a622a0e7077ccbd71131064d0bfcf8e91b5f
+  further_governance_document_requests_stopped: true
+  unverified_governance_details_retained_without_inference: true
+  API_execution_authorized: false
+  agent_is_transcriber_not_approver: true
+prospective_runtime_offline_result:
+  record_type: SYNTHETIC_RUNTIME_VERIFICATION_NOT_LIVE_AUTHORITY
+  report_path_base: EXTERNAL_PERSISTENT_EVIDENCE_ROOT
+  report_path: preparations/EIBO-4P-SOLO-001/offline-capacity/run-04/report.json
+  report_file_sha256: 8dd9a9516a4fe7c9cb9d7c5cb46ad0861d46557c86be153818379551458f5c7d
+  archive_checksums_file_sha256: 26b8a455da2f3f91f32c168df49f3a82e74e38591ca6745cce8830602c9921f8
+  reference_report_file_sha256: c71fb4e2aefb218076953c72c3a8d48c889f536a130e2a9dfde78d27dc5d3072
+  runtime_path: src/eibo/prospective_runtime.py
+  runtime_canonical_sha256: 2be5ceb990351460052ce146ceb15f64d532852aac12336646cdfad8ff6a7f0d
+  synthetic_observations: 2800
+  observed_by_18h: 2800
+  last_response_elapsed_seconds: 62164.651207
+  minimum_Google_start_gap_seconds: 65
+  persisted_fault_scenarios_passed: 12
+  offline_QC_passed: true
+  deadline_late_ambiguity_and_admission_verified_offline: true
+  live_transport_enabled: false
+  actual_cost_upper_bound_verified: false
+  actual_site_environment_verified: false
+  provider_network_attempts: 0
+  official_longitudinal_data: false
   FUTURE_OFFICIAL_EXECUTION_READY: false
 confirmation_sequence:
   initial_queue_is_historical_template_not_current_progress: true

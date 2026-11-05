@@ -173,10 +173,8 @@ def test_decisions_are_sequential_and_governance_is_not_inferred_or_self_approve
 
 def test_explicit_scope_adoption_does_not_approve_other_decisions() -> None:
     progress = load_yaml(PACK / "decision-progress.yaml")
-    assert progress["current_step"] == 13
-    assert (
-        progress["next_decision_id"] == "integrate_and_verify_prospective_runtime_safety_controls"
-    )
+    assert progress["current_step"] == 14
+    assert progress["next_decision_id"] == "validate_remaining_environment_and_cost_evidence"
     assert progress["execution_permitted"] is False
     adopted = progress["scope_adoption"]
     assert adopted["decision"] == "EXPLICIT_HUMAN_OPTION_A_BASIC_SCOPE_ONLY"
@@ -1585,3 +1583,32 @@ def test_retimed_mock_pass_keeps_old_result_and_live_holds() -> None:
     assert after["official_longitudinal_data"] is False
     assert after["production_capacity_gate_cleared"] is False
     assert after["FUTURE_OFFICIAL_EXECUTION_READY"] is progress["execution_permitted"] is False
+
+
+def test_prospective_runtime_offline_pass_does_not_enable_live_execution() -> None:
+    progress = load_yaml(PACK / "decision-progress.yaml")
+    result = progress["prospective_runtime_offline_result"]
+    direction = progress["prospective_runtime_direction"]
+    assert result["synthetic_observations"] == result["observed_by_18h"] == 2800
+    assert result["minimum_Google_start_gap_seconds"] == 65
+    assert result["persisted_fault_scenarios_passed"] == 12
+    assert result["offline_QC_passed"] is True
+    assert result["deadline_late_ambiguity_and_admission_verified_offline"] is True
+    assert result["last_response_elapsed_seconds"] < 18 * 3600
+    assert result["reference_report_file_sha256"] == (
+        progress["offline_retiming_result"]["report_file_sha256"]
+    )
+    runtime = (ROOT / result["runtime_path"]).read_bytes().replace(b"\r\n", b"\n")
+    assert sha256_bytes(runtime) == result["runtime_canonical_sha256"]
+    for key in (
+        "live_transport_enabled", "actual_cost_upper_bound_verified",
+        "actual_site_environment_verified", "official_longitudinal_data",
+        "FUTURE_OFFICIAL_EXECUTION_READY",
+    ):
+        assert result[key] is False
+    assert result["provider_network_attempts"] == 0
+    assert direction["API_execution_authorized"] is False
+    assert direction["further_governance_document_requests_stopped"] is True
+    assert direction["unverified_governance_details_retained_without_inference"] is True
+    assert progress["other_decisions"]["API_execution"] == "NOT_AUTHORIZED"
+    assert progress["execution_permitted"] is False
