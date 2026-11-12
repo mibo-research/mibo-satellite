@@ -1,0 +1,12 @@
+{
+  "status": "APPROVED_UNCHANGED_SNAPSHOT_PREPARATION_TESTS_VERIFIED",
+  "tests_passed": 41,
+  "tests_failed": 0,
+  "model_API_calls": 0,
+  "release_sha256": "64c257ffaf13e447dca643275fa46e8dcdf7beef9ab100a4ed1fb7fc26438f36",
+  "package_sha256": "4854f94fb63fe7d63a7d318a45372c9daeae718c696b724239c76f2c17398da3",
+  "source": "Existing owner-reviewed preparation offline suite for the exact unchanged content release",
+  "preparation_report_file_sha256": "c8a6a0e25e7da36fd4cb0625f82ee471cbdb35b9945250d33a8aaa38719c566a",
+  "publication_replay_status_at_PR_preparation": "Independent socket-denied replay is in progress; all CI must pass before merge",
+  "publication_wrapper_only_fix": "Dedicated short temporary extraction path avoids the Windows path limit; no approved ZIP/code/specification bytes changed"
+}
