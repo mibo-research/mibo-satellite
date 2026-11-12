@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "Cite this prospective Education v1.1 amendment; retain v1.0 for the historical protocol."
+title: "MIBO-Education Protocol Package v1.1: Prospective Three-Series W01 and Reciprocal AI Scoring"
+type: dataset
+version: "1.1"
+date-released: 2026-11-12
+doi: 10.5281/zenodo.24157241
+url: https://zenodo.org/records/24157241
+license: CC-BY-4.0
+authors:
+  - family-names: Sasano
+    given-names: Kento
+    orcid: https://orcid.org/0009-0009-3853-8029
+    affiliation: "Okayama University; Keio Research Institute at SFC, Keio University"

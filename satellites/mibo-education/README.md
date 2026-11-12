@@ -1,3 +1,15 @@
+# Current protocol: Education v1.1
+
+The prospective W01 amendment is published at [10.5281/zenodo.24157241](https://doi.org/10.5281/zenodo.24157241). Start with [the current v1.1 publication guide](PUBLICATION-v1.1.md) and [v1.1 citation](CITATION-v1.1.cff).
+
+The exact owner-approved implementation is distributed as the unchanged, byte-locked ZIP linked there. W01 targets 20 November 2026 09:00 JST after fresh common calibration and technical review: new maximum6,411, cumulative7,879, one attempt/slot and no automatic resends. Publication and scheduled authorization are not W01 results or proof of future model availability. Core and other waves are excluded.
+
+## Archived v1.0 repository guide below
+
+The following guide, status table, elapsed September anchor and old CLI/workflow commands are retained as historical v1.0 documentation. They are not the current v1.1 execution route or authority. Original v1.0 science and citations remain preserved.
+
+---
+
 # MIBO-Education
 
 Official MIBO Satellite for longitudinal observation of educational behavior in general-purpose AI systems.

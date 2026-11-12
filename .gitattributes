@@ -8,3 +8,14 @@
 /satellites/mibo-education/protocol/scientific-artifacts.authoritative.yaml text eol=lf
 /satellites/mibo-education/waves/W01/scientific-manifest-v1.0.yaml text eol=lf
 /satellites/mibo-education/waves/W01/runtime-manifest.template.yaml text eol=lf
+
+# Additive Education v1.1 publication companions; preserve exact release bytes.
+/satellites/mibo-education/PUBLICATION-v1.1.md text eol=lf
+/satellites/mibo-education/CITATION-v1.1.cff text eol=lf
+/satellites/mibo-education/protocol/registration/*v1.1*.json text eol=lf
+/satellites/mibo-education/protocol/approvals/W01-v1.1*.json text eol=lf
+/satellites/mibo-education/waves/W01/deviations/*.json text eol=lf
+/satellites/mibo-education/releases/v1.1/*.zip binary
+/satellites/mibo-education/releases/v1.1/*.pdf binary
+/satellites/mibo-education/releases/v1.1/*.py text eol=lf
+/satellites/mibo-education/releases/v1.1/*.json text eol=lf
